@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Crown — Global Payments</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#17243a;--line:#293750;--gold:#e8bd68;--text:#f5f7fb;--muted:#9eacc2;--green:#55d6a0;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -10%,#263a58 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0}.wrap{max-width:1180px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0 24px}.brand{display:flex;align-items:center;gap:11px;font-size:23px;font-weight:800;letter-spacing:.08em}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#f4d28b,#b98536);display:grid;place-items:center;color:#182235;font-weight:900;font-size:24px}.top-right{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);border-radius:99px;padding:7px 12px;color:var(--muted);font-size:12px}.btn{border-radius:12px;padding:11px 16px;font-weight:700;background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.btn.secondary{background:#1d2b42;color:var(--text);border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:not-allowed}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin:12px 0 22px}.hero-main,.card{background:linear-gradient(145deg,rgba(26,41,64,.96),rgba(16,27,44,.96));border:1px solid var(--line);border-radius:22px;padding:25px}.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.08;margin:12px 0}.hero p,.muted{color:var(--muted)}.hero-art{min-height:245px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(10,18,32,.1),rgba(10,18,32,.7)),url('https://images.unsplash.com/photo-160059_embed?auto=format&fit=crop&w=1000&q=80') center/cover,linear-gradient(135deg,#344760,#111b2c);display:flex;align-items:end;padding:20px}.art-label{background:#0b1220c9;border:1px solid #ffffff30;border-radius:14px;padding:12px 15px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:28px 0 13px}.section-head h2{margin:0;font-size:21px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card h3{margin:0 0 7px}.currency{font-size:12px;color:var(--gold);font-weight:800;letter-spacing:.1em}.big{font-size:29px;font-weight:800;margin:8px 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.notice{border:1px solid #80683b;background:#4a391d55;color:#f4d99f;padding:13px 15px;border-radius:14px;margin:18px 0;font-size:13px}.auth{max-width:460px;margin:35px auto}.auth .card{padding:25px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:var(--muted)}input,select{width:100%;background:#0c1627;border:1px solid var(--line);border-radius:11px;padding:12px;color:var(--text);outline:none}input:focus,select:focus{border-color:var(--gold)}.full{width:100%;margin-top:10px}.hidden{display:none!important}.status{min-height:22px;color:var(--gold);font-size:13px;margin-top:10px}.dash{display:grid;grid-template-columns:1fr 1fr;gap:14px}.foot{padding:30px 0;color:#71819a;font-size:12px;text-align:center}.tag{display:inline-block;border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--muted);font-size:11px;margin:3px}@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-art{min-height:180px}.grid{grid-template-columns:1fr}.dash{grid-template-columns:1fr}.wrap{padding:15px}.top{align-items:flex-start}.top-right{flex-wrap:wrap;justify-content:end}.hero-main,.card{padding:19px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="brand"><div class="logo">C</div><span>CROWN</span></div>
+  <div class="top-right"><span class="pill">BDT · USDT</span><span id="userBadge" class="pill hidden"></span><button id="signOut" class="btn secondary hidden">Sign out</button><button id="loginTop" class="btn">Sign in</button></div>
+</header>
+
+<section id="publicHome">
+  <div class="hero">
+    <div class="hero-main">
+      <div class="eyebrow">Payments infrastructure concept</div>
+      <h1>Move money with<br><span style="color:var(--gold)">clarity & control.</span></h1>
+      <p>Crown is being built for customers and merchants who need clear payment operations in BDT and USDT, subject to local laws and approved providers.</p>
+      <div class="actions"><button class="btn" id="getStarted">Create account / Sign in</button><span class="pill">Customer + Merchant platform</span></div>
+    </div>
+    <div class="hero-art"><div class="art-label"><strong>One platform.</strong><br><span class="muted">Two supported currency options</span></div></div>
+  </div>
+  <div class="section-head"><h2>Payment capabilities</h2><span class="muted">Planned features</span></div>
+  <div class="grid">
+    <article class="card"><div class="currency">BDT · BANGLADESHI TAKA</div><h3>Money In</h3><p class="muted">Customer deposits through a licensed bank or payment service provider.</p><span class="tag">Provider integration required</span></article>
+    <article class="card"><div class="currency">BDT · BANGLADESHI TAKA</div><h3>Money Out</h3><p class="muted">Payouts to verified recipients through approved channels.</p><span class="tag">Provider integration required</span></article>
+    <article class="card"><div class="currency">USDT · CRYPTO</div><h3>USDT payments</h3><p class="muted">Deposit and withdrawal only where lawful and supported by a properly authorised provider.</p><span class="tag">Compliance approval required</span></article>
+  </div>
+  <div class="notice"><strong>Important:</strong> This is a starter website, not a live payment service. No deposits, withdrawals, crypto transfers, or merchant settlements are processed by this file. Do not send money to anyone claiming otherwise.</div>
+</section>
+
+<section id="authPanel" class="auth hidden">
+ <div class="card">
+  <div class="eyebrow">Secure account access</div><h2 id="authTitle">Sign in with email</h2>
+  <p class="muted">We will email you a one-time verification code.</p>
+  <div id="emailStep">
+   <div class="field"><label>Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+   <div class="field"><label>Full name (for new account)</label><input id="fullName" autocomplete="name" placeholder="Your full name"></div>
+   <button class="btn full" id="sendCode">Send verification code</button>
+  </div>
+  <div id="otpStep" class="hidden">
+   <div class="field"><label>6-digit code</label><input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter email code"></div>
+   <button class="btn full" id="verifyCode">Verify and continue</button>
+   <button class="btn secondary full" id="backEmail">Use another email</button>
+  </div>
+  <div id="authStatus" class="status" role="status" aria-live="polite"></div>
+ </div>
+</section>
+
+<section id="dashboard" class="hidden">
+ <div class="section-head"><div><div class="eyebrow">Account overview</div><h2>Welcome to Crown</h2></div><span class="pill">Starter dashboard</span></div>
+ <div class="grid">
+  <article class="card"><div class="currency">BDT</div><h3>Money In</h3><p class="muted">Deposit flow is not connected yet.</p><button class="btn secondary full" data-demo>Request deposit setup</button></article>
+  <article class="card"><div class="currency">BDT</div><h3>Money Out</h3><p class="muted">Payout flow is not connected yet.</p><button class="btn secondary full" data-demo>Request payout setup</button></article>
+  <article class="card"><div class="currency">USDT</div><h3>Crypto wallet</h3><p class="muted">No wallet address or transfer is enabled.</p><button class="btn secondary full" data-demo>USDT integration status</button></article>
+ </div>
+ <div class="dash" style="margin-top:14px">
+  <article class="card"><h3>Merchant tools</h3><p class="muted">Merchant onboarding, business verification, API keys, checkout and settlements will be enabled after compliance and provider setup.</p><span class="tag">Not live</span><span class="tag">KYB required</span></article>
+  <article class="card"><h3>Security</h3><p class="muted">Email OTP sign-in is enabled through Supabase Auth. Payment actions must be implemented server-side and never trusted to this browser page.</p><span class="tag">No secret keys in browser</span></article>
+ </div>
+ <div class="notice" id="profileInfo">Signed in. Payment functions remain disabled until approved providers and backend controls are configured.</div>
+</section>
+<footer class="foot">© <span id="year"></span> Crown · BDT and USDT only · Availability depends on applicable law and provider coverage.</footer>
+</div>
+<script>
+(() => {
+ const SUPABASE_URL = "https://qesgfmvbfiuqvxzchlfy.supabase.co";
+ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Zo6cuLyp3B48JTlvu5ZZoQ_jOVOqBUb";
+ const $ = id => document.getElementById(id);
+ const setStatus = message => $("authStatus").textContent = message;
+ $("year").textContent = new Date().getFullYear();
+ const clientReady = window.supabase && SUPABASE_URL.startsWith("https://") && SUPABASE_PUBLISHABLE_KEY.length > 20;
+ const db = clientReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+   auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true }
+ }) : null;
+ let pendingEmail = "";
+ function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); $("email").focus(); }
+ function showHome(){ $("publicHome").classList.remove("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.add("hidden"); }
+ function showDashboard(user){
+   $("publicHome").classList.add("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
+   $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
+   $("userBadge").textContent = user.email || "Signed in";
+   $("profileInfo").textContent = "Signed in as " + (user.email || "your account") + ". Payment functions remain disabled until approved providers and backend controls are configured.";
+ }
+ function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
+ $("loginTop").addEventListener("click",showAuth);
+ $("getStarted").addEventListener("click",showAuth);
+ $("sendCode").addEventListener("click",async()=>{
+   if(!db){setStatus("Authentication is not configured. Check the Supabase connection.");return;}
+   const email=$("email").value.trim().toLowerCase();
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setStatus("Enter a valid email address.");return;}
+   pendingEmail=email; $("sendCode").disabled=true; setStatus("Sending verification code…");
+   try{
+     const fullName=$("fullName").value.trim();
+     const {error}=await db.auth.signInWithOtp({email,options:{shouldCreateUser:true,data: fullName ? {full_name:fullName} : {}}});
+     if(error) throw error;
+     $("emailStep").classList.add("hidden"); $("otpStep").classList.remove("hidden"); setStatus("Code sent. Check your inbox and spam folder.");
+   }catch(e){setStatus(e.message || "Could not send code. Try again.");}
+   finally{$("sendCode").disabled=false;}
+ });
+ $("verifyCode").addEventListener("click",async()=>{
+   const token=$("otp").value.trim().replace(/\s/g,"");
+   if(!/^\d{6,8}$/.test(token)){setStatus("Enter the verification code from your email.");return;}
+   $("verifyCode").disabled=true;setStatus("Verifying…");
+   try{
+     const {data,error}=await db.auth.verifyOtp({email:pendingEmail,token,type:"email"});
+     if(error) throw error;
+     if(data.user) showDashboard(data.user); else setStatus("Verification did not return a user. Try again.");
+   }catch(e){setStatus(e.message || "Code verification failed.");}
+   finally{$("verifyCode").disabled=false;}
+ });
+ $("backEmail").addEventListener("click",()=>{$("otpStep").classList.add("hidden");$("emailStep").classList.remove("hidden");$("otp").value="";setStatus("");});
+ $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
+ document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
+ if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);});}
+ else showGuest();
+})();
+</script>
+</body>
+</html>
