@@ -1,1 +1,306 @@
-Add Website
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crown — Payment Gateway</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f7f8fc;color:#20253b}
+header{min-height:75px;padding:12px 7%;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #eee;gap:15px}
+.logo{font-size:25px;font-weight:800;color:#5148bd}
+.logo span{color:#d5a85e}
+nav{display:flex;gap:25px;align-items:center;flex-wrap:wrap}
+nav a{color:#62677c;text-decoration:none;font-size:14px}
+button{cursor:pointer;border:0;font-weight:600;font-family:inherit}
+.btn{background:#5148bd;color:white;padding:13px 22px;border-radius:12px}
+.btn:disabled{opacity:.6;cursor:wait}
+.hero{max-width:1150px;margin:auto;padding:85px 25px;display:grid;grid-template-columns:1.1fr .9fr;gap:55px;align-items:center}
+.tag{display:inline-block;background:#eceaff;color:#5148bd;padding:9px 14px;border-radius:20px;font-size:12px;font-weight:700}
+h1{font-size:clamp(38px,5vw,60px);line-height:1.12;margin:22px 0}
+h1 span{color:#5148bd}
+.hero p{color:#73798d;line-height:1.8;max-width:490px}
+.actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.secondary{background:white;color:#5148bd;border:1px solid #e4e2f5;padding:13px 22px;border-radius:12px}
+.preview{background:white;border:1px solid #eee;border-radius:24px;padding:28px;box-shadow:0 25px 70px #38305c12}
+.preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.status{background:#e7f8ef;color:#258b58;padding:7px 10px;border-radius:20px;font-size:12px}
+.amount{font-size:34px;font-weight:800;margin:10px 0}
+.muted{color:#858a9d;font-size:13px}
+.methods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+.method{padding:16px;border:1px solid #e9eaf2;border-radius:13px;font-weight:600}
+.method span{display:block;color:#8b8fa1;font-size:12px;margin-top:7px;font-weight:400}
+.section{padding:60px 7%;text-align:center;background:white}
+.section h2{font-size:32px;margin-bottom:12px}
+.section p{color:#7c8194;line-height:1.7}
+.features{max-width:1050px;margin:35px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feature{padding:25px;border:1px solid #eee;border-radius:18px;text-align:left}
+.feature h3{margin:15px 0 10px}
+footer{padding:30px;text-align:center;color:#8b8fa1;font-size:13px}
+#login{display:none;position:fixed;inset:0;background:#20253b88;align-items:center;justify-content:center;padding:20px;z-index:10;overflow-y:auto}
+.loginbox{background:white;padding:30px;border-radius:22px;width:100%;max-width:390px;position:relative;margin:auto}
+.loginbox h2{margin:12px 0 8px}
+.loginbox input{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;margin:8px 0 15px;font:inherit}
+.loginbox button{width:100%;margin-top:10px}
+.close{position:absolute;right:20px;top:20px;width:auto!important;background:#f2f2f7;padding:8px 12px;border-radius:8px}
+.auth-switch{background:transparent;color:#5148bd;text-decoration:underline;width:auto!important;margin:15px 0 0!important;padding:0}
+#authMessage{margin-top:14px;line-height:1.5;font-size:13px;overflow-wrap:anywhere}
+#accountStatus{font-size:13px;color:#62677c}
+@media(max-width:750px){
+ nav{gap:12px}
+ nav a:not(.btn){display:none}
+ .hero{grid-template-columns:1fr;padding:55px 22px;gap:35px}
+ .features{grid-template-columns:1fr}
+ header{padding:12px 20px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Crown<span>.</span></div>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#payments">Payments</a>
+    <a href="#contact">Contact</a>
+    <span id="accountStatus" aria-live="polite"></span>
+    <button class="btn" id="accountButton" type="button" onclick="handleAccountButton()" disabled>Loading…</button>
+  </nav>
+</header>
+<main>
+<section class="hero">
+  <div>
+    <div class="tag">SMART PAYMENT SOLUTIONS</div>
+    <h1>Payments made <span>simple.</span></h1>
+    <p>Manage your payment experience with a modern, secure and seamless platform designed for growing businesses.</p>
+    <div class="actions">
+      <button class="btn" type="button" onclick="showLogin('signup')">Get Started →</button>
+      <a class="secondary" href="#features" style="text-decoration:none">Explore Features</a>
+    </div>
+  </div>
+  <div class="preview">
+    <div class="preview-head">
+      <strong>Payment Overview</strong>
+      <span class="status">● Demo</span>
+    </div>
+    <div class="muted">Total transactions</div>
+    <div class="amount">৳ 24,500.00</div>
+    <div class="muted">Sample dashboard preview</div>
+    <div class="methods">
+      <div class="method">bKash<span>Mobile banking</span></div>
+      <div class="method">Nagad<span>Mobile banking</span></div>
+      <div class="method">VISA<span>Card payments</span></div>
+      <div class="method">Bank<span>Bank transfer</span></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="features">
+  <h2>Everything you need</h2>
+  <p>A simple payment experience for your business.</p>
+  <div class="features">
+    <div class="feature"><div>✦</div><h3>Easy Integration</h3><p>Designed to make payment integration straightforward.</p></div>
+    <div class="feature"><div>◈</div><h3>Secure Payments</h3><p>Built with security and customer trust in mind.</p></div>
+    <div class="feature"><div>▤</div><h3>Clear Dashboard</h3><p>View payment activity in a clean, organized interface.</p></div>
+  </div>
+</section>
+<section class="section" id="payments">
+  <h2>Payment Options</h2>
+  <p>Support for popular payment methods in Bangladesh.</p>
+  <div class="features">
+    <div class="feature"><h3>bKash</h3><p>Mobile financial services</p></div>
+    <div class="feature"><h3>Nagad</h3><p>Digital payment services</p></div>
+    <div class="feature"><h3>Cards &amp; Bank</h3><p>Card and bank payment options</p></div>
+  </div>
+</section>
+<section class="section" id="contact">
+  <h2>Ready to get started?</h2>
+  <p>Contact us to learn more about Crown payment solutions.</p>
+  <button class="btn" type="button" style="margin-top:20px" onclick="showLogin('signup')">Create Account</button>
+</section>
+</main>
+<footer>© 2026 Crown. All rights reserved.</footer>
+
+<div id="login" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-hidden="true">
+  <div class="loginbox">
+    <button class="close" id="closeAuth" type="button" onclick="hideLogin()" aria-label="Close">✕</button>
+    <h2 id="authTitle">Welcome to Crown</h2>
+    <p class="muted" id="authSubtitle">Sign in to your account</p>
+    <form id="authForm">
+      <div id="nameField" style="display:none">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" name="fullName" type="text" placeholder="Your full name" autocomplete="name" minlength="2">
+      </div>
+      <label for="email">Email Address</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" minlength="6" required>
+      <button class="btn" id="authSubmit" type="submit">Sign In</button>
+    </form>
+    <p id="authMessage" role="status" aria-live="polite"></p>
+    <button class="auth-switch" id="authSwitch" type="button" onclick="toggleAuthMode()">Create an account</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://qesgfmvbfiuqvxzchlfy.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Zo6cuLyp3B48JTlvu5ZZoQ_jOVOqBUb";
+const authModal = document.getElementById("login");
+const authForm = document.getElementById("authForm");
+const authSubmit = document.getElementById("authSubmit");
+const authSwitch = document.getElementById("authSwitch");
+const authMessage = document.getElementById("authMessage");
+let crownSupabase = null;
+let authMode = "login";
+let currentUser = null;
+let isBusy = false;
+let authStateVersion = 0;
+let previousFocus = null;
+
+function showMessage(message, isError = false) {
+  authMessage.textContent = message;
+  authMessage.style.color = isError ? "#b42318" : "#258b58";
+}
+function setBusy(busy) {
+  isBusy = busy;
+  authSubmit.disabled = busy;
+  authSwitch.disabled = busy;
+  document.getElementById("closeAuth").disabled = busy;
+  document.getElementById("accountButton").disabled = busy;
+}
+function showLogin(mode = "login") {
+  if (!crownSupabase) {
+    showMessage("Authentication is unavailable right now. Please reload and try again.", true);
+    return;
+  }
+  setAuthMode(mode);
+  previousFocus = document.activeElement;
+  authModal.style.display = "flex";
+  authModal.setAttribute("aria-hidden", "false");
+  document.getElementById("email").focus();
+}
+function hideLogin() {
+  if (isBusy) return;
+  authModal.style.display = "none";
+  authModal.setAttribute("aria-hidden", "true");
+  if (previousFocus && typeof previousFocus.focus === "function") previousFocus.focus();
+}
+function setAuthMode(mode) {
+  authMode = mode === "signup" ? "signup" : "login";
+  const signup = authMode === "signup";
+  document.getElementById("authTitle").textContent = signup ? "Create your Crown account" : "Welcome to Crown";
+  document.getElementById("authSubtitle").textContent = signup ? "Sign up to get started" : "Sign in to your account";
+  document.getElementById("nameField").style.display = signup ? "block" : "none";
+  document.getElementById("fullName").required = signup;
+  document.getElementById("password").autocomplete = signup ? "new-password" : "current-password";
+  authSubmit.textContent = signup ? "Create Account" : "Sign In";
+  authSwitch.textContent = signup ? "Already have an account? Sign in" : "Create an account";
+  authForm.reset();
+  showMessage("");
+}
+function toggleAuthMode() {
+  if (!isBusy) setAuthMode(authMode === "login" ? "signup" : "login");
+}
+async function handleAccountButton() {
+  if (isBusy) return;
+  if (currentUser) {
+    await signOut();
+  } else {
+    showLogin("login");
+  }
+}
+function updateAccountUI(user) {
+  currentUser = user;
+  const button = document.getElementById("accountButton");
+  const status = document.getElementById("accountStatus");
+  button.textContent = user ? "Sign Out" : "Sign In";
+  status.textContent = user ? (user.email || "Signed in") : "";
+  button.disabled = false;
+}
+authForm.addEventListener("submit", async function(event) {
+  event.preventDefault();
+  if (!crownSupabase || isBusy) return;
+
+  const submittedMode = authMode;
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const fullName = document.getElementById("fullName").value.trim();
+  setBusy(true);
+  showMessage(submittedMode === "signup" ? "Creating your account…" : "Signing in…");
+
+  try {
+    if (submittedMode === "signup") {
+      const { data, error } = await crownSupabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName },
+          emailRedirectTo: window.location.origin
+        }
+      });
+      if (error) throw error;
+      if (data.session && data.user) {
+        showMessage("Account created successfully. You are now signed in.");
+        window.setTimeout(hideLogin, 900);
+      } else {
+        showMessage("Account created. Check your email and confirm your address before signing in.");
+      }
+    } else {
+      const { error } = await crownSupabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      showMessage("Signed in successfully.");
+      window.setTimeout(hideLogin, 700);
+    }
+  } catch (error) {
+    showMessage(error && error.message ? error.message : "Something went wrong. Please try again.", true);
+  } finally {
+    setBusy(false);
+  }
+});
+async function signOut() {
+  if (!crownSupabase || isBusy) return;
+  setBusy(true);
+  try {
+    const { error } = await crownSupabase.auth.signOut();
+    if (error) throw error;
+    showMessage("You have been signed out.");
+  } catch (error) {
+    showLogin("login");
+    showMessage(error && error.message ? error.message : "Could not sign out. Please try again.", true);
+  } finally {
+    setBusy(false);
+  }
+}
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape" && authModal.getAttribute("aria-hidden") === "false") hideLogin();
+});
+authModal.addEventListener("click", function(event) {
+  if (event.target === authModal) hideLogin();
+});
+
+try {
+  if (!window.supabase || typeof window.supabase.createClient !== "function") {
+    throw new Error("Supabase client library did not load.");
+  }
+  crownSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  crownSupabase.auth.onAuthStateChange((_event, session) => {
+    authStateVersion += 1;
+    updateAccountUI(session ? session.user : null);
+  });
+  const initialAuthStateVersion = authStateVersion;
+  crownSupabase.auth.getSession().then(({ data, error }) => {
+    if (error) throw error;
+    if (authStateVersion === initialAuthStateVersion) {
+      updateAccountUI(data.session ? data.session.user : null);
+    }
+  }).catch((error) => {
+    console.error("Could not restore the Crown auth session:", error);
+    updateAccountUI(null);
+  });
+} catch (error) {
+  console.error("Could not initialize Crown authentication:", error);
+  document.getElementById("accountButton").disabled = true;
+  showMessage("Authentication could not be initialized. Check the Supabase project settings and reload.", true);
+}
+</script>
+</body>
+</html>
