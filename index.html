@@ -61,6 +61,13 @@
   <article class="card"><h3>Merchant tools</h3><p class="muted">Merchant onboarding, business verification, API keys, checkout and settlements will be enabled after compliance and provider setup.</p><span class="tag">Not live</span><span class="tag">KYB required</span></article>
   <article class="card"><h3>Security</h3><p class="muted">Email and password sign-in is enabled through Supabase Auth. Payment actions must be implemented server-side and never trusted to this browser page.</p><span class="tag">No secret keys in browser</span></article>
  </div>
+ <div class="card" style="margin-top:14px">
+  <h3>Set your password</h3>
+  <p class="muted">Set a password once while signed in with your email link. After that, use email and password for future logins.</p>
+  <div class="field"><label for="newPassword">New password (at least 8 characters)</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="Create a password"></div>
+  <button class="btn full" id="savePassword">Save password</button>
+  <div id="passwordStatus" class="status" role="status" aria-live="polite"></div>
+ </div>
  <div class="notice" id="profileInfo">Signed in. Payment functions remain disabled until approved providers and backend controls are configured.</div>
 </section>
 <footer class="foot">© <span id="year"></span> Crown · BDT and USDT only · Availability depends on applicable law and provider coverage.</footer>
@@ -110,6 +117,14 @@
    try{const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName},emailRedirectTo:window.location.origin}});if(error)throw error;if(data.session&&data.user)showDashboard(data.user);else setStatus("Account created. Check your email once to confirm, then sign in using your password.");}
    catch(e){setStatus(e.message || "Account creation failed.");}
    finally{$("passwordSignUp").disabled=false;}
+ });
+ $("savePassword").addEventListener("click",async()=>{
+   const password=$("newPassword").value;
+   if(password.length<8){$("passwordStatus").textContent="Use at least 8 characters.";return;}
+   $("savePassword").disabled=true;$("passwordStatus").textContent="Saving password…";
+   try{const {data,error}=await db.auth.updateUser({password});if(error)throw error;$("newPassword").value="";$("passwordStatus").textContent="Password saved. Next time, sign in with your email and password.";}
+   catch(e){$("passwordStatus").textContent=e.message || "Could not save password.";}
+   finally{$("savePassword").disabled=false;}
  });
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
