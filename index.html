@@ -155,8 +155,8 @@
    <button class="dash-tab" data-settings-tab="settingsCarePanel"><span class="settings-number">07</span> Help & Customer Care</button>
   </div>
   <section id="settingsAccountPanel" class="settings-subpanel hidden"><article class="card"><h3>Account settings</h3><p class="muted">Manage your Crown account information and sign-in preferences.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account status</span><strong>Active</strong></div><div class="detail-row"><span class="muted">Login method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="accountSettingsEmail">—</strong></div><div class="detail-row"><span class="muted">Member since</span><strong id="accountSettingsJoined">—</strong></div></div></article></section>
-  <section id="settingsProfilePanel" class="settings-subpanel hidden"><article class="card"><h3>Profile settings</h3><p class="muted">Your saved account information.</p><div class="detail-list"><div class="detail-row"><span class="muted">Full name</span><strong id="settingsFullName">—</strong></div><div class="detail-row"><span class="muted">User ID</span><strong id="settingsUsername">—</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="settingsEmail">—</strong></div></div></article><div class="card" id="setupUsernameCard" style="margin-top:14px"><h3>Set your User ID</h3><p class="muted">Choose a unique User ID once before using User ID login.</p><div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div><button class="btn full" id="saveUsername">Save User ID</button><div id="usernameStatus" class="status" role="status" aria-live="polite"></div></div></section>
-  <section id="settingsSecurityPanel" class="settings-subpanel hidden"><article class="card"><h3>Account security</h3><p class="muted">Keep your account secure. Never share your password, email verification links or security codes.</p><div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Password protection</span><strong>Enabled by auth provider</strong></div><div class="detail-row"><span class="muted">Session</span><strong>Managed securely by Supabase</strong></div></div><span class="tag">Never share your password</span><span class="tag">No secret keys in browser</span></article></section>
+  <section id="settingsProfilePanel" class="settings-subpanel hidden"><article class="card"><h3>Profile settings</h3><p class="muted">Update your personal profile information.</p><div class="field"><label for="editFullName">Full name</label><input id="editFullName" autocomplete="name" placeholder="Enter full name"></div><button class="btn full" id="saveProfileDetails" type="button">Save profile</button><div id="profileEditStatus" class="status" role="status" aria-live="polite"></div><div class="detail-list"><div class="detail-row"><span class="muted">User ID</span><strong id="settingsUsername">—</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="settingsEmail">—</strong></div></div><div class="detail-list"><div class="detail-row"><span class="muted">Full name</span><strong id="settingsFullName">—</strong></div><div class="detail-row"><span class="muted">User ID</span><strong id="settingsUsername">—</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="settingsEmail">—</strong></div></div></article><div class="card" id="setupUsernameCard" style="margin-top:14px"><h3>Set your User ID</h3><p class="muted">Choose a unique User ID once before using User ID login.</p><div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div><button class="btn full" id="saveUsername">Save User ID</button><div id="usernameStatus" class="status" role="status" aria-live="polite"></div></div></section>
+  <section id="settingsSecurityPanel" class="settings-subpanel hidden"><article class="card"><h3>Account security</h3><p class="muted">Change your password to help protect your Crown account.</p><div class="field"><label for="newAccountPassword">New password</label><input id="newAccountPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div><div class="field"><label for="confirmAccountPassword">Confirm new password</label><input id="confirmAccountPassword" type="password" autocomplete="new-password" placeholder="Enter password again"></div><button class="btn full" id="updateAccountPassword" type="button">Update password</button><div id="passwordUpdateStatus" class="status" role="status" aria-live="polite"></div><div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Session</span><strong>Managed by Supabase</strong></div></div><span class="tag">Never share your password or verification codes</span></article></section>
   <section id="settingsHistoryPanel" class="settings-subpanel hidden"><article class="card"><h3>Transaction history</h3><p class="muted">Your transaction history will appear here when approved payment services are enabled. No real transactions have been processed.</p><div class="detail-list"><div class="detail-row"><span class="muted">Deposits</span><strong>0</strong></div><div class="detail-row"><span class="muted">Withdrawals</span><strong>0</strong></div><div class="detail-row"><span class="muted">Purchases</span><strong>0</strong></div></div><span class="tag">No transactions</span></article></section>
   <section id="settingsPrivacyPanel" class="settings-subpanel hidden"><article class="card"><h3>Privacy settings</h3><p class="muted">Crown only displays the account details needed for this demo. Do not share private account information with anyone.</p><div class="detail-list"><div class="detail-row"><span class="muted">Profile visibility</span><strong>Private</strong></div><div class="detail-row"><span class="muted">Data controls</span><strong>Contact support</strong></div></div></article></section>
   <section id="settingsNotificationsPanel" class="settings-subpanel hidden"><article class="card"><h3>Notifications</h3><p class="muted">Account and transaction notifications will be available after notification services are configured.</p><div class="detail-list"><div class="detail-row"><span class="muted">Email notifications</span><strong>Not configured</strong></div><div class="detail-row"><span class="muted">Security alerts</span><strong>Auth provider emails</strong></div></div></article></section>
@@ -204,6 +204,7 @@
      $("profileUsername").textContent = uid;
      $("profileEmail").textContent = user.email || "Not available";
      $("settingsFullName").textContent = fullName;
+     $("editFullName").value = fullName==="Not set" ? "" : fullName;
      $("settingsUsername").textContent = uid;
      $("settingsEmail").textContent = user.email || "Not available";
      $("accountSettingsEmail").textContent = user.email || "Not available";
@@ -253,6 +254,36 @@
      else setStatus("Account created. Check your email to confirm, then log in with your User ID and password.");
    }catch(e){setStatus(e.message||"Account creation failed.");}
    finally{$("passwordSignUp").disabled=false;}
+ });
+ $("saveProfileDetails").addEventListener("click",async()=>{
+   const fullName=$("editFullName").value.trim();
+   if(!fullName){$("profileEditStatus").textContent="Enter your full name.";return;}
+   $("saveProfileDetails").disabled=true;$("profileEditStatus").textContent="Saving profile…";
+   try{
+     const {data:{user},error:userError}=await db.auth.getUser();
+     if(userError||!user)throw userError||new Error("Please sign in again.");
+     const {error:profileError}=await db.from("profiles").update({full_name:fullName}).eq("id",user.id);
+     if(profileError)throw profileError;
+     const {error:metaError}=await db.auth.updateUser({data:{full_name:fullName}});
+     if(metaError)throw metaError;
+     $("profileDisplayName").textContent=fullName;$("profileFullName").textContent=fullName;$("settingsFullName").textContent=fullName;
+     $("profileEditStatus").textContent="Profile updated successfully.";
+   }catch(error){$("profileEditStatus").textContent=error.message||"Could not update profile.";}
+   finally{$("saveProfileDetails").disabled=false;}
+ });
+ $("updateAccountPassword").addEventListener("click",async()=>{
+   const password=$("newAccountPassword").value;
+   const confirm=$("confirmAccountPassword").value;
+   if(password.length<8){$("passwordUpdateStatus").textContent="Password must be at least 8 characters.";return;}
+   if(password!==confirm){$("passwordUpdateStatus").textContent="Passwords do not match.";return;}
+   $("updateAccountPassword").disabled=true;$("passwordUpdateStatus").textContent="Updating password…";
+   try{
+     const {error}=await db.auth.updateUser({password});
+     if(error)throw error;
+     $("newAccountPassword").value="";$("confirmAccountPassword").value="";
+     $("passwordUpdateStatus").textContent="Password updated successfully.";
+   }catch(error){$("passwordUpdateStatus").textContent=error.message||"Could not update password.";}
+   finally{$("updateAccountPassword").disabled=false;}
  });
  $("saveUsername").addEventListener("click",async()=>{
    const username=$("newUsername").value.trim().toLowerCase();
