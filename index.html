@@ -55,6 +55,7 @@
 }
 
 .league-progress-summary{margin:0 0 14px;padding:17px}.league-progress-summary h3{margin:5px 0}.league-progress-track{height:9px;background:#0b1423;border:1px solid var(--line);border-radius:99px;overflow:hidden}.league-progress-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,#c18a3d,#f4d28b);transition:width .2s ease}
+.task-league-heading{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;margin-top:7px;border:1px solid var(--line);border-radius:12px;background:#111d30;color:var(--gold);font-size:12px;letter-spacing:.08em}.task-league-heading span{color:var(--muted);font-size:11px;letter-spacing:0}
 /* Premium league cards */
 .league-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
 .league-card{position:relative;overflow:hidden;min-width:0;min-height:185px;padding:17px;border-radius:19px;border:1px solid #ffffff24;background:linear-gradient(145deg,#24344c,#111b2c);box-shadow:0 10px 26px #0005}
@@ -172,9 +173,10 @@
  </div>
 
  <div id="workPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0">Browse products, check their value and estimated profit, then select an order preview.</p></div><span class="pill">Task list</span></div>
+  <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0">Each League has its own separate task list. Choose any League and complete its tasks.</p></div><span class="pill">Task list</span></div>
   <div class="notice"><strong>Demo task board:</strong> Product values and profits are sample figures. Completing a task here updates a local demo tracker only. No product is reserved, no payment is collected, and no profit or payout is generated or guaranteed.</div>
   <div class="grid">
+   <div class="task-league-heading"><strong>BRONZE LEAGUE TASKS</strong><span>2 separate tasks</span></div>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Wireless earbuds product" loading="lazy">
     <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Wireless Earbuds</h3>
@@ -199,6 +201,7 @@
     <button class="btn full" type="button" data-demo-order>Complete demo task</button>
     <span class="tag">Sample only</span>
    </article>
+   <div class="task-league-heading"><strong>SILVER LEAGUE TASKS</strong><span>2 separate tasks</span></div>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85" alt="Bluetooth speaker product" loading="lazy">
     <div class="currency">SILVER LEAGUE · DEMO</div><h3>Bluetooth Speaker</h3>
@@ -218,6 +221,7 @@
     <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳3,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳300</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
     <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
+   <div class="task-league-heading"><strong>GOLD LEAGUE TASKS</strong><span>2 separate tasks</span></div>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="Running shoes product" loading="lazy">
     <div class="currency">GOLD LEAGUE · DEMO</div><h3>Running Shoes</h3>
@@ -232,6 +236,7 @@
     <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳5,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳800</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
     <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
+   <div class="task-league-heading"><strong>MASTER LEAGUE TASKS</strong><span>2 separate tasks</span></div>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=85" alt="Fitness tracker product" loading="lazy">
     <div class="currency">MASTER LEAGUE · DEMO</div><h3>Fitness Tracker</h3>
@@ -246,6 +251,7 @@
     <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳8,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳500</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
     <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
+   <div class="task-league-heading"><strong>EXPERT LEAGUE TASKS</strong><span>2 separate tasks</span></div>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85" alt="Smartphone product" loading="lazy">
     <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Smartphone</h3>
@@ -264,15 +270,15 @@
  </div>
 
  <div id="levelPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>League</h2><p class="muted" style="margin:4px 0 0">Complete both demo tasks in a league to unlock the next league.</p></div><span class="pill">5 Leagues</span></div>
-  <div class="notice"><strong>Demo progression:</strong> Each league requires 2 completed demo tasks. Progress is saved only on this device and is not verified purchase activity. Product values and estimated margins are illustrations only; no income is generated or guaranteed.</div>
+  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>League</h2><p class="muted" style="margin:4px 0 0">All five Leagues are open. Each League has its own separate tasks.</p></div><span class="pill">5 Leagues</span></div>
+  <div class="notice"><strong>Demo progression:</strong> Every League has 2 separate demo tasks. You can work in any League without upgrading. Progress is saved only on this device and is not verified purchase activity. Product values and estimated margins are illustrations only; no income is generated or guaranteed.</div>
   <article class="card league-progress-summary"><div class="currency">YOUR PROGRESS</div><h3 id="leagueCurrentTitle">Bronze League</h3><p class="muted" id="leagueProgressText">0 of 2 demo tasks completed</p><div class="league-progress-track"><span id="leagueProgressFill"></span></div></article>
   <div class="league-grid">
-   <article class="league-card league-bronze" data-league-index="0"><div class="league-top"><span class="league-icon">♜</span><span class="league-number">LEAGUE 01</span></div><h3>Bronze</h3><p>Complete 2 Bronze demo tasks to unlock Silver.</p><div class="league-bottom"><span class="league-status">CURRENT LEAGUE</span><span class="league-lock">✓</span></div></article>
-   <article class="league-card league-silver locked" data-league-index="1"><div class="league-top"><span class="league-icon">♙</span><span class="league-number">LEAGUE 02</span></div><h3>Silver</h3><p>Unlock after completing both Bronze demo tasks.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-gold locked" data-league-index="2"><div class="league-top"><span class="league-icon">♛</span><span class="league-number">LEAGUE 03</span></div><h3>Gold</h3><p>Unlock after completing both Silver demo tasks.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-master locked" data-league-index="3"><div class="league-top"><span class="league-icon">✦</span><span class="league-number">LEAGUE 04</span></div><h3>Master</h3><p>Unlock after completing both Gold demo tasks.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-expert locked" data-league-index="4"><div class="league-top"><span class="league-icon">♕</span><span class="league-number">LEAGUE 05</span></div><h3>Expert</h3><p>Unlock after completing both Master demo tasks.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-bronze" data-league-index="0"><div class="league-top"><span class="league-icon">♜</span><span class="league-number">LEAGUE 01</span></div><h3>Bronze</h3><p>2 separate Bronze tasks · Open to all.</p><div class="league-bottom"><span class="league-status">CURRENT LEAGUE</span><span class="league-lock">✓</span></div></article>
+   <article class="league-card league-silver locked" data-league-index="1"><div class="league-top"><span class="league-icon">♙</span><span class="league-number">LEAGUE 02</span></div><h3>Silver</h3><p>2 separate Silver tasks · Open to all.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-gold locked" data-league-index="2"><div class="league-top"><span class="league-icon">♛</span><span class="league-number">LEAGUE 03</span></div><h3>Gold</h3><p>2 separate Gold tasks · Open to all.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-master locked" data-league-index="3"><div class="league-top"><span class="league-icon">✦</span><span class="league-number">LEAGUE 04</span></div><h3>Master</h3><p>2 separate Master tasks · Open to all.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-expert locked" data-league-index="4"><div class="league-top"><span class="league-icon">♕</span><span class="league-number">LEAGUE 05</span></div><h3>Expert</h3><p>2 separate Expert tasks · Open to all.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
   </div>
  </div>
 
