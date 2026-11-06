@@ -849,7 +849,7 @@
    const state=readDemoState(),done=state.completed;
    const cards=[...document.querySelectorAll(".task-card[data-task-index]")];
    const completedByLeague=leagueTaskCounts.map((_,i)=>cards.filter(card=>Number(card.dataset.leagueIndex)===i&&done.includes(Number(card.dataset.taskIndex))).length);
-   const nextCard=cards.find(card=>!done.includes(Number(card.dataset.taskIndex))&&!state.pending.some(x=>x.task===Number(card.dataset.taskIndex)));
+   const nextCard=cards.find(card=>!done.includes(Number(card.dataset.taskIndex)));
    const nextTask=nextCard?Number(nextCard.dataset.taskIndex):-1;
    const activeLeague=nextCard?Number(nextCard.dataset.leagueIndex):4;
    cards.forEach(card=>{
