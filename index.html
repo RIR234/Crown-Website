@@ -54,6 +54,7 @@
  .settings-menu{grid-template-columns:1fr}
 }
 
+.league-progress-summary{margin:0 0 14px;padding:17px}.league-progress-summary h3{margin:5px 0}.league-progress-track{height:9px;background:#0b1423;border:1px solid var(--line);border-radius:99px;overflow:hidden}.league-progress-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,#c18a3d,#f4d28b);transition:width .2s ease}
 /* Premium league cards */
 .league-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
 .league-card{position:relative;overflow:hidden;min-width:0;min-height:185px;padding:17px;border-radius:19px;border:1px solid #ffffff24;background:linear-gradient(145deg,#24344c,#111b2c);box-shadow:0 10px 26px #0005}
@@ -158,18 +159,18 @@
 
  <div id="workPanel" class="tab-panel hidden">
   <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0">Browse products, check their value and estimated profit, then select an order preview.</p></div><span class="pill">Task list</span></div>
-  <div class="notice"><strong>Demo task board:</strong> Product values and profits are sample figures. Order buttons only create a local preview selection; no real product is reserved, no payment is collected, and no profit or payout is guaranteed.</div>
+  <div class="notice"><strong>Demo task board:</strong> Product values and profits are sample figures. Completing a task here updates a local demo tracker only. No product is reserved, no payment is collected, and no profit or payout is generated or guaranteed.</div>
   <div class="grid">
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Wireless earbuds product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Wireless Earbuds</h3>
     <p class="muted">Pre-book this product before its next stock release.</p>
     <div class="detail-list">
-     <div class="detail-row"><span class="muted">Product value</span><strong>৳2,000</strong></div>
-     <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳250</strong></div>
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,000</strong></div>
+     <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳100</strong></div>
      <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
-    <button class="btn full" type="button" data-demo-order>Order product</button>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
     <span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
@@ -177,11 +178,11 @@
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Smart Watch</h3>
     <p class="muted">Pre-book this product for the upcoming product batch.</p>
     <div class="detail-list">
-     <div class="detail-row"><span class="muted">Product value</span><strong>৳3,500</strong></div>
-     <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳420</strong></div>
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,500</strong></div>
+     <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳150</strong></div>
      <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
-    <button class="btn full" type="button" data-demo-order>Order product</button>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
     <span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
@@ -189,78 +190,79 @@
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Bluetooth Speaker</h3>
     <p class="muted">Pre-book this product in a sample task listing.</p>
     <div class="detail-list">
-     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,800</strong></div>
-     <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳210</strong></div>
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳2,500</strong></div>
+     <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳250</strong></div>
      <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
-    <button class="btn full" type="button" data-demo-order>Order product</button>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
     <span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=85" alt="Travel backpack product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Travel Backpack</h3>
     <p class="muted">Pre-book this travel backpack in the sample product list.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳2,400</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳300</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Order product</button><span class="tag">Sample only</span>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳3,000</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳300</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="Running shoes product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Running Shoes</h3>
     <p class="muted">Preview a pre-booking for everyday running shoes.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳3,200</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳380</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Order product</button><span class="tag">Sample only</span>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳4,000</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳400</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=900&q=85" alt="Digital camera product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Digital Camera</h3>
     <p class="muted">Explore a compact camera product task preview.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳8,500</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳950</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Order product</button><span class="tag">Sample only</span>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳5,000</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳800</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=85" alt="Fitness tracker product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Fitness Tracker</h3>
     <p class="muted">Preview a wearable fitness tracker pre-booking.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳2,700</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳320</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Order product</button><span class="tag">Sample only</span>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳7,000</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳700</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85" alt="Headphones product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Wireless Headphones</h3>
     <p class="muted">Check this over-ear headphones task preview.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳4,200</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳500</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Order product</button><span class="tag">Sample only</span>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳8,000</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳500</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85" alt="Smartphone product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Smartphone</h3>
     <p class="muted">Preview a smartphone product pre-booking task.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳12,000</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳1,400</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Order product</button><span class="tag">Sample only</span>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳12,000</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳1,200</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
    <article class="card task-card">
     <img class="product-image" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85" alt="Portable speaker product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Portable Speaker</h3>
     <p class="muted">Preview a portable audio product task.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳2,200</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳260</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Order product</button><span class="tag">Sample only</span>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳15,000</strong></div><div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳1,500</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
    </article>
   </div>
  </div>
 
  <div id="levelPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>League</h2><p class="muted" style="margin:4px 0 0">Complete each league requirement in order to unlock the next rank.</p></div><span class="pill">5 Leagues</span></div>
-  <div class="notice"><strong>League progression:</strong> Leagues unlock one by one after the required demo tasks are completed. These are currently visual demo levels only; task completion and upgrades are not yet connected to a verified backend.</div>
+  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>League</h2><p class="muted" style="margin:4px 0 0">Complete both demo tasks in a league to unlock the next league.</p></div><span class="pill">5 Leagues</span></div>
+  <div class="notice"><strong>Demo progression:</strong> Each league requires 2 completed demo tasks. Progress is saved only on this device and is not verified purchase activity. Product values and estimated margins are illustrations only; no income is generated or guaranteed.</div>
+  <article class="card league-progress-summary"><div class="currency">YOUR PROGRESS</div><h3 id="leagueCurrentTitle">Bronze League</h3><p class="muted" id="leagueProgressText">0 of 2 demo tasks completed</p><div class="league-progress-track"><span id="leagueProgressFill"></span></div></article>
   <div class="league-grid">
-   <article class="league-card league-bronze"><div class="league-top"><span class="league-icon">♜</span><span class="league-number">LEAGUE 01</span></div><h3>Bronze</h3><p>Start your Crown journey and complete the first set of tasks.</p><div class="league-bottom"><span class="league-status">STARTING LEAGUE</span><span class="league-lock">✓</span></div></article>
-   <article class="league-card league-silver locked"><div class="league-top"><span class="league-icon">♙</span><span class="league-number">LEAGUE 02</span></div><h3>Silver</h3><p>Unlock after completing the Bronze league requirements.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-gold locked"><div class="league-top"><span class="league-icon">♛</span><span class="league-number">LEAGUE 03</span></div><h3>Gold</h3><p>Unlock after completing the Silver league requirements.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-master locked"><div class="league-top"><span class="league-icon">✦</span><span class="league-number">LEAGUE 04</span></div><h3>Master</h3><p>Unlock after completing the Gold league requirements.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-expert locked"><div class="league-top"><span class="league-icon">♕</span><span class="league-number">LEAGUE 05</span></div><h3>Expert</h3><p>The highest Crown league. Complete every previous league first.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-bronze" data-league-index="0"><div class="league-top"><span class="league-icon">♜</span><span class="league-number">LEAGUE 01</span></div><h3>Bronze</h3><p>Complete 2 Bronze demo tasks to unlock Silver.</p><div class="league-bottom"><span class="league-status">CURRENT LEAGUE</span><span class="league-lock">✓</span></div></article>
+   <article class="league-card league-silver locked" data-league-index="1"><div class="league-top"><span class="league-icon">♙</span><span class="league-number">LEAGUE 02</span></div><h3>Silver</h3><p>Unlock after completing both Bronze demo tasks.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-gold locked" data-league-index="2"><div class="league-top"><span class="league-icon">♛</span><span class="league-number">LEAGUE 03</span></div><h3>Gold</h3><p>Unlock after completing both Silver demo tasks.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-master locked" data-league-index="3"><div class="league-top"><span class="league-icon">✦</span><span class="league-number">LEAGUE 04</span></div><h3>Master</h3><p>Unlock after completing both Gold demo tasks.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-expert locked" data-league-index="4"><div class="league-top"><span class="league-icon">♕</span><span class="league-number">LEAGUE 05</span></div><h3>Expert</h3><p>Unlock after completing both Master demo tasks.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
   </div>
  </div>
 
- <div id="settingsPanel" class="tab-panel hidden">
+<div id="settingsPanel" class="tab-panel hidden">
   <div class="section-head"><div><div class="eyebrow">Account controls</div><h2>Settings</h2><p class="muted" style="margin:4px 0 0">Manage your account, profile, security, privacy and activity settings.</p></div></div>
   <div class="settings-menu">
    <button class="dash-tab" data-settings-tab="settingsAccountPanel"><span class="settings-number">01</span> Account Settings</button>
@@ -307,10 +309,67 @@
  }
  function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); setAuthMode("login"); $("loginUsername").focus(); }
  function showHome(){ $("publicHome").classList.remove("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.add("hidden"); }
+ let currentUserId = null;
+ const leagueNames = ["Bronze","Silver","Gold","Master","Expert"];
+ function readDemoTasks(){
+   try{return JSON.parse(localStorage.getItem("crown_demo_tasks_"+currentUserId)||"[]");}
+   catch(_){return [];}
+ }
+ function renderLeagueProgress(){
+   if(!currentUserId)return;
+   const done=readDemoTasks();
+   const cards=[...document.querySelectorAll(".task-card")];
+   cards.forEach((card,index)=>{
+     const status=card.querySelector("[data-order-status]");
+     const button=card.querySelector("[data-demo-order]");
+     if(!status||!button)return;
+     const completed=done.includes(index);
+     status.textContent=completed?"Completed · Demo":"Available · Demo";
+     button.textContent=completed?"Completed · Demo":"Complete demo task";
+     button.disabled=completed;
+     button.classList.toggle("secondary",completed);
+   });
+   const completedByLeague=leagueNames.map((_,i)=>[i*2,i*2+1].filter(n=>done.includes(n)).length);
+   let current=completedByLeague.findIndex((count,i)=>count<2);
+   if(current<0)current=4;
+   document.querySelectorAll("[data-league-index]").forEach(card=>{
+     const i=Number(card.dataset.leagueIndex);
+     const status=card.querySelector(".league-status");
+     const icon=card.querySelector(".league-lock");
+     const unlocked=i<=current;
+     const complete=completedByLeague[i]===2;
+     card.classList.toggle("locked",!unlocked);
+     if(status)status.textContent=complete?"COMPLETED":(unlocked?"CURRENT LEAGUE":"LOCKED");
+     if(icon)icon.textContent=complete?"✓":(unlocked?"●":"🔒");
+   });
+   const count=completedByLeague[current]||0;
+   const title=document.getElementById("leagueCurrentTitle");
+   const text=document.getElementById("leagueProgressText");
+   const fill=document.getElementById("leagueProgressFill");
+   if(title)title.textContent=leagueNames[current]+" League";
+   if(text)text.textContent=count+" of 2 demo tasks completed"+(current===4&&count===2?" · All demo leagues completed":"");
+   if(fill)fill.style.width=(count/2*100)+"%";
+ }
+ function completeDemoTask(button){
+   if(!currentUserId){alert("Please sign in first.");return;}
+   const cards=[...document.querySelectorAll(".task-card")];
+   const index=cards.indexOf(button.closest(".task-card"));
+   if(index<0)return;
+   const done=readDemoTasks();
+   if(done.includes(index))return;
+   const leagueIndex=Math.floor(index/2);
+   const allowed=leagueIndex===0||done.includes((leagueIndex-1)*2)&&done.includes((leagueIndex-1)*2+1);
+   if(!allowed){alert("Complete both tasks in the previous league first.");return;}
+   done.push(index);
+   localStorage.setItem("crown_demo_tasks_"+currentUserId,JSON.stringify(done));
+   renderLeagueProgress();
+ }
  function showDashboard(user){
+   currentUserId=user.id;
    $("publicHome").classList.add("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
    $("userBadge").textContent = (user.user_metadata?.username || "Loading…").toUpperCase();
+   renderLeagueProgress();
    $("profileInfo").textContent = "Your Crown account is signed in. Payment functions remain disabled until approved providers and backend controls are configured.";
    if(db) db.from("profiles").select("username,full_name,created_at").eq("id",user.id).maybeSingle().then(({data})=>{
      const uid=data?.username || user.user_metadata?.username || "Not set";
@@ -416,14 +475,8 @@
  });
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
- document.querySelectorAll("[data-demo-order]").forEach(button=>button.addEventListener("click",()=>{
-   const card=button.closest(".task-card");
-   const status=card?.querySelector("[data-order-status]");
-   if(status)status.textContent="Selected · Demo preview";
-   button.textContent="Selected (Demo)";
-   button.disabled=true;
-   button.classList.add("secondary");
- }));
+ document.querySelectorAll("[data-demo-order]").forEach(button=>button.addEventListener("click",()=>completeDemoTask(button)));
+
  if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);});}
  else showGuest();
 })();
