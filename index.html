@@ -95,7 +95,7 @@
    auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true }
  }) : null;
  function authInputs(){
-   return {email: $("email").value.trim().toLowerCase(),password:$("password").value,fullName:$("fullName").value.trim(),username:$("username").value.trim().toLowerCase(),loginUsername:$("loginUsername").value.trim().toLowerCase()};
+   return {email: $("email").value.replace(/\s+/g,"").toLowerCase(),password:$("password").value,fullName:$("fullName").value.trim(),username:$("username").value.trim().toLowerCase(),loginUsername:$("loginUsername").value.trim().toLowerCase()};
  }
  function setAuthMode(mode){
    const signup=mode==="signup";
@@ -138,7 +138,7 @@
    if(!db){setStatus("Authentication is not configured.");return;}
    const {email,password,fullName,username}=authInputs();
    const cleanEmail=email.replace(/\s+/g,"");
-   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail) || !document.getElementById("email").checkValidity()){setStatus("Enter a valid email address.");return;}
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)){setStatus("Enter a valid email address.");return;}
    if(!fullName){setStatus("Enter your full name.");return;}
    if(!/^[a-z0-9_]{3,24}$/.test(username)){setStatus("User ID must be 3–24 characters: lowercase letters, numbers or underscore.");return;}
    if(password.length<8){setStatus("Use a password with at least 8 characters.");return;}
