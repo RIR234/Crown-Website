@@ -72,8 +72,18 @@
     <p class="muted">Illustration only. This amount is not real money and cannot be spent or withdrawn.</p>
    </section>
    <section class="overview-section">
-    <div class="currency">ACCOUNT</div><h3>Account status</h3><div class="big">Active</div><p class="muted">Your login account is active.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Sign-in</span><strong>User ID + password</strong></div><div class="detail-row"><span class="muted">Profile</span><strong>Personal account</strong></div><div class="detail-row"><span class="muted">Payment verification</span><strong>Not enabled</strong></div></div>
+    <div class="currency">PROFILE DETAILS</div><h3>My profile</h3><div class="big" id="profileDisplayName">Loading profile…</div>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Full name</span><strong id="profileFullName">—</strong></div>
+     <div class="detail-row"><span class="muted">User ID</span><strong id="profileUsername">—</strong></div>
+     <div class="detail-row"><span class="muted">Email address</span><strong id="profileEmail">—</strong></div>
+     <div class="detail-row"><span class="muted">Member since</span><strong id="profileJoined">—</strong></div>
+     <div class="detail-row"><span class="muted">Account status</span><strong>Active</strong></div>
+    </div>
+   </section>
+   <section class="overview-section">
+    <div class="currency">ACCOUNT SECURITY</div><h3>Account details</h3><p class="muted">Your Crown login and verification information.</p>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + password</strong></div><div class="detail-row"><span class="muted">Account type</span><strong>Personal account</strong></div><div class="detail-row"><span class="muted">Payment verification</span><strong>Not enabled</strong></div></div>
    </section>
    <section class="overview-section">
     <div class="currency">TRANSACTIONS</div><h3>Activity summary</h3><div class="big">0</div><p class="muted">No real transactions have been processed.</p>
@@ -181,9 +191,15 @@
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
    $("userBadge").textContent = (user.user_metadata?.username || "Loading…").toUpperCase();
    $("profileInfo").textContent = "Your Crown account is signed in. Payment functions remain disabled until approved providers and backend controls are configured.";
-   if(db) db.from("profiles").select("username").eq("id",user.id).maybeSingle().then(({data})=>{
+   if(db) db.from("profiles").select("username,full_name,created_at").eq("id",user.id).maybeSingle().then(({data})=>{
      const uid=data?.username || user.user_metadata?.username || "Not set";
-       $("userBadge").textContent = uid.toUpperCase();
+     const fullName=data?.full_name || user.user_metadata?.full_name || "Not set";
+     $("userBadge").textContent = uid.toUpperCase();
+     $("profileDisplayName").textContent = fullName;
+     $("profileFullName").textContent = fullName;
+     $("profileUsername").textContent = uid;
+     $("profileEmail").textContent = user.email || "Not available";
+     $("profileJoined").textContent = data?.created_at ? new Date(data.created_at).toLocaleDateString() : new Date(user.created_at).toLocaleDateString();
      $("setupUsernameCard").classList.toggle("hidden", !!data?.username);
      if(data?.username) $("newUsername").value=data.username;
    });
