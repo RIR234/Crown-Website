@@ -94,9 +94,20 @@
  <div id="walletPanel" class="tab-panel hidden">
   <div class="section-head"><div><div class="eyebrow">Wallet center</div><h2>Wallet</h2><p class="muted" style="margin:4px 0 0">BDT services and EVM testnet wallet.</p></div><span class="pill">Limited mode</span></div>
   <div class="grid">
-   <article class="card"><div class="currency">BDT · FIAT</div><h3>BDT Wallet</h3><div class="big">৳0.00</div><p class="muted">Deposit and withdrawal are unavailable until an authorised payment provider is connected and approvals are verified.</p><span class="tag">Provider not connected</span><span class="tag">No real funds</span></article>
-   <article class="card"><div class="currency">WITHDRAWAL FLOW</div><h3>Admin approval</h3><p class="muted">Planned process: customer submits request → Admin reviews → Approve or Reject → provider processes approved payout.</p><div class="pill">Workflow preview only</div><p class="muted" style="margin-top:10px">No real withdrawal request is submitted or stored yet.</p></article>
+   <article class="card"><div class="currency">BDT · FIAT WALLET</div><h3>BDT Balance</h3><div class="big">৳0.00</div><p class="muted">Your BDT wallet balance will appear here when an authorised provider and secure ledger are connected.</p><span class="tag">Demo balance</span></article>
+   <article class="card"><div class="currency">USDT · CRYPTO WALLET</div><h3>USDT Balance</h3><div class="big">0.00 USDT</div><p class="muted">No real crypto balance is connected. Only the EVM testnet address can currently be viewed.</p><span class="tag">Demo balance</span></article>
+   <article class="card"><div class="currency">WALLET CONTROLS</div><h3>Deposit & Withdraw</h3><p class="muted">Deposit funds into your Crown wallet or request a withdrawal of your available balance.</p><div class="actions"><button class="btn" disabled title="Available after provider approval">Deposit</button><button class="btn secondary" disabled title="Available after provider approval">Withdraw</button></div><span class="tag">Not active yet</span></article>
   </div>
+  <div class="section-head"><div><div class="eyebrow">Wallet records</div><h2>Transaction History</h2><p class="muted" style="margin:4px 0 0">Deposits, withdrawals, purchases and transfers will be listed here.</p></div></div>
+  <article class="card">
+   <h3>Recent transactions</h3>
+   <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;text-align:left;margin-top:12px;font-size:13px"><thead><tr style="color:var(--muted);border-bottom:1px solid var(--line)"><th style="padding:10px 6px">Type</th><th style="padding:10px 6px">Date</th><th style="padding:10px 6px">Amount</th><th style="padding:10px 6px">Status</th></tr></thead><tbody><tr><td colspan="4" style="padding:18px 6px;text-align:center;color:var(--muted)">No transactions yet. Your wallet activity will appear here.</td></tr></tbody></table></div>
+   <span class="tag">History preview</span><span class="tag">No real transactions</span>
+  </article>
+  <div class="section-head"><div><div class="eyebrow">Withdrawal controls</div><h2>Withdrawal Approval</h2></div></div>
+  <article class="card">
+   <h3>Admin approval process</h3><p class="muted">Planned process: customer submits request → Admin reviews → Approve or Reject → authorised provider processes approved payout.</p><div class="pill">Workflow preview only</div><p class="muted" style="margin-top:10px">No real withdrawal request is submitted or stored yet.</p>
+  </article>
   <article class="card" style="margin-top:14px">
    <div class="currency">EVM · TESTNET ONLY</div><h3>Connect crypto wallet</h3>
    <p class="muted">Connect MetaMask or another EVM-compatible wallet to view its public address on Sepolia testnet. Crown will not request your seed phrase, private key, token approval, signature, or transaction.</p>
