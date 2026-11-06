@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#0b1220;--panel:#121d30;--panel2:#17243a;--line:#293750;--gold:#e8bd68;--text:#f5f7fb;--muted:#9eacc2;--green:#55d6a0;--red:#ff8585}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -10%,#263a58 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0}.wrap{max-width:1180px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0 24px}.brand{display:flex;align-items:center;gap:11px;font-size:23px;font-weight:800;letter-spacing:.08em}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#f4d28b,#b98536);display:grid;place-items:center;color:#182235;font-weight:900;font-size:24px}.top-right{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);border-radius:99px;padding:7px 12px;color:var(--muted);font-size:12px}.btn{border-radius:12px;padding:11px 16px;font-weight:700;background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.btn.secondary{background:#1d2b42;color:var(--text);border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:not-allowed}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin:12px 0 22px}.hero-main,.card{background:linear-gradient(145deg,rgba(26,41,64,.96),rgba(16,27,44,.96));border:1px solid var(--line);border-radius:22px;padding:25px}.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.08;margin:12px 0}.hero p,.muted{color:var(--muted)}.hero-art{min-height:245px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(10,18,32,.1),rgba(10,18,32,.7)),url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80') center/cover,linear-gradient(135deg,#344760,#111b2c);display:flex;align-items:end;padding:20px}.art-label{background:#0b1220c9;border:1px solid #ffffff30;border-radius:14px;padding:12px 15px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:28px 0 13px}.section-head h2{margin:0;font-size:21px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.tab-panel .card{padding:24px}.overview-single{display:block;padding:28px}.overview-section{padding:8px 0 24px;margin-bottom:22px;border-bottom:1px solid var(--line)}.overview-section:last-child{padding-bottom:0;margin-bottom:0;border-bottom:0}.overview-section h3{font-size:21px;margin:6px 0}.overview-section .big{font-size:32px}.tab-panel .card h3{font-size:20px}.tab-panel .card p{font-size:14px;line-height:1.7}.tab-panel .big{font-size:34px}.detail-list{display:grid;gap:10px;margin-top:15px}.detail-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.detail-row:last-child{border-bottom:0}.demo-chip{display:inline-block;border:1px solid #80683b;background:#4a391d55;color:#f4d99f;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:800;letter-spacing:.08em}.card h3{margin:0 0 7px}.currency{font-size:12px;color:var(--gold);font-weight:800;letter-spacing:.1em}.big{font-size:29px;font-weight:800;margin:8px 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.notice{border:1px solid #80683b;background:#4a391d55;color:#f4d99f;padding:13px 15px;border-radius:14px;margin:18px 0;font-size:13px}.auth{max-width:460px;margin:35px auto}.auth .card{padding:25px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:var(--muted)}input,select{width:100%;background:#0c1627;border:1px solid var(--line);border-radius:11px;padding:12px;color:var(--text);outline:none}input:focus,select:focus{border-color:var(--gold)}.full{width:100%;margin-top:10px}.hidden{display:none!important}.status{min-height:22px;color:var(--gold);font-size:13px;margin-top:10px}.dash{display:grid;grid-template-columns:1fr 1fr;gap:14px}.foot{padding:30px 0;color:#71819a;font-size:12px;text-align:center}.tag{display:inline-block;border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--muted);font-size:11px;margin:3px}@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-art{min-height:180px}.grid{grid-template-columns:1fr}.dash{grid-template-columns:1fr}.wrap{padding:15px}.top{align-items:flex-start}.top-right{flex-wrap:wrap;justify-content:end}.hero-main,.card{padding:19px}}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -10%,#263a58 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0}.wrap{max-width:1180px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0 24px}.brand{display:flex;align-items:center;gap:11px;font-size:23px;font-weight:800;letter-spacing:.08em}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#f4d28b,#b98536);display:grid;place-items:center;color:#182235;font-weight:900;font-size:24px}.top-right{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);border-radius:99px;padding:7px 12px;color:var(--muted);font-size:12px}.btn{border-radius:12px;padding:11px 16px;font-weight:700;background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.btn.secondary{background:#1d2b42;color:var(--text);border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:not-allowed}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin:12px 0 22px}.hero-main,.card{background:linear-gradient(145deg,rgba(26,41,64,.96),rgba(16,27,44,.96));border:1px solid var(--line);border-radius:22px;padding:25px}.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.08;margin:12px 0}.hero p,.muted{color:var(--muted)}.hero-art{min-height:245px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(10,18,32,.1),rgba(10,18,32,.7)),url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80') center/cover,linear-gradient(135deg,#344760,#111b2c);display:flex;align-items:end;padding:20px}.art-label{background:#0b1220c9;border:1px solid #ffffff30;border-radius:14px;padding:12px 15px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:28px 0 13px}.section-head h2{margin:0;font-size:21px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.tab-panel .card{padding:24px}.overview-single{display:block;padding:28px}.overview-section{padding:8px 0 24px;margin-bottom:22px;border-bottom:1px solid var(--line)}.overview-section:last-child{padding-bottom:0;margin-bottom:0;border-bottom:0}.overview-section h3{font-size:21px;margin:6px 0}.overview-section .big{font-size:32px}.tab-panel .card h3{font-size:20px}.tab-panel .card p{font-size:14px;line-height:1.7}.task-card{overflow:hidden}.product-image{display:block;width:100%;height:190px;object-fit:cover;border-radius:14px;margin-bottom:18px;background:#0c1627}.task-card .btn{margin-top:16px}.tab-panel .big{font-size:34px}.detail-list{display:grid;gap:10px;margin-top:15px}.detail-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.detail-row:last-child{border-bottom:0}.demo-chip{display:inline-block;border:1px solid #80683b;background:#4a391d55;color:#f4d99f;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:800;letter-spacing:.08em}.card h3{margin:0 0 7px}.currency{font-size:12px;color:var(--gold);font-weight:800;letter-spacing:.1em}.big{font-size:29px;font-weight:800;margin:8px 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.notice{border:1px solid #80683b;background:#4a391d55;color:#f4d99f;padding:13px 15px;border-radius:14px;margin:18px 0;font-size:13px}.auth{max-width:460px;margin:35px auto}.auth .card{padding:25px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:var(--muted)}input,select{width:100%;background:#0c1627;border:1px solid var(--line);border-radius:11px;padding:12px;color:var(--text);outline:none}input:focus,select:focus{border-color:var(--gold)}.full{width:100%;margin-top:10px}.hidden{display:none!important}.status{min-height:22px;color:var(--gold);font-size:13px;margin-top:10px}.dash{display:grid;grid-template-columns:1fr 1fr;gap:14px}.foot{padding:30px 0;color:#71819a;font-size:12px;text-align:center}.tag{display:inline-block;border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--muted);font-size:11px;margin:3px}@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-art{min-height:180px}.grid{grid-template-columns:1fr}.dash{grid-template-columns:1fr}.wrap{padding:15px}.top{align-items:flex-start}.top-right{flex-wrap:wrap;justify-content:end}.hero-main,.card{padding:19px}}
  .dash-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0 22px;padding:7px;background:#111d30;border:1px solid var(--line);border-radius:16px}.dash-tab{background:transparent;color:var(--muted);border:1px solid transparent;border-radius:11px;padding:12px 6px;font-weight:700}.dash-tab.active{background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.dash-tab span{margin-left:5px}.tab-panel{min-height:260px}</style>
 </head>
 <body>
@@ -99,37 +99,43 @@
  </div>
 
  <div id="workPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0">Choose a product pre-booking task and review its value and estimated profit.</p></div><span class="pill">Task list</span></div>
-  <div class="notice"><strong>Demo task board:</strong> Product values and profits below are sample figures for preview only. No real product is reserved, no payment is collected, and no profit or payout is guaranteed.</div>
+  <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0">Browse products, check their value and estimated profit, then select an order preview.</p></div><span class="pill">Task list</span></div>
+  <div class="notice"><strong>Demo task board:</strong> Product values and profits are sample figures. Order buttons only create a local preview selection; no real product is reserved, no payment is collected, and no profit or payout is guaranteed.</div>
   <div class="grid">
-   <article class="card">
+   <article class="card task-card">
+    <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Wireless earbuds product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Wireless Earbuds</h3>
     <p class="muted">Pre-book this product before its next stock release.</p>
     <div class="detail-list">
      <div class="detail-row"><span class="muted">Product value</span><strong>৳2,000</strong></div>
      <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳250</strong></div>
-     <div class="detail-row"><span class="muted">Task status</span><strong>Demo · Not active</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
+    <button class="btn full" type="button" data-demo-order>Order product</button>
     <span class="tag">Sample only</span>
    </article>
-   <article class="card">
+   <article class="card task-card">
+    <img class="product-image" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85" alt="Smart watch product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Smart Watch</h3>
     <p class="muted">Pre-book this product for the upcoming product batch.</p>
     <div class="detail-list">
      <div class="detail-row"><span class="muted">Product value</span><strong>৳3,500</strong></div>
      <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳420</strong></div>
-     <div class="detail-row"><span class="muted">Task status</span><strong>Demo · Not active</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
+    <button class="btn full" type="button" data-demo-order>Order product</button>
     <span class="tag">Sample only</span>
    </article>
-   <article class="card">
+   <article class="card task-card">
+    <img class="product-image" src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85" alt="Bluetooth speaker product" loading="lazy">
     <div class="currency">PRE-BOOKING TASK · SAMPLE</div><h3>Bluetooth Speaker</h3>
     <p class="muted">Pre-book this product in a sample task listing.</p>
     <div class="detail-list">
      <div class="detail-row"><span class="muted">Product value</span><strong>৳1,800</strong></div>
      <div class="detail-row"><span class="muted">Estimated profit</span><strong style="color:var(--green)">৳210</strong></div>
-     <div class="detail-row"><span class="muted">Task status</span><strong>Demo · Not active</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
+    <button class="btn full" type="button" data-demo-order>Order product</button>
     <span class="tag">Sample only</span>
    </article>
   </div>
@@ -328,6 +334,14 @@
  });
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
+ document.querySelectorAll("[data-demo-order]").forEach(button=>button.addEventListener("click",()=>{
+   const card=button.closest(".task-card");
+   const status=card?.querySelector("[data-order-status]");
+   if(status)status.textContent="Selected · Demo preview";
+   button.textContent="Selected (Demo)";
+   button.disabled=true;
+   button.classList.add("secondary");
+ }));
  if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);});}
  else showGuest();
 })();
