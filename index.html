@@ -92,13 +92,20 @@
  </div>
 
  <div id="walletPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Your funds</div><h2>Wallet</h2></div><span class="pill">Not connected</span></div>
+  <div class="section-head"><div><div class="eyebrow">Wallet center</div><h2>Wallet</h2><p class="muted" style="margin:4px 0 0">BDT services and EVM testnet wallet.</p></div><span class="pill">Limited mode</span></div>
   <div class="grid">
-   <article class="card"><div class="currency">BDT</div><h3>Money In</h3><p class="muted">Deposit flow is not connected yet.</p><button class="btn secondary full" data-demo>Deposit setup status</button></article>
-   <article class="card"><div class="currency">BDT</div><h3>Money Out</h3><p class="muted">Payout flow is not connected yet.</p><button class="btn secondary full" data-demo>Withdrawal setup status</button></article>
-   <article class="card"><div class="currency">USDT</div><h3>Crypto wallet</h3><p class="muted">No wallet address or transfer is enabled.</p><button class="btn secondary full" data-demo>USDT integration status</button></article>
+   <article class="card"><div class="currency">BDT · FIAT</div><h3>BDT Wallet</h3><div class="big">৳0.00</div><p class="muted">Deposit and withdrawal are unavailable until an authorised payment provider is connected and approvals are verified.</p><span class="tag">Provider not connected</span><span class="tag">No real funds</span></article>
+   <article class="card"><div class="currency">WITHDRAWAL FLOW</div><h3>Admin approval</h3><p class="muted">Planned process: customer submits request → Admin reviews → Approve or Reject → provider processes approved payout.</p><div class="pill">Workflow preview only</div><p class="muted" style="margin-top:10px">No real withdrawal request is submitted or stored yet.</p></article>
   </div>
-  <div class="notice"><strong>Important:</strong> Do not send money or crypto to anyone claiming Crown deposits or withdrawals are active. Provider and legal approvals are required first.</div>
+  <article class="card" style="margin-top:14px">
+   <div class="currency">EVM · TESTNET ONLY</div><h3>Connect crypto wallet</h3>
+   <p class="muted">Connect MetaMask or another EVM-compatible wallet to view its public address on Sepolia testnet. Crown will not request your seed phrase, private key, token approval, signature, or transaction.</p>
+   <div class="actions"><button class="btn" id="connectEvm">Connect EVM Wallet</button><button class="btn secondary hidden" id="disconnectEvm">Disconnect view</button></div>
+   <div id="evmWalletInfo" class="notice hidden" style="margin-top:14px;overflow-wrap:anywhere"></div>
+   <div id="evmWalletStatus" class="status" role="status" aria-live="polite"></div>
+   <span class="tag">Sepolia testnet</span><span class="tag">Read-only connection</span><span class="tag">No real USDT</span>
+  </article>
+  <div class="notice"><strong>Important:</strong> This wallet screen is not a live payment service. BDT payments require an authorised provider and applicable approvals. Crypto transfers remain disabled; use only testnet for wallet connection testing.</div>
  </div>
 
  <div id="settingsPanel" class="tab-panel hidden">
@@ -157,6 +164,47 @@
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
  function updateBalanceCurrency(){const currency=$("balanceCurrency")?.value||"BDT";const label=currency==="USDT"?"$0.00 USDT":"৳0.00 BDT";$("mainBalance").textContent=label;$("balanceBadge").textContent="Balance: "+(currency==="USDT"?"0.00 USDT":"৳0.00 BDT");}
  $("balanceCurrency")?.addEventListener("change",updateBalanceCurrency);
+ const EVM_TEST_CHAIN_ID="0xaa36a7";
+ function shortAddress(address){return address?address.slice(0,6)+"…"+address.slice(-4):"";}
+ async function connectEvmWallet(){
+   const status=$("evmWalletStatus"),info=$("evmWalletInfo");
+   if(!window.ethereum){status.textContent="No EVM wallet found. Install MetaMask or open Crown in a compatible wallet browser.";return;}
+   $("connectEvm").disabled=true;status.textContent="Connecting wallet…";
+   try{
+     const accounts=await window.ethereum.request({method:"eth_requestAccounts"});
+     if(!accounts||!accounts.length)throw new Error("No wallet account was selected.");
+     let chainId=await window.ethereum.request({method:"eth_chainId"});
+     if(chainId!==EVM_TEST_CHAIN_ID){
+       try{
+         await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:EVM_TEST_CHAIN_ID}]});
+         chainId=await window.ethereum.request({method:"eth_chainId"});
+       }catch(switchError){
+         if(switchError.code===4902)throw new Error("Add Sepolia testnet in your wallet, then connect again.");
+         throw new Error("Please switch your wallet to Sepolia testnet and try again.");
+       }
+     }
+     if(chainId!==EVM_TEST_CHAIN_ID)throw new Error("Wallet must be on Sepolia testnet.");
+     showEvmWallet(accounts[0]);
+     status.textContent="Wallet connected in read-only testnet mode.";
+   }catch(error){status.textContent=error.message||"Wallet connection failed.";}
+   finally{$("connectEvm").disabled=false;}
+ }
+ function showEvmWallet(address){
+   $("evmWalletInfo").classList.remove("hidden");
+   $("evmWalletInfo").textContent="Connected address: "+address+" · Network: Sepolia testnet";
+   $("connectEvm").classList.add("hidden");$("disconnectEvm").classList.remove("hidden");
+ }
+ function clearEvmWallet(){
+   $("evmWalletInfo").classList.add("hidden");$("evmWalletInfo").textContent="";
+   $("connectEvm").classList.remove("hidden");$("disconnectEvm").classList.add("hidden");
+   $("evmWalletStatus").textContent="Wallet view disconnected. To revoke site permissions, use your wallet settings.";
+ }
+ $("connectEvm").addEventListener("click",connectEvmWallet);
+ $("disconnectEvm").addEventListener("click",clearEvmWallet);
+ if(window.ethereum){
+   window.ethereum.on?.("accountsChanged",accounts=>{if(accounts&&accounts.length)showEvmWallet(accounts[0]);else clearEvmWallet();});
+   window.ethereum.on?.("chainChanged",chainId=>{if(chainId!==EVM_TEST_CHAIN_ID){clearEvmWallet();$("evmWalletStatus").textContent="Network changed. Crown connection is limited to Sepolia testnet."; }});
+ }
  $("loginTop").addEventListener("click",showAuth);
  $("getStarted").addEventListener("click",showAuth);
  $("switchToSignUp").addEventListener("click",()=>setAuthMode("signup"));
