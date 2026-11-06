@@ -58,7 +58,7 @@
  <nav class="dash-tabs" aria-label="Dashboard navigation">
   <button class="dash-tab active" data-tab="homePanel">⌂ <span>Home</span></button>
   <button class="dash-tab" data-tab="workPanel">▤ <span>Work</span></button>
-  <button class="dash-tab" data-tab="walletPanel">◈ <span>Wallet</span></button>
+  <button class="dash-tab" data-tab="levelPanel">♛ <span>Level</span></button>
   <button class="dash-tab" data-tab="settingsPanel">⚙ <span>Settings</span></button>
  </nav>
 
@@ -141,42 +141,16 @@
   </div>
  </div>
 
- <div id="walletPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Wallet center</div><h2>Wallet</h2><p class="muted" style="margin:4px 0 0">Manage your wallet connections and activity.</p></div><span class="pill">Limited mode</span></div>
-  <nav class="dash-tabs" aria-label="Wallet menu" style="grid-template-columns:repeat(4,1fr);margin-top:0">
-   <button class="dash-tab active" data-wallet-tab="walletConnectPanel">Connect</button>
-   <button class="dash-tab" data-wallet-tab="walletDepositPanel">Deposit</button>
-   <button class="dash-tab" data-wallet-tab="walletWithdrawPanel">Withdraw</button>
-   <button class="dash-tab" data-wallet-tab="walletHistoryPanel">History</button>
-  </nav>
-  <div id="walletConnectPanel" class="wallet-subpanel">
-   <div class="grid">
-    <article class="card"><div class="currency">BDT · FIAT WALLET</div><h3>BDT Balance</h3><div class="big">৳25,000.00</div><span class="demo-chip">SAMPLE DEMO BALANCE</span><p class="muted">Sample amount only — no real BDT is held in this wallet.</p><div class="detail-list"><div class="detail-row"><span class="muted">Available demo amount</span><strong>৳25,000.00</strong></div><div class="detail-row"><span class="muted">Pending deposit</span><strong>৳0.00</strong></div><div class="detail-row"><span class="muted">Pending withdrawal</span><strong>৳0.00</strong></div></div></article>
-    <article class="card"><div class="currency">USDT · CRYPTO WALLET</div><h3>USDT Balance</h3><div class="big">150.00 USDT</div><span class="demo-chip">SAMPLE DEMO BALANCE</span><p class="muted">Sample amount only — no real USDT is held or transferred.</p><div class="detail-list"><div class="detail-row"><span class="muted">Available demo amount</span><strong>150.00 USDT</strong></div><div class="detail-row"><span class="muted">Network</span><strong>Not connected</strong></div><div class="detail-row"><span class="muted">Pending transfer</span><strong>0.00 USDT</strong></div></div></article>
-   </div>
-   <article class="card" style="margin-top:14px">
-    <div class="currency">EVM · TESTNET ONLY</div><h3>Connect crypto wallet</h3>
-    <p class="muted">Connect MetaMask or another EVM-compatible wallet to view its public address on Sepolia testnet. Crown will not request your seed phrase, private key, token approval, signature, or transaction.</p>
-    <div class="actions"><button class="btn" id="connectEvm">Connect EVM Wallet</button><button class="btn secondary hidden" id="disconnectEvm">Disconnect view</button></div>
-    <div id="evmWalletInfo" class="notice hidden" style="margin-top:14px;overflow-wrap:anywhere"></div>
-    <div id="evmWalletStatus" class="status" role="status" aria-live="polite"></div>
-    <span class="tag">Sepolia testnet</span><span class="tag">Read-only connection</span><span class="tag">No real USDT</span>
-   </article>
+ <div id="levelPanel" class="tab-panel hidden">
+  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>Level</h2><p class="muted" style="margin:4px 0 0">Explore the five Crown membership levels.</p></div><span class="pill">5 Levels</span></div>
+  <div class="notice"><strong>Level preview:</strong> These are display-only membership tiers. No payment, investment, task completion, or guaranteed profit is required or implied. Level upgrades are not active yet.</div>
+  <div class="grid">
+   <article class="card"><div class="currency">LEVEL 01</div><h3>Bronze</h3><p class="muted">Crown entry-level membership.</p><span class="tag">Starting level</span></article>
+   <article class="card"><div class="currency">LEVEL 02</div><h3>Silver</h3><p class="muted">Second membership tier.</p><span class="tag">Coming soon</span></article>
+   <article class="card"><div class="currency">LEVEL 03</div><h3>Gold</h3><p class="muted">Third membership tier.</p><span class="tag">Coming soon</span></article>
+   <article class="card"><div class="currency">LEVEL 04</div><h3>Master</h3><p class="muted">Fourth membership tier.</p><span class="tag">Coming soon</span></article>
+   <article class="card"><div class="currency">LEVEL 05</div><h3>Expert</h3><p class="muted">Fifth membership tier.</p><span class="tag">Coming soon</span></article>
   </div>
-  <div id="walletDepositPanel" class="wallet-subpanel hidden">
-   <article class="card"><div class="currency">ADD FUNDS</div><h3>Deposit</h3><p class="muted">Add money to your Crown wallet using an authorised payment provider. This option will be enabled after business verification, required approvals and secure provider integration.</p><div class="big">৳0.00</div><button class="btn full" disabled title="Available after provider approval">Deposit funds</button><span class="tag">Not active yet</span></article>
-  </div>
-  <div id="walletWithdrawPanel" class="wallet-subpanel hidden">
-   <article class="card"><div class="currency">CASH OUT</div><h3>Withdraw</h3><p class="muted">Request withdrawal of your available wallet balance to a verified payout method. Requests will require secure checks and approval.</p><div class="big">৳0.00</div><button class="btn full" disabled title="Available after provider approval">Request withdrawal</button><p class="muted" style="margin-top:12px">No real withdrawal request can be submitted yet.</p><span class="tag">Not active yet</span></article>
-  </div>
-  <div id="walletHistoryPanel" class="wallet-subpanel hidden">
-   <article class="card"><div class="currency">WALLET RECORDS</div><h3>Transaction History</h3><p class="muted">Deposits, withdrawals and purchases will appear here.</p>
-    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;text-align:left;margin-top:12px;font-size:13px"><thead><tr style="color:var(--muted);border-bottom:1px solid var(--line)"><th style="padding:10px 6px">Type</th><th style="padding:10px 6px">Date</th><th style="padding:10px 6px">Amount</th><th style="padding:10px 6px">Status</th></tr></thead><tbody><tr><td colspan="4" style="padding:18px 6px;text-align:center;color:var(--muted)">No transactions yet.</td></tr></tbody></table></div>
-    <span class="tag">History preview</span>
-   </article>
-   <article class="card" style="margin-top:14px"><h3>Withdrawal approval</h3><p class="muted">Planned process: customer submits request → Admin reviews → Approve or Reject → authorised provider processes payout.</p><span class="pill">Workflow preview only</span></article>
-  </div>
-  <div class="notice"><strong>Important:</strong> Deposit and withdrawal are disabled until the required legal approvals, authorised provider and secure backend are in place. EVM connection is Sepolia testnet only.</div>
  </div>
 
  <div id="settingsPanel" class="tab-panel hidden">
