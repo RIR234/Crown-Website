@@ -63,13 +63,25 @@
  </nav>
 
  <div id="homePanel" class="tab-panel">
-  <div class="section-head"><div><div class="eyebrow">Account overview</div><h2>Welcome to Crown</h2></div><span class="pill">Dashboard</span></div>
+  <div class="section-head"><div><div class="eyebrow">Main dashboard</div><h2>Overview</h2><p class="muted" style="margin:4px 0 0">Your Crown account summary at a glance.</p></div><span class="pill">Home</span></div>
   <div class="grid">
-   <article class="card"><div class="currency">BDT</div><h3>Wallet balance</h3><div class="big">— BDT</div><p class="muted">Balance will appear when a verified provider is connected.</p></article>
-   <article class="card"><div class="currency">USDT</div><h3>USDT balance</h3><div class="big">— USDT</div><p class="muted">No crypto wallet or transfer is enabled.</p></article>
-   <article class="card"><div class="currency">ACCOUNT</div><h3>Account status</h3><div class="big">Active</div><p class="muted">Your Crown account is signed in.</p></article>
+   <article class="card"><div class="currency">TOTAL BALANCE · BDT</div><h3>Wallet balance</h3><div class="big">৳0.00</div><p class="muted">Demo balance · live funds are not connected.</p></article>
+   <article class="card"><div class="currency">CRYPTO · USDT</div><h3>USDT balance</h3><div class="big">0.00 USDT</div><p class="muted">Wallet not connected.</p></article>
+   <article class="card"><div class="currency">ACCOUNT</div><h3>Account status</h3><div class="big">Active</div><p class="muted">You are signed in to Crown.</p></article>
+   <article class="card"><div class="currency">TRANSACTIONS</div><h3>Activity summary</h3><div class="big">—</div><p class="muted">Transaction history is not connected yet.</p></article>
+   <article class="card"><div class="currency">WORKSPACE</div><h3>Work status</h3><div class="big">Coming soon</div><p class="muted">Merchant and work tools are not active.</p></article>
+   <article class="card"><div class="currency">WALLET</div><h3>Wallet status</h3><div class="big">Not connected</div><p class="muted">Deposit and withdrawal services are disabled.</p></article>
   </div>
-  <div class="notice">Crown is currently a starter website. No deposits, withdrawals, crypto transfers or merchant settlements are processed.</div>
+  <div class="section-head"><div><div class="eyebrow">Shortcuts</div><h2>Quick access</h2></div></div>
+  <div class="card">
+   <p class="muted">Go directly to the section you need.</p>
+   <div class="actions">
+    <button class="btn secondary" data-open-tab="workPanel">Open Work</button>
+    <button class="btn secondary" data-open-tab="walletPanel">Open Wallet</button>
+    <button class="btn secondary" data-open-tab="settingsPanel">Account Settings</button>
+   </div>
+  </div>
+  <div class="notice"><strong>Demo notice:</strong> This overview shows interface placeholders only. Crown is not processing deposits, withdrawals, crypto transfers, or merchant settlements.</div>
  </div>
 
  <div id="workPanel" class="tab-panel hidden">
@@ -143,6 +155,7 @@
  }
  function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  document.querySelectorAll(".dash-tab").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));}));
+ document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
  $("loginTop").addEventListener("click",showAuth);
  $("getStarted").addEventListener("click",showAuth);
  $("switchToSignUp").addEventListener("click",()=>setAuthMode("signup"));
