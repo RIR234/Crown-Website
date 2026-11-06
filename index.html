@@ -66,6 +66,13 @@
   <article class="card"><h3>Security</h3><p class="muted">Email and password sign-in is enabled through Supabase Auth. Payment actions must be implemented server-side and never trusted to this browser page.</p><span class="tag">No secret keys in browser</span></article>
  </div>
  <div class="card" style="margin-top:14px">
+  <h3>Set your User ID</h3>
+  <p class="muted">Existing accounts must choose a unique User ID once before using User ID login.</p>
+  <div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div>
+  <button class="btn full" id="saveUsername">Save User ID</button>
+  <div id="usernameStatus" class="status" role="status" aria-live="polite"></div>
+ </div>
+ <div class="card" style="margin-top:14px">
   <h3>Set your password</h3>
   <p class="muted">Set a password once while signed in with your email link. After that, use email and password for future logins.</p>
   <div class="field"><label for="newPassword">New password (at least 8 characters)</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="Create a password"></div>
@@ -142,6 +149,18 @@
      else setStatus("Account created. Check your email to confirm, then log in with your User ID and password.");
    }catch(e){setStatus(e.message||"Account creation failed.");}
    finally{$("passwordSignUp").disabled=false;}
+ });
+ $("saveUsername").addEventListener("click",async()=>{
+   const username=$("newUsername").value.trim().toLowerCase();
+   const {data:{user}}=await db.auth.getUser();
+   if(!/^[a-z0-9_]{3,24}$/.test(username)){$("usernameStatus").textContent="User ID must be 3–24 lowercase letters, numbers or underscore.";return;}
+   $("saveUsername").disabled=true;$("usernameStatus").textContent="Saving User ID…";
+   try{
+     const {error}=await db.from("profiles").update({username}).eq("id",user.id);
+     if(error)throw error;
+     $("usernameStatus").textContent="User ID saved. You can now log in with this User ID and your password.";
+   }catch(e){$("usernameStatus").textContent=e.code==="23505"?"This User ID is already taken. Choose another.":(e.message||"Could not save User ID.");}
+   finally{$("saveUsername").disabled=false;}
  });
  $("savePassword").addEventListener("click",async()=>{
    const password=$("newPassword").value;
