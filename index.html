@@ -9,7 +9,7 @@
 <style>
 :root{--bg:#0b1220;--panel:#121d30;--panel2:#17243a;--line:#293750;--gold:#e8bd68;--text:#f5f7fb;--muted:#9eacc2;--green:#55d6a0;--red:#ff8585}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -10%,#263a58 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0}.wrap{max-width:1180px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0 24px}.brand{display:flex;align-items:center;gap:11px;font-size:23px;font-weight:800;letter-spacing:.08em}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#f4d28b,#b98536);display:grid;place-items:center;color:#182235;font-weight:900;font-size:24px}.top-right{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);border-radius:99px;padding:7px 12px;color:var(--muted);font-size:12px}.btn{border-radius:12px;padding:11px 16px;font-weight:700;background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.btn.secondary{background:#1d2b42;color:var(--text);border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:not-allowed}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin:12px 0 22px}.hero-main,.card{background:linear-gradient(145deg,rgba(26,41,64,.96),rgba(16,27,44,.96));border:1px solid var(--line);border-radius:22px;padding:25px}.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.08;margin:12px 0}.hero p,.muted{color:var(--muted)}.hero-art{min-height:245px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(10,18,32,.1),rgba(10,18,32,.7)),url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80') center/cover,linear-gradient(135deg,#344760,#111b2c);display:flex;align-items:end;padding:20px}.art-label{background:#0b1220c9;border:1px solid #ffffff30;border-radius:14px;padding:12px 15px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:28px 0 13px}.section-head h2{margin:0;font-size:21px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.tab-panel .card{padding:24px}.overview-single{display:block;padding:28px}.overview-section{padding:8px 0 24px;margin-bottom:22px;border-bottom:1px solid var(--line)}.overview-section:last-child{padding-bottom:0;margin-bottom:0;border-bottom:0}.overview-section h3{font-size:21px;margin:6px 0}.overview-section .big{font-size:32px}.tab-panel .card h3{font-size:20px}.tab-panel .card p{font-size:14px;line-height:1.7}.task-card{overflow:hidden}.product-image{display:block;width:100%;height:190px;object-fit:cover;border-radius:14px;margin-bottom:18px;background:#0c1627}.task-card .btn{margin-top:16px}.tab-panel .big{font-size:34px}.detail-list{display:grid;gap:10px;margin-top:15px}.detail-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.detail-row:last-child{border-bottom:0}.demo-chip{display:inline-block;border:1px solid #80683b;background:#4a391d55;color:#f4d99f;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:800;letter-spacing:.08em}.card h3{margin:0 0 7px}.currency{font-size:12px;color:var(--gold);font-weight:800;letter-spacing:.1em}.big{font-size:29px;font-weight:800;margin:8px 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.notice{border:1px solid #80683b;background:#4a391d55;color:#f4d99f;padding:13px 15px;border-radius:14px;margin:18px 0;font-size:13px}.auth{max-width:460px;margin:35px auto}.auth .card{padding:25px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:var(--muted)}input,select{width:100%;background:#0c1627;border:1px solid var(--line);border-radius:11px;padding:12px;color:var(--text);outline:none}input:focus,select:focus{border-color:var(--gold)}.full{width:100%;margin-top:10px}.hidden{display:none!important}.status{min-height:22px;color:var(--gold);font-size:13px;margin-top:10px}.dash{display:grid;grid-template-columns:1fr 1fr;gap:14px}.foot{padding:30px 0;color:#71819a;font-size:12px;text-align:center}.tag{display:inline-block;border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--muted);font-size:11px;margin:3px}@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-art{min-height:180px}.grid{grid-template-columns:1fr}.dash{grid-template-columns:1fr}.wrap{padding:15px}.top{align-items:flex-start}.top-right{flex-wrap:wrap;justify-content:end}.hero-main,.card{padding:19px}}
- .dash-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0 22px;padding:7px;background:#111d30;border:1px solid var(--line);border-radius:16px}.dash-tab{background:transparent;color:var(--muted);border:1px solid transparent;border-radius:11px;padding:12px 6px;font-weight:700}.dash-tab.active{background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.dash-tab span{margin-left:5px}.tab-panel{min-height:260px}.settings-menu{display:grid;grid-template-columns:1fr;gap:8px;margin:14px 0}.settings-menu .dash-tab{display:flex;align-items:center;gap:13px;text-align:left;justify-content:flex-start;padding:14px 16px;background:#111d30;border:1px solid var(--line);color:var(--text)}.settings-menu .dash-tab.active{background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.settings-number{font-weight:800;min-width:26px}.connect-bottom{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}.connect-bottom .dash-tab{width:100%;text-align:left;display:flex;align-items:center;gap:13px;justify-content:flex-start;padding:15px 16px;background:#111d30;border:1px solid var(--gold);color:var(--gold)}</style>
+ .dash-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0 22px;padding:7px;background:#111d30;border:1px solid var(--line);border-radius:16px}.dash-tab{background:transparent;color:var(--muted);border:1px solid transparent;border-radius:11px;padding:12px 6px;font-weight:700}.dash-tab.active{background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.dash-tab span{margin-left:5px}.tab-panel{min-height:260px}.settings-menu{display:grid;grid-template-columns:1fr;gap:8px;margin:14px 0}.settings-menu .dash-tab{display:flex;align-items:center;gap:13px;text-align:left;justify-content:flex-start;padding:14px 16px;background:#111d30;border:1px solid var(--line);color:var(--text)}.settings-menu .dash-tab.active{background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}.settings-number{font-weight:800;min-width:26px}.settings-menu .dash-tab{width:100%}</style>
 </head>
 <body>
 <div class="wrap">
@@ -144,34 +144,23 @@
  </div>
 
  <div id="settingsPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Account controls</div><h2>Settings</h2><p class="muted" style="margin:4px 0 0">Wallet, security, profile and help options.</p></div></div>
+  <div class="section-head"><div><div class="eyebrow">Account controls</div><h2>Settings</h2><p class="muted" style="margin:4px 0 0">Manage your account, profile, security, privacy and activity settings.</p></div></div>
   <div class="settings-menu">
-   <button class="dash-tab" data-settings-tab="settingsDepositPanel"><span class="settings-number">01</span> Deposit</button>
-   <button class="dash-tab" data-settings-tab="settingsWithdrawPanel"><span class="settings-number">02</span> Withdraw</button>
-   <button class="dash-tab" data-settings-tab="settingsHistoryPanel"><span class="settings-number">03</span> History</button>
-   <button class="dash-tab" data-settings-tab="settingsSecurityPanel"><span class="settings-number">04</span> Security</button>
-   <button class="dash-tab" data-settings-tab="settingsProfilePanel"><span class="settings-number">05</span> Profile</button>
-   <button class="dash-tab" data-settings-tab="settingsCarePanel"><span class="settings-number">06</span> Customer Care</button>
+   <button class="dash-tab" data-settings-tab="settingsAccountPanel"><span class="settings-number">01</span> Account Settings</button>
+   <button class="dash-tab" data-settings-tab="settingsProfilePanel"><span class="settings-number">02</span> Profile Settings</button>
+   <button class="dash-tab" data-settings-tab="settingsSecurityPanel"><span class="settings-number">03</span> Account Security</button>
+   <button class="dash-tab" data-settings-tab="settingsHistoryPanel"><span class="settings-number">04</span> Transaction History</button>
+   <button class="dash-tab" data-settings-tab="settingsPrivacyPanel"><span class="settings-number">05</span> Privacy Settings</button>
+   <button class="dash-tab" data-settings-tab="settingsNotificationsPanel"><span class="settings-number">06</span> Notifications</button>
+   <button class="dash-tab" data-settings-tab="settingsCarePanel"><span class="settings-number">07</span> Help & Customer Care</button>
   </div>
-  <div class="connect-bottom">
-   <button class="dash-tab" id="connectPanelToggle" type="button" aria-controls="settingsConnectPanel" aria-expanded="false"><span class="settings-number">07</span> Connect EVM Wallet</button>
-  </div>
-  <section id="settingsConnectPanel" class="settings-subpanel hidden">
-   <article class="card"><h3>Connect EVM wallet</h3><p class="muted">Optional read-only connection for Sepolia testnet only. Never share your recovery phrase or private key.</p><button class="btn" id="connectEvm" type="button">Connect wallet</button><button class="btn secondary hidden" id="disconnectEvm" type="button">Disconnect view</button><p id="evmWalletInfo" class="muted hidden"></p><div id="evmWalletStatus" class="status" role="status" aria-live="polite"></div><span class="tag">Sepolia testnet · Read only</span></article>
-  </section>
-  <section id="settingsDepositPanel" class="settings-subpanel hidden"><article class="card"><h3>Deposit</h3><p class="muted">Deposits are not available. A licensed payment provider, required legal approvals and secure server-side integration are needed before real deposits can be enabled.</p><button class="btn secondary" type="button" disabled>Deposit unavailable</button></article></section>
-  <section id="settingsWithdrawPanel" class="settings-subpanel hidden"><article class="card"><h3>Withdraw</h3><p class="muted">Withdrawals are not available. Crown does not hold real funds and no payout can be requested.</p><button class="btn secondary" type="button" disabled>Withdraw unavailable</button></article></section>
-  <section id="settingsHistoryPanel" class="settings-subpanel hidden"><article class="card"><h3>Wallet history</h3><p class="muted">No wallet transactions are recorded. This demo does not process deposits, withdrawals or transfers.</p><span class="tag">No transactions</span></article></section>
-  <section id="settingsSecurityPanel" class="settings-subpanel hidden">
-   <article class="card"><h3>Account security</h3><p class="muted">Your account uses Supabase email authentication and User ID login. Keep your password private and never share verification links or codes.</p><div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Password protection</span><strong>Enabled by auth provider</strong></div></div><span class="tag">Never share your password</span><span class="tag">No secret keys in browser</span></article>
-  </section>
-  <section id="settingsProfilePanel" class="settings-subpanel hidden">
-   <article class="card"><h3>Profile settings</h3><p class="muted">Your saved account information.</p><div class="detail-list"><div class="detail-row"><span class="muted">Full name</span><strong id="settingsFullName">—</strong></div><div class="detail-row"><span class="muted">User ID</span><strong id="settingsUsername">—</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="settingsEmail">—</strong></div></div></article>
-   <div class="card" id="setupUsernameCard" style="margin-top:14px"><h3>Set your User ID</h3><p class="muted">Choose a unique User ID once before using User ID login.</p><div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div><button class="btn full" id="saveUsername">Save User ID</button><div id="usernameStatus" class="status" role="status" aria-live="polite"></div></div>
-  </section>
-  <section id="settingsCarePanel" class="settings-subpanel hidden">
-   <article class="card"><h3>Customer Care</h3><p class="muted">Need help with your Crown account? Customer support contact details are not configured yet.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account help</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Technical support</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Response status</span><strong>Not available yet</strong></div></div><span class="tag">Support channel pending setup</span></article>
-  </section>
+  <section id="settingsAccountPanel" class="settings-subpanel hidden"><article class="card"><h3>Account settings</h3><p class="muted">Manage your Crown account information and sign-in preferences.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account status</span><strong>Active</strong></div><div class="detail-row"><span class="muted">Login method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="accountSettingsEmail">—</strong></div><div class="detail-row"><span class="muted">Member since</span><strong id="accountSettingsJoined">—</strong></div></div></article></section>
+  <section id="settingsProfilePanel" class="settings-subpanel hidden"><article class="card"><h3>Profile settings</h3><p class="muted">Your saved account information.</p><div class="detail-list"><div class="detail-row"><span class="muted">Full name</span><strong id="settingsFullName">—</strong></div><div class="detail-row"><span class="muted">User ID</span><strong id="settingsUsername">—</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="settingsEmail">—</strong></div></div></article><div class="card" id="setupUsernameCard" style="margin-top:14px"><h3>Set your User ID</h3><p class="muted">Choose a unique User ID once before using User ID login.</p><div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div><button class="btn full" id="saveUsername">Save User ID</button><div id="usernameStatus" class="status" role="status" aria-live="polite"></div></div></section>
+  <section id="settingsSecurityPanel" class="settings-subpanel hidden"><article class="card"><h3>Account security</h3><p class="muted">Keep your account secure. Never share your password, email verification links or security codes.</p><div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Password protection</span><strong>Enabled by auth provider</strong></div><div class="detail-row"><span class="muted">Session</span><strong>Managed securely by Supabase</strong></div></div><span class="tag">Never share your password</span><span class="tag">No secret keys in browser</span></article></section>
+  <section id="settingsHistoryPanel" class="settings-subpanel hidden"><article class="card"><h3>Transaction history</h3><p class="muted">Your transaction history will appear here when approved payment services are enabled. No real transactions have been processed.</p><div class="detail-list"><div class="detail-row"><span class="muted">Deposits</span><strong>0</strong></div><div class="detail-row"><span class="muted">Withdrawals</span><strong>0</strong></div><div class="detail-row"><span class="muted">Purchases</span><strong>0</strong></div></div><span class="tag">No transactions</span></article></section>
+  <section id="settingsPrivacyPanel" class="settings-subpanel hidden"><article class="card"><h3>Privacy settings</h3><p class="muted">Crown only displays the account details needed for this demo. Do not share private account information with anyone.</p><div class="detail-list"><div class="detail-row"><span class="muted">Profile visibility</span><strong>Private</strong></div><div class="detail-row"><span class="muted">Data controls</span><strong>Contact support</strong></div></div></article></section>
+  <section id="settingsNotificationsPanel" class="settings-subpanel hidden"><article class="card"><h3>Notifications</h3><p class="muted">Account and transaction notifications will be available after notification services are configured.</p><div class="detail-list"><div class="detail-row"><span class="muted">Email notifications</span><strong>Not configured</strong></div><div class="detail-row"><span class="muted">Security alerts</span><strong>Auth provider emails</strong></div></div></article></section>
+  <section id="settingsCarePanel" class="settings-subpanel hidden"><article class="card"><h3>Help & Customer Care</h3><p class="muted">Need help with your Crown account? Customer support contact details are not configured yet.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account help</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Technical support</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Response status</span><strong>Not available yet</strong></div></div><span class="tag">Support channel pending setup</span></article></section>
   <div class="notice" id="profileInfo">Signed in. Payment functions remain disabled until approved providers and backend controls are configured.</div>
  </div>
 </section>
@@ -217,6 +206,8 @@
      $("settingsFullName").textContent = fullName;
      $("settingsUsername").textContent = uid;
      $("settingsEmail").textContent = user.email || "Not available";
+     $("accountSettingsEmail").textContent = user.email || "Not available";
+     $("accountSettingsJoined").textContent = data?.created_at ? new Date(data.created_at).toLocaleDateString() : new Date(user.created_at).toLocaleDateString();
      $("profileJoined").textContent = data?.created_at ? new Date(data.created_at).toLocaleDateString() : new Date(user.created_at).toLocaleDateString();
      $("setupUsernameCard").classList.toggle("hidden", !!data?.username);
      if(data?.username) $("newUsername").value=data.username;
@@ -225,50 +216,7 @@
  function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  document.querySelectorAll(".dash-tab[data-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
- document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-settings-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".settings-subpanel:not(#settingsConnectPanel)").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.settingsTab));}));
- const connectPanelToggle=document.getElementById("connectPanelToggle");
-  connectPanelToggle?.addEventListener("click",()=>{const panel=document.getElementById("settingsConnectPanel");const opening=panel?.classList.contains("hidden");panel?.classList.toggle("hidden",!opening);connectPanelToggle.classList.toggle("active",!!opening);connectPanelToggle.setAttribute("aria-expanded",String(!!opening));});
- const EVM_TEST_CHAIN_ID="0xaa36a7";
- function shortAddress(address){return address?address.slice(0,6)+"…"+address.slice(-4):"";}
- async function connectEvmWallet(){
-   const status=$("evmWalletStatus"),info=$("evmWalletInfo");
-   if(!window.ethereum){status.textContent="No EVM wallet found. Install MetaMask or open Crown in a compatible wallet browser.";return;}
-   $("connectEvm").disabled=true;status.textContent="Connecting wallet…";
-   try{
-     const accounts=await window.ethereum.request({method:"eth_requestAccounts"});
-     if(!accounts||!accounts.length)throw new Error("No wallet account was selected.");
-     let chainId=await window.ethereum.request({method:"eth_chainId"});
-     if(chainId!==EVM_TEST_CHAIN_ID){
-       try{
-         await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:EVM_TEST_CHAIN_ID}]});
-         chainId=await window.ethereum.request({method:"eth_chainId"});
-       }catch(switchError){
-         if(switchError.code===4902)throw new Error("Add Sepolia testnet in your wallet, then connect again.");
-         throw new Error("Please switch your wallet to Sepolia testnet and try again.");
-       }
-     }
-     if(chainId!==EVM_TEST_CHAIN_ID)throw new Error("Wallet must be on Sepolia testnet.");
-     showEvmWallet(accounts[0]);
-     status.textContent="Wallet connected in read-only testnet mode.";
-   }catch(error){status.textContent=error.message||"Wallet connection failed.";}
-   finally{$("connectEvm").disabled=false;}
- }
- function showEvmWallet(address){
-   $("evmWalletInfo").classList.remove("hidden");
-   $("evmWalletInfo").textContent="Connected address: "+address+" · Network: Sepolia testnet";
-   $("connectEvm").classList.add("hidden");$("disconnectEvm").classList.remove("hidden");
- }
- function clearEvmWallet(){
-   $("evmWalletInfo").classList.add("hidden");$("evmWalletInfo").textContent="";
-   $("connectEvm").classList.remove("hidden");$("disconnectEvm").classList.add("hidden");
-   $("evmWalletStatus").textContent="Wallet view disconnected. To revoke site permissions, use your wallet settings.";
- }
- $("connectEvm").addEventListener("click",connectEvmWallet);
- $("disconnectEvm").addEventListener("click",clearEvmWallet);
- if(window.ethereum){
-   window.ethereum.on?.("accountsChanged",accounts=>{if(accounts&&accounts.length)showEvmWallet(accounts[0]);else clearEvmWallet();});
-   window.ethereum.on?.("chainChanged",chainId=>{if(chainId!==EVM_TEST_CHAIN_ID){clearEvmWallet();$("evmWalletStatus").textContent="Network changed. Crown connection is limited to Sepolia testnet."; }});
- }
+ document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-settings-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".settings-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.settingsTab));}));
  $("loginTop").addEventListener("click",showAuth);
  $("getStarted").addEventListener("click",showAuth);
  $("switchToSignUp").addEventListener("click",()=>setAuthMode("signup"));
