@@ -132,11 +132,11 @@
  function showDashboard(user){
    $("publicHome").classList.add("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
-   $("userBadge").textContent = "UID: " + (user.user_metadata?.username || "Loading…");
+   $("userBadge").textContent = user.user_metadata?.username || "Loading…";
    $("profileInfo").textContent = "Your Crown account is signed in. Payment functions remain disabled until approved providers and backend controls are configured.";
    if(db) db.from("profiles").select("username").eq("id",user.id).maybeSingle().then(({data})=>{
      const uid=data?.username || user.user_metadata?.username || "Not set";
-     $("userBadge").textContent = "UID: " + uid;
+       $("userBadge").textContent = uid;
      $("setupUsernameCard").classList.toggle("hidden", !!data?.username);
      if(data?.username) $("newUsername").value=data.username;
    });
