@@ -344,24 +344,23 @@
      button.classList.toggle("secondary",completed);
    });
    const completedByLeague=leagueNames.map((_,i)=>[i*2,i*2+1].filter(n=>done.includes(n)).length);
-   let current=completedByLeague.findIndex((count,i)=>count<2);
-   if(current<0)current=4;
    document.querySelectorAll("[data-league-index]").forEach(card=>{
      const i=Number(card.dataset.leagueIndex);
      const status=card.querySelector(".league-status");
      const icon=card.querySelector(".league-lock");
-     const unlocked=i<=current;
      const complete=completedByLeague[i]===2;
-     card.classList.toggle("locked",!unlocked);
-     if(status)status.textContent=complete?"COMPLETED":(unlocked?"CURRENT LEAGUE":"LOCKED");
-     if(icon)icon.textContent=complete?"✓":(unlocked?"●":"🔒");
+     card.classList.remove("locked");
+     if(status)status.textContent=complete?"TASKS COMPLETED":"OPEN · WORK ANYTIME";
+     if(icon)icon.textContent=complete?"✓":"●";
    });
-   const count=completedByLeague[current]||0;
+   const current=completedByLeague.findIndex(count=>count<2);
+   const active=current<0?4:current;
+   const count=completedByLeague[active]||0;
    const title=document.getElementById("leagueCurrentTitle");
    const text=document.getElementById("leagueProgressText");
    const fill=document.getElementById("leagueProgressFill");
-   if(title)title.textContent=leagueNames[current]+" League";
-   if(text)text.textContent=count+" of 2 demo tasks completed"+(current===4&&count===2?" · All demo leagues completed":"");
+   if(title)title.textContent=leagueNames[active]+" League";
+   if(text)text.textContent=count+" of 2 demo tasks completed · All leagues are open";
    if(fill)fill.style.width=(count/2*100)+"%";
  }
  function completeDemoTask(button){
@@ -371,9 +370,6 @@
    if(index<0)return;
    const done=readDemoTasks();
    if(done.includes(index))return;
-   const leagueIndex=Math.floor(index/2);
-   const allowed=leagueIndex===0||done.includes((leagueIndex-1)*2)&&done.includes((leagueIndex-1)*2+1);
-   if(!allowed){alert("Complete both tasks in the previous league first.");return;}
    done.push(index);
    localStorage.setItem("crown_demo_tasks_"+currentUserId,JSON.stringify(done));
    renderLeagueProgress();
