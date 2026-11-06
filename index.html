@@ -65,8 +65,7 @@
  <div id="homePanel" class="tab-panel">
   <div class="section-head"><div><div class="eyebrow">Main dashboard</div><h2>Overview</h2><p class="muted" style="margin:4px 0 0">Your Crown account summary at a glance.</p></div><span class="pill">Home</span></div>
   <div class="grid">
-   <article class="card"><div class="currency">TOTAL BALANCE · BDT</div><h3>Wallet balance</h3><div class="big">৳0.00</div><p class="muted">Demo balance · live funds are not connected.</p></article>
-   <article class="card"><div class="currency">CRYPTO · USDT</div><h3>USDT balance</h3><div class="big">0.00 USDT</div><p class="muted">Wallet not connected.</p></article>
+   <article class="card"><div class="currency">TOTAL BALANCE</div><h3>Wallet balance</h3><div class="field" style="max-width:180px;margin:12px 0"><label for="balanceCurrency">Display currency</label><select id="balanceCurrency"><option value="BDT">BDT · ৳</option><option value="USDT">USDT · $</option></select></div><div class="big" id="mainBalance">৳0.00</div><p class="muted">Demo balance · live funds are not connected.</p></article>
    <article class="card"><div class="currency">ACCOUNT</div><h3>Account status</h3><div class="big">Active</div><p class="muted">You are signed in to Crown.</p></article>
    <article class="card"><div class="currency">TRANSACTIONS</div><h3>Activity summary</h3><div class="big">—</div><p class="muted">Transaction history is not connected yet.</p></article>
    <article class="card"><div class="currency">WORKSPACE</div><h3>Work status</h3><div class="big">Coming soon</div><p class="muted">Merchant and work tools are not active.</p></article>
@@ -156,6 +155,8 @@
  function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  document.querySelectorAll(".dash-tab").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
+ function updateBalanceCurrency(){const currency=$("balanceCurrency")?.value||"BDT";const label=currency==="USDT"?"$0.00 USDT":"৳0.00 BDT";$("mainBalance").textContent=label;$("balanceBadge").textContent="Balance: "+(currency==="USDT"?"0.00 USDT":"৳0.00 BDT");}
+ $("balanceCurrency")?.addEventListener("change",updateBalanceCurrency);
  $("loginTop").addEventListener("click",showAuth);
  $("getStarted").addEventListener("click",showAuth);
  $("switchToSignUp").addEventListener("click",()=>setAuthMode("signup"));
