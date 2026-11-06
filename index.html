@@ -134,7 +134,6 @@
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
    $("userBadge").textContent = user.email || "Signed in";
    $("profileInfo").textContent = "Signed in as " + (user.email || "your account") + ". Payment functions remain disabled until approved providers and backend controls are configured.";
-   $("setupPasswordCard").classList.add("hidden");
    if(db) db.from("profiles").select("username").eq("id",user.id).maybeSingle().then(({data})=>{
      $("setupUsernameCard").classList.toggle("hidden", !!data?.username);
      if(data?.username) $("newUsername").value=data.username;
@@ -190,14 +189,6 @@
      $("usernameStatus").textContent="User ID saved. You can now log in with this User ID and your password.";$("setupUsernameCard").classList.add("hidden");
    }catch(e){$("usernameStatus").textContent=e.code==="23505"?"This User ID is already taken. Choose another.":(e.message||"Could not save User ID.");}
    finally{$("saveUsername").disabled=false;}
- });
- $("savePassword").addEventListener("click",async()=>{
-   const password=$("newPassword").value;
-   if(password.length<8){$("passwordStatus").textContent="Use at least 8 characters.";return;}
-   $("savePassword").disabled=true;$("passwordStatus").textContent="Saving password…";
-   try{const {data,error}=await db.auth.updateUser({password,data:{crown_password_set:true}});if(error)throw error;$("newPassword").value="";$("passwordStatus").textContent="Password saved. Next time, sign in with your User ID and password.";$("setupPasswordCard").classList.add("hidden");}
-   catch(e){$("passwordStatus").textContent=e.message || "Could not save password.";}
-   finally{$("savePassword").disabled=false;}
  });
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
