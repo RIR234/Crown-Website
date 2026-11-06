@@ -112,7 +112,7 @@
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
    $("userBadge").textContent = user.email || "Signed in";
    $("profileInfo").textContent = "Signed in as " + (user.email || "your account") + ". Payment functions remain disabled until approved providers and backend controls are configured.";
-   $("setupPasswordCard").classList.toggle("hidden", user.user_metadata?.crown_password_set === true);
+   $("setupPasswordCard").classList.add("hidden");
    if(db) db.from("profiles").select("username").eq("id",user.id).maybeSingle().then(({data})=>{
      $("setupUsernameCard").classList.toggle("hidden", !!data?.username);
      if(data?.username) $("newUsername").value=data.username;
