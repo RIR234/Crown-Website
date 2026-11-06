@@ -53,6 +53,30 @@
  .task-card .product-image{height:155px}
  .settings-menu{grid-template-columns:1fr}
 }
+
+/* Premium league cards */
+.league-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.league-card{position:relative;overflow:hidden;min-width:0;min-height:185px;padding:17px;border-radius:19px;border:1px solid #ffffff24;background:linear-gradient(145deg,#24344c,#111b2c);box-shadow:0 10px 26px #0005}
+.league-card:before{content:"";position:absolute;width:150px;height:150px;right:-55px;top:-65px;border-radius:50%;background:var(--league-glow);filter:blur(5px);opacity:.26}
+.league-card:after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--league-accent)}
+.league-top,.league-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.league-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:var(--league-tint);color:var(--league-accent);font-size:23px;border:1px solid var(--league-border)}
+.league-number{font-size:10px;font-weight:900;letter-spacing:.15em;color:var(--league-accent)}
+.league-card h3{position:relative;z-index:1;font-size:23px;margin:14px 0 4px;letter-spacing:.02em}
+.league-card p{position:relative;z-index:1;color:#b8c4d5;font-size:12px;line-height:1.5;min-height:36px;margin:0 0 15px}
+.league-bottom{border-top:1px solid #ffffff19;padding-top:11px}
+.league-status{font-size:9px;font-weight:900;letter-spacing:.12em;color:var(--league-accent)}
+.league-lock{font-size:17px;color:var(--league-accent)}
+.league-bronze{--league-accent:#e3a36b;--league-glow:#c87937;--league-tint:#8b4d252c;--league-border:#b9784d66}
+.league-silver{--league-accent:#d9e1ed;--league-glow:#b5c7dd;--league-tint:#c4d3e42b;--league-border:#c5d3e466}
+.league-gold{--league-accent:#f4d078;--league-glow:#e8b947;--league-tint:#d6a52b2b;--league-border:#e7c15c66}
+.league-master{--league-accent:#a9c7ff;--league-glow:#5988e9;--league-tint:#668ddc2b;--league-border:#7fa6ef66}
+.league-expert{--league-accent:#d9b5ff;--league-glow:#a66be8;--league-tint:#9d62d32b;--league-border:#c19af066}
+.league-card.locked{filter:saturate(.55);background:linear-gradient(145deg,#1b293d,#101827)}
+.league-card.locked .league-icon{opacity:.75}
+@media(max-width:520px){.league-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.league-card{padding:13px;min-height:175px;border-radius:16px}.league-card h3{font-size:19px;margin-top:12px}.league-card p{font-size:11px;min-height:48px}.league-icon{width:34px;height:34px}.league-number{font-size:9px}}
+@media(max-width:360px){.league-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -102,7 +126,7 @@
  <nav class="dash-tabs" aria-label="Dashboard navigation">
   <button class="dash-tab active" data-tab="homePanel">⌂ <span>Home</span></button>
   <button class="dash-tab" data-tab="workPanel">▤ <span>Work</span></button>
-  <button class="dash-tab" data-tab="levelPanel">♛ <span>Level</span></button>
+  <button class="dash-tab" data-tab="levelPanel">♛ <span>League</span></button>
   <button class="dash-tab" data-tab="settingsPanel">⚙ <span>Settings</span></button>
  </nav>
 
@@ -225,14 +249,14 @@
  </div>
 
  <div id="levelPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>Level</h2><p class="muted" style="margin:4px 0 0">Explore the five Crown membership levels.</p></div><span class="pill">5 Levels</span></div>
-  <div class="notice"><strong>Level preview:</strong> These are display-only membership tiers. No payment, investment, task completion, or guaranteed profit is required or implied. Level upgrades are not active yet.</div>
-  <div class="grid">
-   <article class="card"><div class="currency">LEVEL 01</div><h3>Bronze</h3><p class="muted">Crown entry-level membership.</p><span class="tag">Starting level</span></article>
-   <article class="card"><div class="currency">LEVEL 02</div><h3>Silver</h3><p class="muted">Second membership tier.</p><span class="tag">Coming soon</span></article>
-   <article class="card"><div class="currency">LEVEL 03</div><h3>Gold</h3><p class="muted">Third membership tier.</p><span class="tag">Coming soon</span></article>
-   <article class="card"><div class="currency">LEVEL 04</div><h3>Master</h3><p class="muted">Fourth membership tier.</p><span class="tag">Coming soon</span></article>
-   <article class="card"><div class="currency">LEVEL 05</div><h3>Expert</h3><p class="muted">Fifth membership tier.</p><span class="tag">Coming soon</span></article>
+  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>League</h2><p class="muted" style="margin:4px 0 0">Complete each league requirement in order to unlock the next rank.</p></div><span class="pill">5 Leagues</span></div>
+  <div class="notice"><strong>League progression:</strong> Leagues unlock one by one after the required demo tasks are completed. These are currently visual demo levels only; task completion and upgrades are not yet connected to a verified backend.</div>
+  <div class="league-grid">
+   <article class="league-card league-bronze"><div class="league-top"><span class="league-icon">♜</span><span class="league-number">LEAGUE 01</span></div><h3>Bronze</h3><p>Start your Crown journey and complete the first set of tasks.</p><div class="league-bottom"><span class="league-status">STARTING LEAGUE</span><span class="league-lock">✓</span></div></article>
+   <article class="league-card league-silver locked"><div class="league-top"><span class="league-icon">♙</span><span class="league-number">LEAGUE 02</span></div><h3>Silver</h3><p>Unlock after completing the Bronze league requirements.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-gold locked"><div class="league-top"><span class="league-icon">♛</span><span class="league-number">LEAGUE 03</span></div><h3>Gold</h3><p>Unlock after completing the Silver league requirements.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-master locked"><div class="league-top"><span class="league-icon">✦</span><span class="league-number">LEAGUE 04</span></div><h3>Master</h3><p>Unlock after completing the Gold league requirements.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-expert locked"><div class="league-top"><span class="league-icon">♕</span><span class="league-number">LEAGUE 05</span></div><h3>Expert</h3><p>The highest Crown league. Complete every previous league first.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
   </div>
  </div>
 
