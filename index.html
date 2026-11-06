@@ -65,14 +65,14 @@
   <article class="card"><h3>Merchant tools</h3><p class="muted">Merchant onboarding, business verification, API keys, checkout and settlements will be enabled after compliance and provider setup.</p><span class="tag">Not live</span><span class="tag">KYB required</span></article>
   <article class="card"><h3>Security</h3><p class="muted">Email and password sign-in is enabled through Supabase Auth. Payment actions must be implemented server-side and never trusted to this browser page.</p><span class="tag">No secret keys in browser</span></article>
  </div>
- <div class="card" style="margin-top:14px">
+ <div class="card" id="setupUsernameCard" style="margin-top:14px">
   <h3>Set your User ID</h3>
   <p class="muted">Existing accounts must choose a unique User ID once before using User ID login.</p>
   <div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div>
   <button class="btn full" id="saveUsername">Save User ID</button>
   <div id="usernameStatus" class="status" role="status" aria-live="polite"></div>
  </div>
- <div class="card" style="margin-top:14px">
+ <div class="card" id="setupPasswordCard" style="margin-top:14px">
   <h3>Set your password</h3>
   <p class="muted">Set a password once while signed in with your email link. After that, use email and password for future logins.</p>
   <div class="field"><label for="newPassword">New password (at least 8 characters)</label><input id="newPassword" type="password" autocomplete="new-password" placeholder="Create a password"></div>
@@ -112,6 +112,11 @@
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
    $("userBadge").textContent = user.email || "Signed in";
    $("profileInfo").textContent = "Signed in as " + (user.email || "your account") + ". Payment functions remain disabled until approved providers and backend controls are configured.";
+   $("setupPasswordCard").classList.toggle("hidden", user.user_metadata?.crown_password_set === true);
+   if(db) db.from("profiles").select("username").eq("id",user.id).maybeSingle().then(({data})=>{
+     $("setupUsernameCard").classList.toggle("hidden", !!data?.username);
+     if(data?.username) $("newUsername").value=data.username;
+   });
  }
  function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  $("loginTop").addEventListener("click",showAuth);
@@ -130,7 +135,7 @@
      if(!data?.session)throw new Error("Invalid login");
      const {data:sessionData,error:sessionError}=await db.auth.setSession({access_token:data.session.access_token,refresh_token:data.session.refresh_token});
      if(sessionError)throw sessionError;
-     if(sessionData.user)showDashboard(sessionData.user);
+     if(sessionData.user){await db.auth.updateUser({data:{crown_password_set:true}});showDashboard(sessionData.user);}
    }catch(e){setStatus("User ID or password is incorrect. Check both and try again.");}
    finally{$("passwordSignIn").disabled=false;}
  });
@@ -159,7 +164,7 @@
    try{
      const {error}=await db.from("profiles").update({username}).eq("id",user.id);
      if(error)throw error;
-     $("usernameStatus").textContent="User ID saved. You can now log in with this User ID and your password.";
+     $("usernameStatus").textContent="User ID saved. You can now log in with this User ID and your password.";$("setupUsernameCard").classList.add("hidden");
    }catch(e){$("usernameStatus").textContent=e.code==="23505"?"This User ID is already taken. Choose another.":(e.message||"Could not save User ID.");}
    finally{$("saveUsername").disabled=false;}
  });
@@ -167,7 +172,7 @@
    const password=$("newPassword").value;
    if(password.length<8){$("passwordStatus").textContent="Use at least 8 characters.";return;}
    $("savePassword").disabled=true;$("passwordStatus").textContent="Saving password…";
-   try{const {data,error}=await db.auth.updateUser({password});if(error)throw error;$("newPassword").value="";$("passwordStatus").textContent="Password saved. Next time, sign in with your email and password.";}
+   try{const {data,error}=await db.auth.updateUser({password,data:{crown_password_set:true}});if(error)throw error;$("newPassword").value="";$("passwordStatus").textContent="Password saved. Next time, sign in with your User ID and password.";$("setupPasswordCard").classList.add("hidden");}
    catch(e){$("passwordStatus").textContent=e.message || "Could not save password.";}
    finally{$("savePassword").disabled=false;}
  });
