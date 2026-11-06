@@ -144,38 +144,39 @@
  </div>
 
  <div id="settingsPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Preferences & security</div><h2>Settings</h2></div></div>
-
-  <div class="section-head"><div><div class="eyebrow">Wallet management</div><h2>Wallet</h2><p class="muted" style="margin:4px 0 0">All wallet options are now managed here in Settings.</p></div><span class="pill">Demo mode</span></div>
-  <div class="dash-tabs" style="grid-template-columns:repeat(4,1fr);margin-top:12px">
-   <button class="dash-tab active" data-wallet-tab="walletConnectPanel">Connect</button>
-   <button class="dash-tab" data-wallet-tab="walletDepositPanel">Deposit</button>
-   <button class="dash-tab" data-wallet-tab="walletWithdrawPanel">Withdraw</button>
-   <button class="dash-tab" data-wallet-tab="walletHistoryPanel">History</button>
+  <div class="section-head"><div><div class="eyebrow">Account controls</div><h2>Settings</h2><p class="muted" style="margin:4px 0 0">Wallet, security, profile and help options.</p></div></div>
+  <div class="dash-tabs" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-top:12px">
+   <button class="dash-tab active" data-settings-tab="settingsConnectPanel">Connect</button>
+   <button class="dash-tab" data-settings-tab="settingsDepositPanel">Deposit</button>
+   <button class="dash-tab" data-settings-tab="settingsWithdrawPanel">Withdraw</button>
+   <button class="dash-tab" data-settings-tab="settingsHistoryPanel">History</button>
+   <button class="dash-tab" data-settings-tab="settingsSecurityPanel">Security</button>
+   <button class="dash-tab" data-settings-tab="settingsProfilePanel">Profile</button>
+   <button class="dash-tab" data-settings-tab="settingsCarePanel">Customer Care</button>
   </div>
-  <section id="walletConnectPanel" class="wallet-subpanel">
+  <section id="settingsConnectPanel" class="settings-subpanel">
    <article class="card">
     <div class="currency">TOTAL BALANCE · SAMPLE</div><h3>Wallet balance</h3>
     <div class="field" style="max-width:180px;margin:12px 0"><label for="balanceCurrency">Display currency</label><select id="balanceCurrency"><option value="BDT">BDT · ৳</option><option value="USDT">USDT · $</option></select></div>
     <div class="big" id="mainBalance">৳25,000.00</div><div class="detail-list"><div class="detail-row"><span class="muted">BDT sample</span><strong>৳25,000.00</strong></div><div class="detail-row"><span class="muted">USDT sample</span><strong>150.00 USDT</strong></div></div>
-    <span class="demo-chip">FICTIONAL DEMO BALANCE</span>
-    <p class="muted">This is not real money and cannot be spent or withdrawn.</p>
+    <span class="demo-chip">FICTIONAL DEMO BALANCE</span><p class="muted">This is not real money and cannot be spent or withdrawn.</p>
    </article>
-   <article class="card" style="margin-top:14px"><h3>Connect EVM wallet</h3><p class="muted">Optional read-only connection for Sepolia testnet only. Crown never asks for your recovery phrase or private key.</p><button class="btn" id="connectEvm" type="button">Connect wallet</button><button class="btn secondary hidden" id="disconnectEvm" type="button">Disconnect view</button><p id="evmWalletInfo" class="muted hidden"></p><div id="evmWalletStatus" class="status" role="status" aria-live="polite"></div><span class="tag">Sepolia testnet · Read only</span></article>
+   <article class="card" style="margin-top:14px"><h3>Connect EVM wallet</h3><p class="muted">Optional read-only connection for Sepolia testnet only. Never share your recovery phrase or private key.</p><button class="btn" id="connectEvm" type="button">Connect wallet</button><button class="btn secondary hidden" id="disconnectEvm" type="button">Disconnect view</button><p id="evmWalletInfo" class="muted hidden"></p><div id="evmWalletStatus" class="status" role="status" aria-live="polite"></div><span class="tag">Sepolia testnet · Read only</span></article>
+   <div class="notice"><strong>Demo notice:</strong> BDT 25,000.00 and 150.00 USDT are fictional sample figures, not account funds.</div>
   </section>
-  <section id="walletDepositPanel" class="wallet-subpanel hidden"><article class="card"><h3>Deposit</h3><p class="muted">Deposits are not available. A licensed payment provider, legal approvals and secure server-side integration are required before real deposits can be enabled.</p><button class="btn secondary" type="button" disabled>Deposit unavailable</button></article></section>
-  <section id="walletWithdrawPanel" class="wallet-subpanel hidden"><article class="card"><h3>Withdraw</h3><p class="muted">Withdrawals are not available. No real funds are held by Crown and no payout can be requested.</p><button class="btn secondary" type="button" disabled>Withdraw unavailable</button></article></section>
-  <section id="walletHistoryPanel" class="wallet-subpanel hidden"><article class="card"><h3>Wallet history</h3><p class="muted">No wallet transactions. This demo does not process deposits, withdrawals or transfers.</p><span class="tag">No transactions</span></article></section>
-  <div class="notice"><strong>Demo notice:</strong> BDT 25,000.00 and 150.00 USDT are fictional sample figures. They are not account funds. Do not send money to anyone claiming to deposit into this demo.</div>
-
-  <article class="card"><h3>Account security</h3><p class="muted">Email and password sign-in is managed through Supabase Auth. Keep your password private.</p><span class="tag">Secure sign-in</span><span class="tag">No secret keys in browser</span></article>
-  <div class="card" id="setupUsernameCard" style="margin-top:14px">
-   <h3>Set your User ID</h3>
-   <p class="muted">Choose a unique User ID once before using User ID login.</p>
-   <div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div>
-   <button class="btn full" id="saveUsername">Save User ID</button>
-   <div id="usernameStatus" class="status" role="status" aria-live="polite"></div>
-  </div>
+  <section id="settingsDepositPanel" class="settings-subpanel hidden"><article class="card"><h3>Deposit</h3><p class="muted">Deposits are not available. A licensed payment provider, required legal approvals and secure server-side integration are needed before real deposits can be enabled.</p><button class="btn secondary" type="button" disabled>Deposit unavailable</button></article></section>
+  <section id="settingsWithdrawPanel" class="settings-subpanel hidden"><article class="card"><h3>Withdraw</h3><p class="muted">Withdrawals are not available. Crown does not hold real funds and no payout can be requested.</p><button class="btn secondary" type="button" disabled>Withdraw unavailable</button></article></section>
+  <section id="settingsHistoryPanel" class="settings-subpanel hidden"><article class="card"><h3>Wallet history</h3><p class="muted">No wallet transactions are recorded. This demo does not process deposits, withdrawals or transfers.</p><span class="tag">No transactions</span></article></section>
+  <section id="settingsSecurityPanel" class="settings-subpanel hidden">
+   <article class="card"><h3>Account security</h3><p class="muted">Your account uses Supabase email authentication and User ID login. Keep your password private and never share verification links or codes.</p><div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Password protection</span><strong>Enabled by auth provider</strong></div></div><span class="tag">Never share your password</span><span class="tag">No secret keys in browser</span></article>
+  </section>
+  <section id="settingsProfilePanel" class="settings-subpanel hidden">
+   <article class="card"><h3>Profile settings</h3><p class="muted">Your saved account information.</p><div class="detail-list"><div class="detail-row"><span class="muted">Full name</span><strong id="settingsFullName">—</strong></div><div class="detail-row"><span class="muted">User ID</span><strong id="settingsUsername">—</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="settingsEmail">—</strong></div></div></article>
+   <div class="card" id="setupUsernameCard" style="margin-top:14px"><h3>Set your User ID</h3><p class="muted">Choose a unique User ID once before using User ID login.</p><div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div><button class="btn full" id="saveUsername">Save User ID</button><div id="usernameStatus" class="status" role="status" aria-live="polite"></div></div>
+  </section>
+  <section id="settingsCarePanel" class="settings-subpanel hidden">
+   <article class="card"><h3>Customer Care</h3><p class="muted">Need help with your Crown account? Customer support contact details are not configured yet.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account help</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Technical support</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Response status</span><strong>Not available yet</strong></div></div><span class="tag">Support channel pending setup</span></article>
+  </section>
   <div class="notice" id="profileInfo">Signed in. Payment functions remain disabled until approved providers and backend controls are configured.</div>
  </div>
 </section>
@@ -218,6 +219,9 @@
      $("profileFullName").textContent = fullName;
      $("profileUsername").textContent = uid;
      $("profileEmail").textContent = user.email || "Not available";
+     $("settingsFullName").textContent = fullName;
+     $("settingsUsername").textContent = uid;
+     $("settingsEmail").textContent = user.email || "Not available";
      $("profileJoined").textContent = data?.created_at ? new Date(data.created_at).toLocaleDateString() : new Date(user.created_at).toLocaleDateString();
      $("setupUsernameCard").classList.toggle("hidden", !!data?.username);
      if(data?.username) $("newUsername").value=data.username;
@@ -226,7 +230,7 @@
  function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  document.querySelectorAll(".dash-tab").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
- document.querySelectorAll("[data-wallet-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-wallet-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".wallet-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.walletTab));}));
+ document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-settings-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".settings-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.settingsTab));}));
  function updateBalanceCurrency(){const currency=$("balanceCurrency")?.value||"BDT";const label=currency==="USDT"?"150.00 USDT":"৳25,000.00 BDT";$("mainBalance").textContent=label;}
  $("balanceCurrency")?.addEventListener("change",updateBalanceCurrency);
  const EVM_TEST_CHAIN_ID="0xaa36a7";
