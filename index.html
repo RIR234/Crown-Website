@@ -141,6 +141,21 @@
  </nav>
 
  <div id="homePanel" class="tab-panel">
+  <div class="section-head"><h2>Demo Wallet</h2><span class="muted">Test mode only</span></div>
+  <div class="grid">
+   <article class="card">
+    <div class="currency">DEMO BALANCE · NOT REAL MONEY</div><h3>Available Demo Balance</h3>
+    <div class="big" id="demoBalance">৳100,000</div>
+    <p class="muted">Use this sample balance to test task payments. It has no cash value.</p>
+    <button class="btn full" type="button" id="demoTopUp">Add ৳100,000 Demo</button>
+   </article>
+   <article class="card">
+    <div class="currency">DEMO WALLET</div><h3>Demo Activity</h3>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Task payments</span><strong id="demoSpent">৳0</strong></div><div class="detail-row"><span class="muted">Pending approvals</span><strong id="demoPendingCount">0</strong></div></div>
+    <span class="tag">Local device demo only</span>
+   </article>
+  </div>
+  <div class="notice"><strong>Demo only:</strong> Balance and approvals are saved in this browser on this device. No real money is accepted, transferred, or withdrawable.</div>
   <div class="section-head"><h2>Wallet Actions</h2><span class="muted">Home</span></div>
   <div class="grid">
    <article class="card">
@@ -182,7 +197,8 @@
 
  <div id="workPanel" class="tab-panel hidden">
   <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0">All 50 demo tasks are listed by League. Complete the current League to unlock the next.</p></div><span class="pill">50 Tasks</span></div>
-  <div class="notice"><strong>Demo task board:</strong> Product values and sample margins are illustrations only. Completing a task updates a device-local demo tracker. No product is reserved, no payment is collected, and no income or payout is generated or guaranteed.</div>
+  <div class="notice"><strong>Demo task board:</strong> Use your Demo Balance to pay a task. The request then appears below for simulated admin approval. Approved tasks are completed and the next task value becomes visible. No real payment, product order, income or payout is involved.</div>
+  <article class="card" id="demoApprovalPanel" style="margin:0 0 14px"><div class="currency">DEMO ADMIN SIMULATOR</div><h3>Pending Task Approvals</h3><p class="muted">This local simulator is for testing only. It is not a secure real admin panel.</p><div id="demoPendingList" class="detail-list"><span class="muted">No pending demo payments.</span></div></article>
   <div class="grid"><div class="task-league-heading"><strong>BRONZE LEAGUE TASKS</strong><span>5 separate tasks</span></div><article class="card task-card" data-league-index="0" data-task-index="0">
     <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Wireless Earbuds demo task" loading="lazy">
     <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Wireless Earbuds</h3>
@@ -798,54 +814,80 @@
  let currentUserId = null;
  const leagueNames = ["Bronze","Silver","Gold","Master","Expert"];
  const leagueTaskCounts = [5,8,10,12,15];
- function readDemoTasks(){
-   try{return JSON.parse(localStorage.getItem("crown_demo_tasks_v2_"+currentUserId)||"[]");}
-   catch(_){return [];}
+ const demoKey = () => "crown_demo_wallet_v1_"+currentUserId;
+ function readDemoState(){
+   try{
+     const saved=JSON.parse(localStorage.getItem(demoKey())||"null");
+     return saved && typeof saved.balance==="number" ? saved : {balance:100000,spent:0,completed:[],pending:[]};
+   }catch(_){return {balance:100000,spent:0,completed:[],pending:[]};}
+ }
+ function saveDemoState(state){localStorage.setItem(demoKey(),JSON.stringify(state));}
+ function money(value){return "৳"+Number(value||0).toLocaleString("en-BD");}
+ function taskPrice(card){
+   const value=card.querySelector("[data-task-value] strong")?.textContent||"";
+   return Number(value.replace(/[^0-9]/g,""))||0;
+ }
+ function renderDemoWallet(){
+   if(!currentUserId)return;
+   const state=readDemoState();
+   if($("demoBalance"))$("demoBalance").textContent=money(state.balance);
+   if($("demoSpent"))$("demoSpent").textContent=money(state.spent);
+   if($("demoPendingCount"))$("demoPendingCount").textContent=String(state.pending.length);
+   const list=$("demoPendingList");
+   if(list)list.innerHTML=state.pending.length?state.pending.map(item=>'<div class="detail-row"><span>'+item.name+' · '+money(item.amount)+'</span><button class="btn" type="button" data-demo-approve="'+item.task+'">Approve demo</button></div>').join(""):'<span class="muted">No pending demo payments.</span>';
+   document.querySelectorAll("[data-demo-approve]").forEach(btn=>btn.addEventListener("click",()=>{
+     const s=readDemoState(),task=Number(btn.dataset.demoApprove);
+     const item=s.pending.find(x=>x.task===task);
+     if(!item)return;
+     s.pending=s.pending.filter(x=>x.task!==task);
+     if(!s.completed.includes(task))s.completed.push(task);
+     saveDemoState(s);renderLeagueProgress();
+   }));
  }
  function renderLeagueProgress(){
    if(!currentUserId)return;
-   const done=readDemoTasks();
+   const state=readDemoState(),done=state.completed;
    const cards=[...document.querySelectorAll(".task-card[data-task-index]")];
    const completedByLeague=leagueTaskCounts.map((_,i)=>cards.filter(card=>Number(card.dataset.leagueIndex)===i&&done.includes(Number(card.dataset.taskIndex))).length);
-   const firstIncomplete=completedByLeague.findIndex((count,i)=>count<leagueTaskCounts[i]);
-   const activeLeague=firstIncomplete<0?4:firstIncomplete;
+   const nextCard=cards.find(card=>!done.includes(Number(card.dataset.taskIndex))&&!state.pending.some(x=>x.task===Number(card.dataset.taskIndex)));
+   const nextTask=nextCard?Number(nextCard.dataset.taskIndex):-1;
+   const activeLeague=nextCard?Number(nextCard.dataset.leagueIndex):4;
    cards.forEach(card=>{
-     const index=Number(card.dataset.taskIndex);
-     const league=Number(card.dataset.leagueIndex);
-     const status=card.querySelector("[data-order-status]");
-     const button=card.querySelector("[data-demo-order]");
+     const index=Number(card.dataset.taskIndex),league=Number(card.dataset.leagueIndex);
+     const status=card.querySelector("[data-order-status]"),button=card.querySelector("[data-demo-order]");
      if(!status||!button)return;
-     const completed=done.includes(index);
-     const locked=league>activeLeague;
-     status.textContent=completed?"Payment confirmed · Admin":locked?"Locked · Complete previous League":"Awaiting admin payment approval";
-     button.textContent=completed?"Approved":locked?"Complete previous League first":"Admin approval required";
-     button.disabled=true;
-     button.classList.add("secondary");
+     const completed=done.includes(index),pending=state.pending.some(x=>x.task===index);
+     const locked=index!==nextTask&&!completed&&!pending;
+     status.textContent=completed?"Demo payment approved":pending?"Demo payment pending approval":locked?"Locked · Complete previous task":"Ready · Demo balance";
+     button.textContent=completed?"Approved":pending?"Pending approval":locked?"Complete previous task":"Pay with Demo Balance";
+     button.disabled=completed||pending||locked;
+     button.classList.toggle("secondary",completed||pending||locked);
      card.classList.toggle("task-locked",locked);
-     card.querySelectorAll("[data-task-value], [data-task-margin]").forEach(row=>{
-       row.classList.toggle("hidden",completed||locked);
-     });
+     card.querySelectorAll("[data-task-value], [data-task-margin]").forEach(row=>row.classList.toggle("hidden",completed||locked||pending));
    });
    document.querySelectorAll(".league-card[data-league-index]").forEach(card=>{
-     const i=Number(card.dataset.leagueIndex);
-     const status=card.querySelector(".league-status");
-     const icon=card.querySelector(".league-lock");
-     const complete=completedByLeague[i]===leagueTaskCounts[i];
-     const locked=i>activeLeague;
+     const i=Number(card.dataset.leagueIndex),status=card.querySelector(".league-status"),icon=card.querySelector(".league-lock");
+     const complete=completedByLeague[i]===leagueTaskCounts[i],locked=i>activeLeague;
      card.classList.toggle("locked",locked);
      if(status)status.textContent=complete?"TASKS COMPLETED":locked?"LOCKED · FINISH PREVIOUS":"CURRENT LEAGUE";
      if(icon)icon.textContent=complete?"✓":locked?"🔒":"●";
    });
    const count=completedByLeague[activeLeague]||0;
-   const title=document.getElementById("leagueCurrentTitle");
-   const text=document.getElementById("leagueProgressText");
-   const fill=document.getElementById("leagueProgressFill");
-   if(title)title.textContent=leagueNames[activeLeague]+" League";
-   if(text)text.textContent=count+" of "+leagueTaskCounts[activeLeague]+" demo tasks completed · Complete all to unlock the next League";
-   if(fill)fill.style.width=(count/leagueTaskCounts[activeLeague]*100)+"%";
+   if($("leagueCurrentTitle"))$("leagueCurrentTitle").textContent=leagueNames[activeLeague]+" League";
+   if($("leagueProgressText"))$("leagueProgressText").textContent=count+" of "+leagueTaskCounts[activeLeague]+" demo tasks completed · Approve each demo payment to continue";
+   if($("leagueProgressFill"))$("leagueProgressFill").style.width=(count/leagueTaskCounts[activeLeague]*100)+"%";
+   renderDemoWallet();
  }
  function completeDemoTask(button){
-   alert("Admin payment approval is not connected yet. No task can be marked complete until a secure admin approval system is configured. Do not send money for this demo task.");
+   const card=button.closest(".task-card"),task=Number(card.dataset.taskIndex),price=taskPrice(card),name=card.querySelector("h3")?.textContent||("Task "+(task+1));
+   const state=readDemoState();
+   if(state.completed.includes(task)||state.pending.some(x=>x.task===task))return;
+   if(price<=0){alert("Task value not available.");return;}
+   if(state.balance<price){alert("Demo balance is not enough. Add Demo Balance from Home first.");return;}
+   if(!confirm(name+" demo task-er jonno "+money(price)+" Demo Balance use korbe?"))return;
+   state.balance-=price;state.spent+=price;state.pending.push({task,amount:price,name});
+   saveDemoState(state);renderLeagueProgress();
+   alert("Demo payment submitted. Work tab-er Pending Task Approvals theke simulated admin approval dite parbe.");
  }
  function showDashboard(user){
    currentUserId=user.id;
@@ -853,7 +895,7 @@
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
    $("userBadge").textContent = (user.user_metadata?.username || "Loading…").toUpperCase();
    renderLeagueProgress();
-   $("profileInfo").textContent = "Your Crown account is signed in. Payment functions remain disabled until approved providers and backend controls are configured.";
+   $("profileInfo").textContent = "Signed in. Demo Balance is for local testing only; no real funds or payments are involved.";
    if(db) db.from("profiles").select("username,full_name,created_at").eq("id",user.id).maybeSingle().then(({data})=>{
      const uid=data?.username || user.user_metadata?.username || "Not set";
      const fullName=data?.full_name || user.user_metadata?.full_name || "Not set";
@@ -959,6 +1001,11 @@
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
  document.querySelectorAll("[data-demo-order]").forEach(button=>button.addEventListener("click",()=>completeDemoTask(button)));
+ $("demoTopUp")?.addEventListener("click",()=>{
+   if(!currentUserId)return;
+   const state=readDemoState();state.balance+=100000;saveDemoState(state);renderDemoWallet();
+   alert("৳100,000 Demo Balance added. This is not real money.");
+ });
 
  if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);});}
  else showGuest();
