@@ -39,19 +39,13 @@
 
 <section id="authPanel" class="auth hidden">
  <div class="card">
-  <div class="eyebrow">Secure account access</div><h2 id="authTitle">Sign in with email</h2>
-  <p class="muted">We will email you a one-time verification code.</p>
-  <div id="emailStep">
-   <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
-   <div class="field"><label for="fullName">Full name (for new account)</label><input id="fullName" autocomplete="name" placeholder="Your full name"></div>
-   <button class="btn full" id="sendCode">Send verification code</button>
-  </div>
-  <div id="otpStep" class="hidden">
-   <div class="field"><label for="otp">6-digit code</label><input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter email code"></div>
-   <button class="btn full" id="verifyCode">Verify and continue</button>
-   <button class="btn secondary full" id="resendCode" disabled>Resend code (60s)</button>
-   <button class="btn secondary full" id="backEmail">Use another email</button>
-  </div>
+  <div class="eyebrow">Secure account access</div><h2 id="authTitle">Sign in with password</h2>
+  <p class="muted">Use your email address and password to access Crown.</p>
+  <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+  <div class="field" id="fullNameField"><label for="fullName">Full name (new accounts)</label><input id="fullName" autocomplete="name" placeholder="Your full name"></div>
+  <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Enter password" required></div>
+  <button class="btn full" id="passwordSignIn">Sign in</button>
+  <button class="btn secondary full" id="passwordSignUp">Create account</button>
   <div id="authStatus" class="status" role="status" aria-live="polite"></div>
  </div>
 </section>
@@ -65,7 +59,7 @@
  </div>
  <div class="dash" style="margin-top:14px">
   <article class="card"><h3>Merchant tools</h3><p class="muted">Merchant onboarding, business verification, API keys, checkout and settlements will be enabled after compliance and provider setup.</p><span class="tag">Not live</span><span class="tag">KYB required</span></article>
-  <article class="card"><h3>Security</h3><p class="muted">Email OTP sign-in is enabled through Supabase Auth. Payment actions must be implemented server-side and never trusted to this browser page.</p><span class="tag">No secret keys in browser</span></article>
+  <article class="card"><h3>Security</h3><p class="muted">Email and password sign-in is enabled through Supabase Auth. Payment actions must be implemented server-side and never trusted to this browser page.</p><span class="tag">No secret keys in browser</span></article>
  </div>
  <div class="notice" id="profileInfo">Signed in. Payment functions remain disabled until approved providers and backend controls are configured.</div>
 </section>
@@ -82,18 +76,8 @@
  const db = clientReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
    auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true }
  }) : null;
- let pendingEmail = "";
- let resendInterval = null;
- let resendSeconds = 0;
- function startResendCooldown(seconds=60){
-   if(resendInterval) clearInterval(resendInterval);
-   resendSeconds=seconds; $("resendCode").disabled=true;
-   $("resendCode").textContent=`Resend code (${resendSeconds}s)`;
-   resendInterval=setInterval(()=>{
-     resendSeconds--;
-     if(resendSeconds<=0){clearInterval(resendInterval);resendInterval=null;$("resendCode").disabled=false;$("resendCode").textContent="Resend verification code";}
-     else $("resendCode").textContent=`Resend code (${resendSeconds}s)`;
-   },1000);
+ function authInputs(){
+   return {email:$("email").value.trim().toLowerCase(),password:$("password").value,fullName:$("fullName").value.trim()};
  }
  function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); $("email").focus(); }
  function showHome(){ $("publicHome").classList.remove("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.add("hidden"); }
@@ -106,41 +90,27 @@
  function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  $("loginTop").addEventListener("click",showAuth);
  $("getStarted").addEventListener("click",showAuth);
- $("sendCode").addEventListener("click",async()=>{
-   if(!db){setStatus("Authentication is not configured. Check the Supabase connection.");return;}
-   const email=$("email").value.trim().toLowerCase();
+ $("passwordSignIn").addEventListener("click",async()=>{
+   if(!db){setStatus("Authentication is not configured.");return;}
+   const {email,password}=authInputs();
    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setStatus("Enter a valid email address.");return;}
-   pendingEmail=email; $("sendCode").disabled=true; setStatus("Sending verification code…");
-   try{
-     const fullName=$("fullName").value.trim();
-     const {error}=await db.auth.signInWithOtp({email,options:{shouldCreateUser:true,data: fullName ? {full_name:fullName} : {}}});
-     if(error) throw error;
-     $("emailStep").classList.add("hidden"); $("otpStep").classList.remove("hidden"); setStatus("Code request accepted. Check your email. If no numeric code appears, the Supabase email template may need {{ .Token }}."); startResendCooldown(60);
-   }catch(e){setStatus(e.message || "Could not send code. Try again.");}
-   finally{$("sendCode").disabled=false;}
+   if(!password){setStatus("Enter your password.");return;}
+   $("passwordSignIn").disabled=true;setStatus("Signing in…");
+   try{const {data,error}=await db.auth.signInWithPassword({email,password});if(error)throw error;if(data.user)showDashboard(data.user);}
+   catch(e){setStatus(e.message || "Sign in failed. Check your email and password.");}
+   finally{$("passwordSignIn").disabled=false;}
  });
- $("verifyCode").addEventListener("click",async()=>{
-   const token=$("otp").value.trim().replace(/\s/g,"");
-   if(!/^\d{6,8}$/.test(token)){setStatus("Enter the verification code from your email.");return;}
-   $("verifyCode").disabled=true;setStatus("Verifying…");
-   try{
-     const {data,error}=await db.auth.verifyOtp({email:pendingEmail,token,type:"email"});
-     if(error) throw error;
-     if(data.user) showDashboard(data.user); else setStatus("Verification did not return a user. Try again.");
-   }catch(e){setStatus(e.message || "Code verification failed.");}
-   finally{$("verifyCode").disabled=false;}
+ $("passwordSignUp").addEventListener("click",async()=>{
+   if(!db){setStatus("Authentication is not configured.");return;}
+   const {email,password,fullName}=authInputs();
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setStatus("Enter a valid email address.");return;}
+   if(password.length<8){setStatus("Use a password with at least 8 characters.");return;}
+   if(!fullName){setStatus("Enter your full name to create an account.");return;}
+   $("passwordSignUp").disabled=true;setStatus("Creating account…");
+   try{const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName},emailRedirectTo:window.location.origin}});if(error)throw error;if(data.session&&data.user)showDashboard(data.user);else setStatus("Account created. Check your email once to confirm, then sign in using your password.");}
+   catch(e){setStatus(e.message || "Account creation failed.");}
+   finally{$("passwordSignUp").disabled=false;}
  });
- $("resendCode").addEventListener("click",async()=>{
-   if(!db || !pendingEmail) return;
-   $("resendCode").disabled=true; setStatus("Requesting a new code…");
-   try{
-     const fullName=$("fullName").value.trim();
-     const {error}=await db.auth.signInWithOtp({email:pendingEmail,options:{shouldCreateUser:true,data:fullName?{full_name:fullName}:{}}});
-     if(error) throw error;
-     setStatus("New code request accepted. Check your email."); startResendCooldown(60);
-   }catch(e){setStatus(e.message || "Could not resend code. Please wait and try again.");$("resendCode").disabled=false;$("resendCode").textContent="Resend verification code";}
- });
- $("backEmail").addEventListener("click",()=>{if(resendInterval){clearInterval(resendInterval);resendInterval=null;}$("otpStep").classList.add("hidden");$("emailStep").classList.remove("hidden");$("otp").value="";setStatus("");});
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
  if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);});}
