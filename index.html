@@ -39,13 +39,17 @@
 
 <section id="authPanel" class="auth hidden">
  <div class="card">
-  <div class="eyebrow">Secure account access</div><h2 id="authTitle">Sign in with password</h2>
-  <p class="muted">Use your email address and password to access Crown.</p>
-  <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
-  <div class="field" id="fullNameField"><label for="fullName">Full name (new accounts)</label><input id="fullName" autocomplete="name" placeholder="Your full name"></div>
+  <div class="eyebrow">Secure account access</div><h2 id="authTitle">Log in to Crown</h2>
+  <p class="muted" id="authHint">Enter your User ID and password.</p>
+  <div class="field hidden" id="emailField"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+  <div class="field hidden" id="fullNameField"><label for="fullName">Full name</label><input id="fullName" autocomplete="name" placeholder="Your full name"></div>
+  <div class="field hidden" id="usernameField"><label for="username">User ID</label><input id="username" autocomplete="username" placeholder="Choose User ID (3–24 letters, numbers, _)"></div>
+  <div class="field" id="loginUsernameField"><label for="loginUsername">User ID</label><input id="loginUsername" autocomplete="username" placeholder="Enter your User ID"></div>
   <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Enter password" required></div>
-  <button class="btn full" id="passwordSignIn">Sign in</button>
-  <button class="btn secondary full" id="passwordSignUp">Create account</button>
+  <button class="btn full" id="passwordSignIn">Log in</button>
+  <button class="btn secondary full" id="switchToSignUp">Create account</button>
+  <button class="btn full hidden" id="passwordSignUp">Create account</button>
+  <button class="btn secondary full hidden" id="switchToSignIn">Back to login</button>
   <div id="authStatus" class="status" role="status" aria-live="polite"></div>
  </div>
 </section>
@@ -84,9 +88,17 @@
    auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true }
  }) : null;
  function authInputs(){
-   return {email:$("email").value.trim().toLowerCase(),password:$("password").value,fullName:$("fullName").value.trim()};
+   return {email: $("email").value.trim().toLowerCase(),password:$("password").value,fullName:$("fullName").value.trim(),username:$("username").value.trim().toLowerCase(),loginUsername:$("loginUsername").value.trim().toLowerCase()};
  }
- function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); $("email").focus(); }
+ function setAuthMode(mode){
+   const signup=mode==="signup";
+   $("authTitle").textContent=signup?"Create your Crown account":"Log in to Crown";
+   $("authHint").textContent=signup?"Enter your email, full name, User ID and password.":"Enter your User ID and password.";
+   ["emailField","fullNameField","usernameField","passwordSignUp","switchToSignIn"].forEach(id=>$(id).classList.toggle("hidden",!signup));
+   ["loginUsernameField","passwordSignIn","switchToSignUp"].forEach(id=>$(id).classList.toggle("hidden",signup));
+   $("password").value="";setStatus("");
+ }
+ function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); setAuthMode("login"); $("loginUsername").focus(); }
  function showHome(){ $("publicHome").classList.remove("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.add("hidden"); }
  function showDashboard(user){
    $("publicHome").classList.add("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
@@ -97,25 +109,38 @@
  function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  $("loginTop").addEventListener("click",showAuth);
  $("getStarted").addEventListener("click",showAuth);
+ $("switchToSignUp").addEventListener("click",()=>setAuthMode("signup"));
+ $("switchToSignIn").addEventListener("click",()=>setAuthMode("login"));
  $("passwordSignIn").addEventListener("click",async()=>{
    if(!db){setStatus("Authentication is not configured.");return;}
-   const {email,password}=authInputs();
-   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setStatus("Enter a valid email address.");return;}
-   if(!password){setStatus("Enter your password.");return;}
-   $("passwordSignIn").disabled=true;setStatus("Signing in…");
-   try{const {data,error}=await db.auth.signInWithPassword({email,password});if(error)throw error;if(data.user)showDashboard(data.user);}
-   catch(e){setStatus(e.message || "Sign in failed. Check your email and password.");}
+   const {password,loginUsername}=authInputs();
+   if(!/^[a-z0-9_]{3,24}$/.test(loginUsername)){setStatus("User ID must be 3–24 characters: lowercase letters, numbers or underscore.");return;}
+   if(password.length<8){setStatus("Enter your password (at least 8 characters).");return;}
+   $("passwordSignIn").disabled=true;setStatus("Logging in…");
+   try{
+     const {data,error}=await db.functions.invoke("login-with-username",{body:{username:loginUsername,password}});
+     if(error)throw error;
+     if(!data?.session)throw new Error("Invalid login");
+     const {data:sessionData,error:sessionError}=await db.auth.setSession({access_token:data.session.access_token,refresh_token:data.session.refresh_token});
+     if(sessionError)throw sessionError;
+     if(sessionData.user)showDashboard(sessionData.user);
+   }catch(e){setStatus("User ID or password is incorrect. Check both and try again.");}
    finally{$("passwordSignIn").disabled=false;}
  });
  $("passwordSignUp").addEventListener("click",async()=>{
    if(!db){setStatus("Authentication is not configured.");return;}
-   const {email,password,fullName}=authInputs();
-   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setStatus("Enter a valid email address.");return;}
+   const {email,password,fullName,username}=authInputs();
+   if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){setStatus("Enter a valid email address.");return;}
+   if(!fullName){setStatus("Enter your full name.");return;}
+   if(!/^[a-z0-9_]{3,24}$/.test(username)){setStatus("User ID must be 3–24 characters: lowercase letters, numbers or underscore.");return;}
    if(password.length<8){setStatus("Use a password with at least 8 characters.");return;}
-   if(!fullName){setStatus("Enter your full name to create an account.");return;}
    $("passwordSignUp").disabled=true;setStatus("Creating account…");
-   try{const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName},emailRedirectTo:window.location.origin}});if(error)throw error;if(data.session&&data.user)showDashboard(data.user);else setStatus("Account created. Check your email once to confirm, then sign in using your password.");}
-   catch(e){setStatus(e.message || "Account creation failed.");}
+   try{
+     const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName,username},emailRedirectTo:window.location.origin}});
+     if(error)throw error;
+     if(data.session&&data.user)showDashboard(data.user);
+     else setStatus("Account created. Check your email to confirm, then log in with your User ID and password.");
+   }catch(e){setStatus(e.message||"Account creation failed.");}
    finally{$("passwordSignUp").disabled=false;}
  });
  $("savePassword").addEventListener("click",async()=>{
