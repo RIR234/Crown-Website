@@ -181,113 +181,571 @@
  </div>
 
  <div id="workPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0">Each League has its own separate task list. Choose any League and complete its tasks.</p></div><span class="pill">Task list</span></div>
-  <div class="notice"><strong>Demo task board:</strong> Product values and profits are sample figures. Completing a task here updates a local demo tracker only. No product is reserved, no payment is collected, and no profit or payout is generated or guaranteed.</div>
-  <div class="grid">
-   <div class="task-league-heading"><strong>BRONZE LEAGUE TASKS</strong><span>2 separate tasks</span></div>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Wireless earbuds product" loading="lazy">
+  <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0">All 50 demo tasks are listed by League. Complete the current League to unlock the next.</p></div><span class="pill">50 Tasks</span></div>
+  <div class="notice"><strong>Demo task board:</strong> Product values and sample margins are illustrations only. Completing a task updates a device-local demo tracker. No product is reserved, no payment is collected, and no income or payout is generated or guaranteed.</div>
+  <div class="grid"><div class="task-league-heading"><strong>BRONZE LEAGUE TASKS</strong><span>5 separate tasks</span></div><article class="card task-card" data-league-index="0" data-task-index="0">
+    <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Wireless Earbuds demo task" loading="lazy">
     <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Wireless Earbuds</h3>
-    <p class="muted">Pre-book this product before its next stock release.</p>
+    <p class="muted">Preview this wireless earbuds pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳800</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳64</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="0" data-task-index="1">
+    <img class="product-image" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85" alt="Smart Watch demo task" loading="lazy">
+    <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Smart Watch</h3>
+    <p class="muted">Preview this smart watch pre-booking task. This is a sample listing only.</p>
     <div class="detail-list">
      <div class="detail-row"><span class="muted">Product value</span><strong>৳1,000</strong></div>
-     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳100</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳80</strong></div>
      <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
     <button class="btn full" type="button" data-demo-order>Complete demo task</button>
     <span class="tag">Sample only</span>
-   </article>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85" alt="Smart watch product" loading="lazy">
-    <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Smart Watch</h3>
-    <p class="muted">Pre-book this product for the upcoming product batch.</p>
+   </article><article class="card task-card" data-league-index="0" data-task-index="2">
+    <img class="product-image" src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85" alt="Phone Case demo task" loading="lazy">
+    <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Phone Case</h3>
+    <p class="muted">Preview this phone case pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,200</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳96</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="0" data-task-index="3">
+    <img class="product-image" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=85" alt="USB-C Charger demo task" loading="lazy">
+    <div class="currency">BRONZE LEAGUE · DEMO</div><h3>USB-C Charger</h3>
+    <p class="muted">Preview this usb-c charger pre-booking task. This is a sample listing only.</p>
     <div class="detail-list">
      <div class="detail-row"><span class="muted">Product value</span><strong>৳1,500</strong></div>
-     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳150</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳120</strong></div>
      <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
     <button class="btn full" type="button" data-demo-order>Complete demo task</button>
     <span class="tag">Sample only</span>
-   </article>
-   <div class="task-league-heading"><strong>SILVER LEAGUE TASKS</strong><span>2 separate tasks</span></div>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85" alt="Bluetooth speaker product" loading="lazy">
+   </article><article class="card task-card" data-league-index="0" data-task-index="4">
+    <img class="product-image" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="Water Bottle demo task" loading="lazy">
+    <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Water Bottle</h3>
+    <p class="muted">Preview this water bottle pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,800</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳144</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><div class="task-league-heading"><strong>SILVER LEAGUE TASKS</strong><span>8 separate tasks</span></div><article class="card task-card" data-league-index="1" data-task-index="5">
+    <img class="product-image" src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=900&q=85" alt="Bluetooth Speaker demo task" loading="lazy">
     <div class="currency">SILVER LEAGUE · DEMO</div><h3>Bluetooth Speaker</h3>
-    <p class="muted">Pre-book this product in a sample task listing.</p>
+    <p class="muted">Preview this bluetooth speaker pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳2,200</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳209</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="1" data-task-index="6">
+    <img class="product-image" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=85" alt="Travel Backpack demo task" loading="lazy">
+    <div class="currency">SILVER LEAGUE · DEMO</div><h3>Travel Backpack</h3>
+    <p class="muted">Preview this travel backpack pre-booking task. This is a sample listing only.</p>
     <div class="detail-list">
      <div class="detail-row"><span class="muted">Product value</span><strong>৳2,500</strong></div>
-     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳250</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳238</strong></div>
      <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
     </div>
     <button class="btn full" type="button" data-demo-order>Complete demo task</button>
     <span class="tag">Sample only</span>
-   </article>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=85" alt="Travel backpack product" loading="lazy">
-    <div class="currency">SILVER LEAGUE · DEMO</div><h3>Travel Backpack</h3>
-    <p class="muted">Pre-book this travel backpack in the sample product list.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳3,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳300</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
-   </article>
-   <div class="task-league-heading"><strong>GOLD LEAGUE TASKS</strong><span>2 separate tasks</span></div>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="Running shoes product" loading="lazy">
-    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Running Shoes</h3>
-    <p class="muted">Preview a pre-booking for everyday running shoes.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳4,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳400</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
-   </article>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=900&q=85" alt="Digital camera product" loading="lazy">
+   </article><article class="card task-card" data-league-index="1" data-task-index="7">
+    <img class="product-image" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85" alt="Running Shoes demo task" loading="lazy">
+    <div class="currency">SILVER LEAGUE · DEMO</div><h3>Running Shoes</h3>
+    <p class="muted">Preview this running shoes pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳3,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳285</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="1" data-task-index="8">
+    <img class="product-image" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85" alt="Smart Desk Lamp demo task" loading="lazy">
+    <div class="currency">SILVER LEAGUE · DEMO</div><h3>Smart Desk Lamp</h3>
+    <p class="muted">Preview this smart desk lamp pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳3,500</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳333</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="1" data-task-index="9">
+    <img class="product-image" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85" alt="Power Bank demo task" loading="lazy">
+    <div class="currency">SILVER LEAGUE · DEMO</div><h3>Power Bank</h3>
+    <p class="muted">Preview this power bank pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳4,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳380</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="1" data-task-index="10">
+    <img class="product-image" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85" alt="Fitness Band demo task" loading="lazy">
+    <div class="currency">SILVER LEAGUE · DEMO</div><h3>Fitness Band</h3>
+    <p class="muted">Preview this fitness band pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳4,500</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳428</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="1" data-task-index="11">
+    <img class="product-image" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85" alt="Travel Trolley demo task" loading="lazy">
+    <div class="currency">SILVER LEAGUE · DEMO</div><h3>Travel Trolley</h3>
+    <p class="muted">Preview this travel trolley pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳5,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳475</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="1" data-task-index="12">
+    <img class="product-image" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=85" alt="Mechanical Keyboard demo task" loading="lazy">
+    <div class="currency">SILVER LEAGUE · DEMO</div><h3>Mechanical Keyboard</h3>
+    <p class="muted">Preview this mechanical keyboard pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳6,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳570</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><div class="task-league-heading"><strong>GOLD LEAGUE TASKS</strong><span>10 separate tasks</span></div><article class="card task-card" data-league-index="2" data-task-index="13">
+    <img class="product-image" src="https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=900&q=85" alt="Laptop demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Laptop</h3>
+    <p class="muted">Preview this laptop pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳7,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳770</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="14">
+    <img class="product-image" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=85" alt="Smartphone demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Smartphone</h3>
+    <p class="muted">Preview this smartphone pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳8,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳880</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="15">
+    <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Digital Camera demo task" loading="lazy">
     <div class="currency">GOLD LEAGUE · DEMO</div><h3>Digital Camera</h3>
-    <p class="muted">Explore a compact camera product task preview.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳5,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳800</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
-   </article>
-   <div class="task-league-heading"><strong>MASTER LEAGUE TASKS</strong><span>2 separate tasks</span></div>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=85" alt="Fitness tracker product" loading="lazy">
-    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Fitness Tracker</h3>
-    <p class="muted">Preview a wearable fitness tracker pre-booking.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳7,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳700</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
-   </article>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85" alt="Headphones product" loading="lazy">
-    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Wireless Headphones</h3>
-    <p class="muted">Check this over-ear headphones task preview.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳8,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳500</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
-   </article>
-   <div class="task-league-heading"><strong>EXPERT LEAGUE TASKS</strong><span>2 separate tasks</span></div>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85" alt="Smartphone product" loading="lazy">
-    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Smartphone</h3>
-    <p class="muted">Preview a smartphone product pre-booking task.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳12,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳1,200</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
-   </article>
-   <article class="card task-card">
-    <img class="product-image" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85" alt="Portable speaker product" loading="lazy">
-    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Portable Speaker</h3>
-    <p class="muted">Preview a portable audio product task.</p>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Product value</span><strong>৳15,000</strong></div><div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳1,500</strong></div><div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div></div>
-    <button class="btn full" type="button" data-demo-order>Complete demo task</button><span class="tag">Sample only</span>
-   </article>
-  </div>
- </div>
+    <p class="muted">Preview this digital camera pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳9,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳990</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="16">
+    <img class="product-image" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85" alt="Tablet demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Tablet</h3>
+    <p class="muted">Preview this tablet pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳10,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳1,100</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="17">
+    <img class="product-image" src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85" alt="Gaming Monitor demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Gaming Monitor</h3>
+    <p class="muted">Preview this gaming monitor pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳12,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳1,320</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="18">
+    <img class="product-image" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=85" alt="Office Chair demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Office Chair</h3>
+    <p class="muted">Preview this office chair pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳15,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳1,650</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="19">
+    <img class="product-image" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="Electric Scooter demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Electric Scooter</h3>
+    <p class="muted">Preview this electric scooter pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳18,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳1,980</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="20">
+    <img class="product-image" src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=900&q=85" alt="Premium Watch demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Premium Watch</h3>
+    <p class="muted">Preview this premium watch pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳22,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳2,420</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="21">
+    <img class="product-image" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=85" alt="Drone Camera demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Drone Camera</h3>
+    <p class="muted">Preview this drone camera pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳25,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳2,750</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="2" data-task-index="22">
+    <img class="product-image" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85" alt="Home Projector demo task" loading="lazy">
+    <div class="currency">GOLD LEAGUE · DEMO</div><h3>Home Projector</h3>
+    <p class="muted">Preview this home projector pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳30,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳3,300</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><div class="task-league-heading"><strong>MASTER LEAGUE TASKS</strong><span>12 separate tasks</span></div><article class="card task-card" data-league-index="3" data-task-index="23">
+    <img class="product-image" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85" alt="Motorcycle demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Motorcycle</h3>
+    <p class="muted">Preview this motorcycle pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳35,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳4,375</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="24">
+    <img class="product-image" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85" alt="Studio Apartment Booking demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Studio Apartment Booking</h3>
+    <p class="muted">Preview this studio apartment booking pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳40,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳5,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="25">
+    <img class="product-image" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85" alt="Gaming Laptop demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Gaming Laptop</h3>
+    <p class="muted">Preview this gaming laptop pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳50,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳6,250</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="26">
+    <img class="product-image" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85" alt="Professional Camera demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Professional Camera</h3>
+    <p class="muted">Preview this professional camera pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳60,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳7,500</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="27">
+    <img class="product-image" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=85" alt="Electric Bike demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Electric Bike</h3>
+    <p class="muted">Preview this electric bike pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳75,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳9,375</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="28">
+    <img class="product-image" src="https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=900&q=85" alt="Luxury Sofa Set demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Luxury Sofa Set</h3>
+    <p class="muted">Preview this luxury sofa set pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳90,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳11,250</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="29">
+    <img class="product-image" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=85" alt="Commercial Refrigerator demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Commercial Refrigerator</h3>
+    <p class="muted">Preview this commercial refrigerator pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳100,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳12,500</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="30">
+    <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Designer Furniture Set demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Designer Furniture Set</h3>
+    <p class="muted">Preview this designer furniture set pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳125,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳15,625</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="31">
+    <img class="product-image" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85" alt="Premium Smartphone demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Premium Smartphone</h3>
+    <p class="muted">Preview this premium smartphone pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳150,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳18,750</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="32">
+    <img class="product-image" src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85" alt="Smart TV 75-inch demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Smart TV 75-inch</h3>
+    <p class="muted">Preview this smart tv 75-inch pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳180,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳22,500</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="33">
+    <img class="product-image" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=85" alt="Home Renovation Package demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Home Renovation Package</h3>
+    <p class="muted">Preview this home renovation package pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳200,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳25,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="3" data-task-index="34">
+    <img class="product-image" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="Business Office Suite demo task" loading="lazy">
+    <div class="currency">MASTER LEAGUE · DEMO</div><h3>Business Office Suite</h3>
+    <p class="muted">Preview this business office suite pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳250,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳31,250</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><div class="task-league-heading"><strong>EXPERT LEAGUE TASKS</strong><span>15 separate tasks</span></div><article class="card task-card" data-league-index="4" data-task-index="35">
+    <img class="product-image" src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=900&q=85" alt="Family Car demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Family Car</h3>
+    <p class="muted">Preview this family car pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳300,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳42,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="36">
+    <img class="product-image" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=85" alt="Premium Apartment Booking demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Premium Apartment Booking</h3>
+    <p class="muted">Preview this premium apartment booking pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳350,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳49,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="37">
+    <img class="product-image" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85" alt="SUV Pre-booking demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>SUV Pre-booking</h3>
+    <p class="muted">Preview this suv pre-booking pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳400,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳56,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="38">
+    <img class="product-image" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85" alt="Luxury Sedan demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Luxury Sedan</h3>
+    <p class="muted">Preview this luxury sedan pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳500,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳70,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="39">
+    <img class="product-image" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85" alt="Penthouse Reservation demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Penthouse Reservation</h3>
+    <p class="muted">Preview this penthouse reservation pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳600,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳84,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="40">
+    <img class="product-image" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85" alt="Commercial Property Booking demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Commercial Property Booking</h3>
+    <p class="muted">Preview this commercial property booking pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳750,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳105,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="41">
+    <img class="product-image" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85" alt="Electric Car demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Electric Car</h3>
+    <p class="muted">Preview this electric car pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳900,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳126,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="42">
+    <img class="product-image" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=85" alt="Villa Reservation demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Villa Reservation</h3>
+    <p class="muted">Preview this villa reservation pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,000,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳140,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="43">
+    <img class="product-image" src="https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=900&q=85" alt="Premium Motorcycle demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Premium Motorcycle</h3>
+    <p class="muted">Preview this premium motorcycle pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,200,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳168,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="44">
+    <img class="product-image" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=85" alt="Office Building Suite demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Office Building Suite</h3>
+    <p class="muted">Preview this office building suite pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,500,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳210,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="45">
+    <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Luxury Furniture Package demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Luxury Furniture Package</h3>
+    <p class="muted">Preview this luxury furniture package pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳1,800,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳252,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="46">
+    <img class="product-image" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85" alt="High-end Workstation demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>High-end Workstation</h3>
+    <p class="muted">Preview this high-end workstation pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳2,000,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳280,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="47">
+    <img class="product-image" src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=85" alt="Warehouse Lease Package demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Warehouse Lease Package</h3>
+    <p class="muted">Preview this warehouse lease package pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳2,500,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳350,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="48">
+    <img class="product-image" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=85" alt="Resort Villa Booking demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Resort Villa Booking</h3>
+    <p class="muted">Preview this resort villa booking pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳3,000,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳420,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article><article class="card task-card" data-league-index="4" data-task-index="49">
+    <img class="product-image" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="Premium Real Estate Package demo task" loading="lazy">
+    <div class="currency">EXPERT LEAGUE · DEMO</div><h3>Premium Real Estate Package</h3>
+    <p class="muted">Preview this premium real estate package pre-booking task. This is a sample listing only.</p>
+    <div class="detail-list">
+     <div class="detail-row"><span class="muted">Product value</span><strong>৳4,000,000</strong></div>
+     <div class="detail-row"><span class="muted">Sample margin</span><strong style="color:var(--green)">৳560,000</strong></div>
+     <div class="detail-row"><span class="muted">Task status</span><strong data-order-status>Available · Demo</strong></div>
+    </div>
+    <button class="btn full" type="button" data-demo-order>Complete demo task</button>
+    <span class="tag">Sample only</span>
+   </article></div></div>
 
  <div id="levelPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>League</h2><p class="muted" style="margin:4px 0 0">Leagues unlock one by one. Complete both tasks in your current League to unlock the next.</p></div><span class="pill">5 Leagues</span></div>
-  <div class="notice"><strong>Demo progression:</strong> Every League has 2 separate demo tasks. You can work in any League without upgrading. Progress is saved only on this device and is not verified purchase activity. Product values and estimated margins are illustrations only; no income is generated or guaranteed.</div>
+  <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>League</h2><p class="muted" style="margin:4px 0 0">Leagues unlock one by one. Complete every task in your current League to unlock the next.</p></div><span class="pill">5 Leagues · 50 Tasks</span></div>
+  <div class="notice"><strong>Demo progression:</strong> Each League has its own task count: Bronze 5, Silver 8, Gold 10, Master 12 and Expert 15. Complete all tasks in one League to unlock the next. Progress is saved only on this device and is not verified purchase activity. Product values and sample margins are illustrations only.</div>
   <article class="card league-progress-summary"><div class="currency">YOUR PROGRESS</div><h3 id="leagueCurrentTitle">Bronze League</h3><p class="muted" id="leagueProgressText">0 of 2 demo tasks completed</p><div class="league-progress-track"><span id="leagueProgressFill"></span></div></article>
   <div class="league-grid">
-   <article class="league-card league-bronze" data-league-index="0"><div class="league-top"><span class="league-icon">♜</span><span class="league-number">LEAGUE 01</span></div><h3>Bronze</h3><p>2 separate Bronze tasks · Starting League.</p><div class="league-bottom"><span class="league-status">CURRENT LEAGUE</span><span class="league-lock">✓</span></div></article>
-   <article class="league-card league-silver locked" data-league-index="1"><div class="league-top"><span class="league-icon">♙</span><span class="league-number">LEAGUE 02</span></div><h3>Silver</h3><p>2 separate Silver tasks · Unlock after Bronze.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-gold locked" data-league-index="2"><div class="league-top"><span class="league-icon">♛</span><span class="league-number">LEAGUE 03</span></div><h3>Gold</h3><p>2 separate Gold tasks · Unlock after Silver.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-master locked" data-league-index="3"><div class="league-top"><span class="league-icon">✦</span><span class="league-number">LEAGUE 04</span></div><h3>Master</h3><p>2 separate Master tasks · Unlock after Gold.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-   <article class="league-card league-expert locked" data-league-index="4"><div class="league-top"><span class="league-icon">♕</span><span class="league-number">LEAGUE 05</span></div><h3>Expert</h3><p>2 separate Expert tasks · Unlock after Master.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
-  </div>
+   <article class="league-card league-bronze" data-league-index="0"><div class="league-top"><span class="league-icon">♜</span><span class="league-number">LEAGUE 01</span></div><h3>Bronze</h3><p>5 separate Bronze tasks · Starting League.</p><div class="league-bottom"><span class="league-status">CURRENT LEAGUE</span><span class="league-lock">✓</span></div></article>
+   <article class="league-card league-silver locked" data-league-index="1"><div class="league-top"><span class="league-icon">♙</span><span class="league-number">LEAGUE 02</span></div><h3>Silver</h3><p>8 separate Silver tasks · Unlock after Bronze.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-gold locked" data-league-index="2"><div class="league-top"><span class="league-icon">♛</span><span class="league-number">LEAGUE 03</span></div><h3>Gold</h3><p>10 separate Gold tasks · Unlock after Silver.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-master locked" data-league-index="3"><div class="league-top"><span class="league-icon">✦</span><span class="league-number">LEAGUE 04</span></div><h3>Master</h3><p>12 separate Master tasks · Unlock after Gold.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+   <article class="league-card league-expert locked" data-league-index="4"><div class="league-top"><span class="league-icon">♕</span><span class="league-number">LEAGUE 05</span></div><h3>Expert</h3><p>15 separate Expert tasks · Unlock after Master.</p><div class="league-bottom"><span class="league-status">LOCKED</span><span class="league-lock">🔒</span></div></article>
+  </div>iv>
  </div>
 
 <div id="settingsPanel" class="tab-panel hidden">
@@ -339,34 +797,37 @@
  function showHome(){ $("publicHome").classList.remove("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.add("hidden"); }
  let currentUserId = null;
  const leagueNames = ["Bronze","Silver","Gold","Master","Expert"];
+ const leagueTaskCounts = [5,8,10,12,15];
  function readDemoTasks(){
-   try{return JSON.parse(localStorage.getItem("crown_demo_tasks_"+currentUserId)||"[]");}
+   try{return JSON.parse(localStorage.getItem("crown_demo_tasks_v2_"+currentUserId)||"[]");}
    catch(_){return [];}
  }
  function renderLeagueProgress(){
    if(!currentUserId)return;
    const done=readDemoTasks();
-   const completedByLeague=leagueNames.map((_,i)=>[i*2,i*2+1].filter(n=>done.includes(n)).length);
-   const firstIncomplete=completedByLeague.findIndex(count=>count<2);
+   const cards=[...document.querySelectorAll(".task-card[data-task-index]")];
+   const completedByLeague=leagueTaskCounts.map((_,i)=>cards.filter(card=>Number(card.dataset.leagueIndex)===i&&done.includes(Number(card.dataset.taskIndex))).length);
+   const firstIncomplete=completedByLeague.findIndex((count,i)=>count<leagueTaskCounts[i]);
    const activeLeague=firstIncomplete<0?4:firstIncomplete;
-   const cards=[...document.querySelectorAll(".task-card")];
-   cards.forEach((card,index)=>{
+   cards.forEach(card=>{
+     const index=Number(card.dataset.taskIndex);
+     const league=Number(card.dataset.leagueIndex);
      const status=card.querySelector("[data-order-status]");
      const button=card.querySelector("[data-demo-order]");
      if(!status||!button)return;
      const completed=done.includes(index);
-     const locked=Math.floor(index/2)>activeLeague;
+     const locked=league>activeLeague;
      status.textContent=completed?"Completed · Demo":locked?"Locked · Complete previous League":"Available · Demo";
      button.textContent=completed?"Completed · Demo":locked?"Complete previous League first":"Complete demo task";
      button.disabled=completed||locked;
      button.classList.toggle("secondary",completed||locked);
      card.classList.toggle("task-locked",locked);
    });
-   document.querySelectorAll("[data-league-index]").forEach(card=>{
+   document.querySelectorAll(".league-card[data-league-index]").forEach(card=>{
      const i=Number(card.dataset.leagueIndex);
      const status=card.querySelector(".league-status");
      const icon=card.querySelector(".league-lock");
-     const complete=completedByLeague[i]===2;
+     const complete=completedByLeague[i]===leagueTaskCounts[i];
      const locked=i>activeLeague;
      card.classList.toggle("locked",locked);
      if(status)status.textContent=complete?"TASKS COMPLETED":locked?"LOCKED · FINISH PREVIOUS":"CURRENT LEAGUE";
@@ -377,18 +838,22 @@
    const text=document.getElementById("leagueProgressText");
    const fill=document.getElementById("leagueProgressFill");
    if(title)title.textContent=leagueNames[activeLeague]+" League";
-   if(text)text.textContent=count+" of 2 demo tasks completed · Complete both to unlock the next League";
-   if(fill)fill.style.width=(count/2*100)+"%";
+   if(text)text.textContent=count+" of "+leagueTaskCounts[activeLeague]+" demo tasks completed · Complete all to unlock the next League";
+   if(fill)fill.style.width=(count/leagueTaskCounts[activeLeague]*100)+"%";
  }
  function completeDemoTask(button){
    if(!currentUserId){alert("Please sign in first.");return;}
-   const cards=[...document.querySelectorAll(".task-card")];
-   const index=cards.indexOf(button.closest(".task-card"));
-   if(index<0)return;
+   const card=button.closest(".task-card");
+   if(!card)return;
+   const index=Number(card.dataset.taskIndex);
+   const league=Number(card.dataset.leagueIndex);
    const done=readDemoTasks();
    if(done.includes(index))return;
+   const cards=[...document.querySelectorAll(".task-card[data-task-index]")];
+   const completedInLeague=cards.filter(item=>Number(item.dataset.leagueIndex)===league&&done.includes(Number(item.dataset.taskIndex))).length;
+   if(league>leagueNames.findIndex((_,i)=>completedInLeague<leagueTaskCounts[i]))return;
    done.push(index);
-   localStorage.setItem("crown_demo_tasks_"+currentUserId,JSON.stringify(done));
+   localStorage.setItem("crown_demo_tasks_v2_"+currentUserId,JSON.stringify(done));
    renderLeagueProgress();
  }
  function showDashboard(user){
