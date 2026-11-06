@@ -92,31 +92,41 @@
  </div>
 
  <div id="walletPanel" class="tab-panel hidden">
-  <div class="section-head"><div><div class="eyebrow">Wallet center</div><h2>Wallet</h2><p class="muted" style="margin:4px 0 0">BDT services and EVM testnet wallet.</p></div><span class="pill">Limited mode</span></div>
-  <div class="grid">
-   <article class="card"><div class="currency">BDT · FIAT WALLET</div><h3>BDT Balance</h3><div class="big">৳0.00</div><p class="muted">Your BDT wallet balance will appear here when an authorised provider and secure ledger are connected.</p><span class="tag">Demo balance</span></article>
-   <article class="card"><div class="currency">USDT · CRYPTO WALLET</div><h3>USDT Balance</h3><div class="big">0.00 USDT</div><p class="muted">No real crypto balance is connected. Only the EVM testnet address can currently be viewed.</p><span class="tag">Demo balance</span></article>
-   <article class="card"><div class="currency">WALLET CONTROLS</div><h3>Deposit & Withdraw</h3><p class="muted">Deposit funds into your Crown wallet or request a withdrawal of your available balance.</p><div class="actions"><button class="btn" disabled title="Available after provider approval">Deposit</button><button class="btn secondary" disabled title="Available after provider approval">Withdraw</button></div><span class="tag">Not active yet</span></article>
+  <div class="section-head"><div><div class="eyebrow">Wallet center</div><h2>Wallet</h2><p class="muted" style="margin:4px 0 0">Manage your wallet connections and activity.</p></div><span class="pill">Limited mode</span></div>
+  <nav class="dash-tabs" aria-label="Wallet menu" style="grid-template-columns:repeat(4,1fr);margin-top:0">
+   <button class="dash-tab active" data-wallet-tab="walletConnectPanel">Connect</button>
+   <button class="dash-tab" data-wallet-tab="walletDepositPanel">Deposit</button>
+   <button class="dash-tab" data-wallet-tab="walletWithdrawPanel">Withdraw</button>
+   <button class="dash-tab" data-wallet-tab="walletHistoryPanel">History</button>
+  </nav>
+  <div id="walletConnectPanel" class="wallet-subpanel">
+   <div class="grid">
+    <article class="card"><div class="currency">BDT · FIAT WALLET</div><h3>BDT Balance</h3><div class="big">৳0.00</div><p class="muted">Demo balance. Live funds are not connected.</p></article>
+    <article class="card"><div class="currency">USDT · CRYPTO WALLET</div><h3>USDT Balance</h3><div class="big">0.00 USDT</div><p class="muted">Demo balance. No real crypto balance is connected.</p></article>
+   </div>
+   <article class="card" style="margin-top:14px">
+    <div class="currency">EVM · TESTNET ONLY</div><h3>Connect crypto wallet</h3>
+    <p class="muted">Connect MetaMask or another EVM-compatible wallet to view its public address on Sepolia testnet. Crown will not request your seed phrase, private key, token approval, signature, or transaction.</p>
+    <div class="actions"><button class="btn" id="connectEvm">Connect EVM Wallet</button><button class="btn secondary hidden" id="disconnectEvm">Disconnect view</button></div>
+    <div id="evmWalletInfo" class="notice hidden" style="margin-top:14px;overflow-wrap:anywhere"></div>
+    <div id="evmWalletStatus" class="status" role="status" aria-live="polite"></div>
+    <span class="tag">Sepolia testnet</span><span class="tag">Read-only connection</span><span class="tag">No real USDT</span>
+   </article>
   </div>
-  <div class="section-head"><div><div class="eyebrow">Wallet records</div><h2>Transaction History</h2><p class="muted" style="margin:4px 0 0">Deposits, withdrawals, purchases and transfers will be listed here.</p></div></div>
-  <article class="card">
-   <h3>Recent transactions</h3>
-   <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;text-align:left;margin-top:12px;font-size:13px"><thead><tr style="color:var(--muted);border-bottom:1px solid var(--line)"><th style="padding:10px 6px">Type</th><th style="padding:10px 6px">Date</th><th style="padding:10px 6px">Amount</th><th style="padding:10px 6px">Status</th></tr></thead><tbody><tr><td colspan="4" style="padding:18px 6px;text-align:center;color:var(--muted)">No transactions yet. Your wallet activity will appear here.</td></tr></tbody></table></div>
-   <span class="tag">History preview</span><span class="tag">No real transactions</span>
-  </article>
-  <div class="section-head"><div><div class="eyebrow">Withdrawal controls</div><h2>Withdrawal Approval</h2></div></div>
-  <article class="card">
-   <h3>Admin approval process</h3><p class="muted">Planned process: customer submits request → Admin reviews → Approve or Reject → authorised provider processes approved payout.</p><div class="pill">Workflow preview only</div><p class="muted" style="margin-top:10px">No real withdrawal request is submitted or stored yet.</p>
-  </article>
-  <article class="card" style="margin-top:14px">
-   <div class="currency">EVM · TESTNET ONLY</div><h3>Connect crypto wallet</h3>
-   <p class="muted">Connect MetaMask or another EVM-compatible wallet to view its public address on Sepolia testnet. Crown will not request your seed phrase, private key, token approval, signature, or transaction.</p>
-   <div class="actions"><button class="btn" id="connectEvm">Connect EVM Wallet</button><button class="btn secondary hidden" id="disconnectEvm">Disconnect view</button></div>
-   <div id="evmWalletInfo" class="notice hidden" style="margin-top:14px;overflow-wrap:anywhere"></div>
-   <div id="evmWalletStatus" class="status" role="status" aria-live="polite"></div>
-   <span class="tag">Sepolia testnet</span><span class="tag">Read-only connection</span><span class="tag">No real USDT</span>
-  </article>
-  <div class="notice"><strong>Important:</strong> This wallet screen is not a live payment service. BDT payments require an authorised provider and applicable approvals. Crypto transfers remain disabled; use only testnet for wallet connection testing.</div>
+  <div id="walletDepositPanel" class="wallet-subpanel hidden">
+   <article class="card"><div class="currency">ADD FUNDS</div><h3>Deposit</h3><p class="muted">Add money to your Crown wallet using an authorised payment provider. This option will be enabled after business verification, required approvals and secure provider integration.</p><div class="big">৳0.00</div><button class="btn full" disabled title="Available after provider approval">Deposit funds</button><span class="tag">Not active yet</span></article>
+  </div>
+  <div id="walletWithdrawPanel" class="wallet-subpanel hidden">
+   <article class="card"><div class="currency">CASH OUT</div><h3>Withdraw</h3><p class="muted">Request withdrawal of your available wallet balance to a verified payout method. Requests will require secure checks and approval.</p><div class="big">৳0.00</div><button class="btn full" disabled title="Available after provider approval">Request withdrawal</button><p class="muted" style="margin-top:12px">No real withdrawal request can be submitted yet.</p><span class="tag">Not active yet</span></article>
+  </div>
+  <div id="walletHistoryPanel" class="wallet-subpanel hidden">
+   <article class="card"><div class="currency">WALLET RECORDS</div><h3>Transaction History</h3><p class="muted">Deposits, withdrawals and purchases will appear here.</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;text-align:left;margin-top:12px;font-size:13px"><thead><tr style="color:var(--muted);border-bottom:1px solid var(--line)"><th style="padding:10px 6px">Type</th><th style="padding:10px 6px">Date</th><th style="padding:10px 6px">Amount</th><th style="padding:10px 6px">Status</th></tr></thead><tbody><tr><td colspan="4" style="padding:18px 6px;text-align:center;color:var(--muted)">No transactions yet.</td></tr></tbody></table></div>
+    <span class="tag">History preview</span>
+   </article>
+   <article class="card" style="margin-top:14px"><h3>Withdrawal approval</h3><p class="muted">Planned process: customer submits request → Admin reviews → Approve or Reject → authorised provider processes payout.</p><span class="pill">Workflow preview only</span></article>
+  </div>
+  <div class="notice"><strong>Important:</strong> Deposit and withdrawal are disabled until the required legal approvals, authorised provider and secure backend are in place. EVM connection is Sepolia testnet only.</div>
  </div>
 
  <div id="settingsPanel" class="tab-panel hidden">
@@ -173,6 +183,7 @@
  function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  document.querySelectorAll(".dash-tab").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
+ document.querySelectorAll("[data-wallet-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-wallet-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".wallet-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.walletTab));}));
  function updateBalanceCurrency(){const currency=$("balanceCurrency")?.value||"BDT";const label=currency==="USDT"?"$0.00 USDT":"৳0.00 BDT";$("mainBalance").textContent=label;$("balanceBadge").textContent="Balance: "+(currency==="USDT"?"0.00 USDT":"৳0.00 BDT");}
  $("balanceCurrency")?.addEventListener("change",updateBalanceCurrency);
  const EVM_TEST_CHAIN_ID="0xaa36a7";
