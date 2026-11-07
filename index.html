@@ -918,7 +918,7 @@
      $("accountSettingsEmail").textContent = user.email || "Not available";
      $("accountSettingsJoined").textContent = data?.created_at ? new Date(data.created_at).toLocaleDateString() : new Date(user.created_at).toLocaleDateString();
      $("profileJoined").textContent = data?.created_at ? new Date(data.created_at).toLocaleDateString() : new Date(user.created_at).toLocaleDateString();
-     $("setupUsernameCard").classList.toggle("hidden", !!data?.username);
+     $("setupUsernameCard").classList.remove("hidden");
      if(data?.username) $("newUsername").value=data.username;
    });
  }
