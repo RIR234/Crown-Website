@@ -939,7 +939,16 @@
    if($("adminOrderVolume"))$("adminOrderVolume").textContent=money(orders.filter(o=>o.status==="confirmed").reduce((n,o)=>n+Number(o.amount||0),0));
    const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
    if($("adminUsersTable"))$("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'</small></span><span class="tag">'+esc(u.role||"user")+'</span></div>').join(""):'<span class="muted">No users found.</span>';
-   if($("adminOrdersTable"))$("adminOrdersTable").innerHTML=orders.length?orders.map(o=>'<div class="detail-row"><span><strong>'+esc(o.task_title)+'</strong><br><small class="muted">'+esc(names[o.user_id]||o.user_id.slice(0,8))+' · '+new Date(o.created_at).toLocaleString()+'</small></span><span><strong>'+money(o.amount)+'</strong><br><small class="muted">'+esc(o.status)+'</small></span></div>').join(""):'<span class="muted">No demo orders yet.</span>';
+   if($("adminOrdersTable")){
+     $("adminOrdersTable").innerHTML=orders.length?orders.map(o=>'<div class="detail-row"><span><strong>'+esc(o.task_title)+'</strong><br><small class="muted">'+esc(names[o.user_id]||o.user_id.slice(0,8))+' · '+new Date(o.created_at).toLocaleString()+'</small></span><span><strong>'+money(o.amount)+'</strong><br><small class="muted">'+esc(o.status)+'</small>'+(o.status==="confirmed"?' <button class="btn secondary" type="button" data-cancel-order="'+o.id+'">Cancel & refund demo</button>':'')+'</span></div>').join(""):'<span class="muted">No demo orders yet.</span>';
+     $("adminOrdersTable").querySelectorAll("[data-cancel-order]").forEach(btn=>btn.addEventListener("click",async()=>{
+       if(!confirm("Cancel this demo order and return demo credits to the user's test wallet?"))return;
+       btn.disabled=true;
+       const {error}=await db.rpc("admin_cancel_crown_demo_order",{p_order_id:btn.dataset.cancelOrder});
+       if(error){alert(error.message);btn.disabled=false;return;}
+       await refreshAdminPanel();
+     }));
+   }
    if($("adminLedgerTable"))$("adminLedgerTable").innerHTML=ledger.length?ledger.map(t=>'<div class="detail-row"><span><strong>'+esc(t.type==="demo_credit"?"Demo credit":"Demo order debit")+'</strong><br><small class="muted">'+esc(names[t.user_id]||t.user_id.slice(0,8))+' · '+new Date(t.created_at).toLocaleString()+'</small></span><span>'+money(t.amount)+'</span></div>').join(""):'<span class="muted">No ledger entries yet.</span>';
    if(status)status.textContent="Admin data updated.";
  }
