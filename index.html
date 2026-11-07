@@ -125,9 +125,7 @@
   <div class="eyebrow">Secure account access</div><h2 id="authTitle">Log in to Crown</h2>
   <p class="muted" id="authHint">Enter your User ID or registered email and password.</p>
   <div class="field hidden" id="emailField"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
-  <div class="field hidden" id="fullNameField"><label for="fullName">Full name</label><input id="fullName" autocomplete="name" placeholder="Your full name"></div>
-  <div class="field hidden" id="usernameField"><label for="username">User ID</label><input id="username" autocomplete="username" placeholder="Choose User ID (3–24 letters, numbers, _)"></div>
-  <div class="field hidden" id="referralCodeField"><label for="signupReferralCode">Invitation code (required)</label><input id="signupReferralCode" autocomplete="off" maxlength="16" placeholder="Enter a valid invitation code" required></div>
+  <div class="field hidden" id="referralCodeField"><label for="signupReferralCode">Invite / Referral code (optional)</label><input id="signupReferralCode" autocomplete="off" maxlength="16" placeholder="Enter invite / referral code (optional)"></div>
   <div class="field" id="loginUsernameField"><label for="loginUsername">User ID or email</label><input id="loginUsername" autocomplete="username" placeholder="Enter your User ID or registered email"></div>
   <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Enter password" required></div>
   <button class="btn full" id="passwordSignIn">Log in</button>
@@ -832,13 +830,13 @@
    auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true }
  }) : null;
  function authInputs(){
-   return {email: $("email").value.replace(/\s+/g,"").toLowerCase(),password:$("password").value,fullName:$("fullName").value.trim(),username:$("username").value.trim().toLowerCase(),loginUsername:$("loginUsername").value.trim().toLowerCase(),referralCode:$("signupReferralCode")?.value.trim().toUpperCase()||""};
+   return {email: $("email").value.replace(/\s+/g,"").toLowerCase(),password:$("password").value,loginUsername:$("loginUsername").value.trim().toLowerCase(),referralCode:$("signupReferralCode")?.value.trim().toUpperCase()||""};
  }
  function setAuthMode(mode){
    const signup=mode==="signup";
    $("authTitle").textContent=signup?"Create your Crown account":"Log in to Crown";
-   $("authHint").textContent=signup?"Enter your email, full name, User ID, password and a valid invitation code. Email confirmation may still be required until the Supabase Auth setting is disabled.":"Enter your User ID and password.";
-   ["emailField","fullNameField","usernameField","referralCodeField","passwordSignUp","switchToSignIn"].forEach(id=>$(id).classList.toggle("hidden",!signup));
+   $("authHint").textContent=signup?"Enter your email and password. User ID will be generated automatically. Invite / Referral code is optional.":"Enter your User ID and password.";
+   ["emailField","referralCodeField","passwordSignUp","switchToSignIn"].forEach(id=>$(id).classList.toggle("hidden",!signup));
    ["loginUsernameField","passwordSignIn","switchToSignUp"].forEach(id=>$(id).classList.toggle("hidden",signup));
    $("forgotPassword").classList.toggle("hidden",signup);
    $("resetEmailField").classList.add("hidden");$("sendForgotPassword").classList.add("hidden");
@@ -1061,7 +1059,7 @@
      await db.auth.signOut();
      showGuest();
      showAuth();
-     setStatus(pending?"Registration complete. Please verify your email if requested. Your account is waiting for Crown Admin approval.":"This account does not currently have access. Contact Crown Support.");
+     setStatus(pending?"Registration complete. Your account is waiting for Crown Admin approval.":"This account does not currently have access. Contact Crown Support.");
      return;
    }
    if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
@@ -1126,19 +1124,17 @@
  });
  $("passwordSignUp").addEventListener("click",async()=>{
    if(!db){setStatus("Authentication is not configured.");return;}
-   const {email,password,fullName,username,referralCode}=authInputs();
+   const {email,password,referralCode}=authInputs();
    const cleanEmail=email.replace(/\s+/g,"");
    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)){setStatus("Enter a valid email address.");return;}
-   if(!fullName){setStatus("Enter your full name.");return;}
-   if(!/^[a-z0-9_]{3,24}$/.test(username)){setStatus("User ID must be 3–24 characters: lowercase letters, numbers or underscore.");return;}
    if(password.length<8){setStatus("Use a password with at least 8 characters.");return;}
-   if(!/^[A-Z0-9]{6,16}$/.test(referralCode)){setStatus("A valid invitation code is required.");return;}
+   if(referralCode&&!/^[A-Z0-9]{6,16}$/.test(referralCode)){setStatus("Enter a valid invite / referral code or leave it blank.");return;}
    $("passwordSignUp").disabled=true;setStatus("Creating account…");
    try{
-     const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName,username,referral_code:referralCode},emailRedirectTo:window.location.origin}});
+     const {data,error}=await db.auth.signUp({email,password,options:{data:{referral_code:referralCode},emailRedirectTo:window.location.origin}});
      if(error)throw error;
      if(data.session&&data.user)await db.auth.signOut();
-     setStatus("Account created successfully. If email confirmation is enabled, verify your email. Crown Admin approval is still required before login.");
+     setStatus("Account created successfully. Your User ID is generated automatically. Crown Admin approval is required before login.");
    }catch(e){setStatus(e.message||"Account creation failed.");}
    finally{$("passwordSignUp").disabled=false;}
  });
