@@ -780,7 +780,7 @@
   <section id="settingsSecurityPanel" class="settings-subpanel hidden"><article class="card"><h3>Account security</h3><p class="muted">Change your password to help protect your Crown account.</p><div class="field"><label for="newAccountPassword">New password</label><input id="newAccountPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div><div class="field"><label for="confirmAccountPassword">Confirm new password</label><input id="confirmAccountPassword" type="password" autocomplete="new-password" placeholder="Enter password again"></div><button class="btn full" id="updateAccountPassword" type="button">Update password</button><div id="passwordUpdateStatus" class="status" role="status" aria-live="polite"></div><div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Session</span><strong>Managed by Supabase</strong></div></div><span class="tag">Never share your password or verification codes</span></article></section>
   <section id="settingsHistoryPanel" class="settings-subpanel hidden"><article class="card"><h3>Transaction history</h3><p class="muted">Your transaction history will appear here when approved payment services are enabled. No real transactions have been processed.</p><div class="detail-list"><div class="detail-row"><span class="muted">Deposits</span><strong>0</strong></div><div class="detail-row"><span class="muted">Withdrawals</span><strong>0</strong></div><div class="detail-row"><span class="muted">Purchases</span><strong>0</strong></div></div><span class="tag">No transactions</span></article></section>
   <section id="settingsPrivacyPanel" class="settings-subpanel hidden"><article class="card"><h3>Privacy settings</h3><p class="muted">Crown only displays the account details needed for this demo. Do not share private account information with anyone.</p><div class="detail-list"><div class="detail-row"><span class="muted">Profile visibility</span><strong>Private</strong></div><div class="detail-row"><span class="muted">Data controls</span><strong>Contact support</strong></div></div></article></section>
-  <section id="settingsNotificationsPanel" class="settings-subpanel hidden"><article class="card"><h3>Notifications</h3><p class="muted">Account and transaction notifications will be available after notification services are configured.</p><div class="detail-list"><div class="detail-row"><span class="muted">Email notifications</span><strong>Not configured</strong></div><div class="detail-row"><span class="muted">Security alerts</span><strong>Auth provider emails</strong></div></div></article></section>
+  <section id="settingsNotificationsPanel" class="settings-subpanel hidden"><article class="card"><div class="section-head"><div><h3>Notifications</h3><p class="muted">Task completion, demo payment and account activity updates.</p></div><button class="btn" type="button" id="clearNotifications">Clear all</button></div><div id="notificationList" class="detail-list"><span class="muted">No notifications yet.</span></div><p class="muted" style="font-size:11px;margin-top:12px">Notifications are saved on this device for this demo account. Email/push alerts are not configured.</p></article></section>
   <section id="settingsCarePanel" class="settings-subpanel hidden"><article class="card"><h3>Help & Customer Care</h3><p class="muted">Need help with your Crown account? Customer support contact details are not configured yet.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account help</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Technical support</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Response status</span><strong>Not available yet</strong></div></div><span class="tag">Support channel pending setup</span></article></section>
   <div class="notice" id="profileInfo">Signed in. Payment functions remain disabled until approved providers and backend controls are configured.</div>
  </div>
@@ -818,10 +818,12 @@
  function readDemoState(){
    try{
      const saved=JSON.parse(localStorage.getItem(demoKey())||"null");
-     return saved && typeof saved.balance==="number" ? saved : {balance:100000,spent:0,completed:[],pending:[]};
-   }catch(_){return {balance:100000,spent:0,completed:[],pending:[]};}
+     if(saved && typeof saved.balance==="number"){if(!Array.isArray(saved.notifications))saved.notifications=[];return saved;} return {balance:100000,spent:0,completed:[],pending:[],notifications:[]};
+   }catch(_){return {balance:100000,spent:0,completed:[],pending:[],notifications:[]};}
  }
  function saveDemoState(state){localStorage.setItem(demoKey(),JSON.stringify(state));}
+ function addNotification(state,title,message,type="activity"){state.notifications=Array.isArray(state.notifications)?state.notifications:[];state.notifications.unshift({id:Date.now()+Math.random(),title,message,type,at:new Date().toLocaleString()});state.notifications=state.notifications.slice(0,50);}
+ function renderNotifications(){if(!currentUserId)return;const list=$("notificationList");if(!list)return;const items=readDemoState().notifications||[];list.innerHTML=items.length?items.map(n=>`<div class="overview-section" style="padding:12px;margin-bottom:9px"><div class="detail-row"><strong>${n.title}</strong><span class="tag">${n.type==="transaction"?"TRANSACTION":n.type==="task"?"TASK":"ACTIVITY"}</span></div><p class="muted" style="margin:6px 0">${n.message}</p><small class="muted">${n.at}</small></div>`).join(""):'<span class="muted">No notifications yet.</span>';}
  function money(value){return "৳"+Number(value||0).toLocaleString("en-BD");}
  function taskPrice(card){
    const value=card.querySelector("[data-task-value] strong")?.textContent||"";
@@ -841,6 +843,7 @@
      if(!item)return;
      s.pending=s.pending.filter(x=>x.task!==task);
      if(!s.completed.includes(task))s.completed.push(task);
+     addNotification(s,"Task completed",item.name+" has been approved. Task "+(task+1)+" is complete.","task");
      saveDemoState(s);renderLeagueProgress();
    }));
  }
@@ -876,7 +879,7 @@
    if($("leagueCurrentTitle"))$("leagueCurrentTitle").textContent=leagueNames[activeLeague]+" League";
    if($("leagueProgressText"))$("leagueProgressText").textContent=count+" of "+leagueTaskCounts[activeLeague]+" demo tasks completed · Approve each demo payment to continue";
    if($("leagueProgressFill"))$("leagueProgressFill").style.width=(count/leagueTaskCounts[activeLeague]*100)+"%";
-   renderDemoWallet();
+   renderDemoWallet();renderNotifications();
  }
  function completeDemoTask(button){
    const card=button.closest(".task-card"),task=Number(card.dataset.taskIndex),price=taskPrice(card),name=card.querySelector("h3")?.textContent||("Task "+(task+1));
@@ -886,6 +889,7 @@
    if(state.balance<price){alert("Demo balance is not enough. Add Demo Balance from Home first.");return;}
    if(!confirm(name+" demo task-er jonno "+money(price)+" Demo Balance use korbe?"))return;
    state.balance-=price;state.spent+=price;state.pending.push({task,amount:price,name});
+   addNotification(state,"Demo payment submitted",name+" payment of "+money(price)+" is pending approval.","transaction");
    saveDemoState(state);renderLeagueProgress();
    alert("Demo payment submitted. Work tab-er Pending Task Approvals theke simulated admin approval dite parbe.");
  }
@@ -1001,9 +1005,10 @@
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
  document.querySelectorAll("[data-demo-order]").forEach(button=>button.addEventListener("click",()=>completeDemoTask(button)));
+ $("clearNotifications")?.addEventListener("click",()=>{const state=readDemoState();state.notifications=[];saveDemoState(state);renderNotifications();});
  $("demoTopUp")?.addEventListener("click",()=>{
    if(!currentUserId)return;
-   const state=readDemoState();state.balance+=100000;saveDemoState(state);renderDemoWallet();
+   const state=readDemoState();state.balance+=100000;addNotification(state,"Demo balance added","৳100,000 demo balance was added to your sample wallet.","transaction");saveDemoState(state);renderDemoWallet();
    alert("৳100,000 Demo Balance added. This is not real money.");
  });
 
