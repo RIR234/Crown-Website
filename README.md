@@ -10,7 +10,9 @@ The frontend and server RPC calls are in `index.html`. The database objects requ
 
 `supabase/migrations/202611070005_tighten_demo_ledger_privileges.sql`
 
-Apply the migrations in numeric order in the Supabase SQL Editor when setting up a fresh project. The second migration seeds all 50 demo tasks and makes the database—not browser-supplied values—the source of task names and prices. The third migration removes direct client write privileges from the demo ledger; balance and order changes go through guarded RPCs.
+`supabase/migrations/202611070006_enforce_unique_crown_usernames.sql`
+
+Apply the migrations in numeric order in the Supabase SQL Editor when setting up a fresh project. The second migration seeds all 50 demo tasks and makes the database—not browser-supplied values—the source of task names and prices. The third migration removes direct client write privileges from the demo ledger; balance and order changes go through guarded RPCs. The fourth enforces unique lowercase User IDs and validates the username format.
 
 ### What it enables
 
