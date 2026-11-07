@@ -37,11 +37,16 @@ Deno.serve(async (req) => {
     });
     const { data: profile, error: lookupError } = await admin
       .from("profiles")
-      .select("email")
+      .select("id")
       .eq("username", username)
       .maybeSingle();
 
-    if (lookupError || !profile?.email) {
+    if (lookupError || !profile?.id) {
+      return json({ error: "User ID or password is incorrect." }, 401);
+    }
+    const { data: account, error: accountError } = await admin.auth.admin.getUserById(profile.id);
+    const currentEmail = account?.user?.email;
+    if (accountError || !currentEmail) {
       return json({ error: "User ID or password is incorrect." }, 401);
     }
 
@@ -49,7 +54,7 @@ Deno.serve(async (req) => {
       auth: { persistSession: false, autoRefreshToken: false },
     });
     const { data, error } = await auth.auth.signInWithPassword({
-      email: profile.email,
+      email: currentEmail,
       password,
     });
 
