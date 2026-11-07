@@ -18,11 +18,13 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json();
-    const username = String(body?.username ?? "").trim().toLowerCase();
+    const identifier = String(body?.username ?? body?.identifier ?? "").trim().toLowerCase();
     const password = String(body?.password ?? "");
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+    const isUsername = /^[a-z0-9_]{3,24}$/.test(identifier);
 
-    if (!/^[a-z0-9_]{3,24}$/.test(username) || password.length < 8 || password.length > 128) {
-      return json({ error: "User ID or password is incorrect." }, 400);
+    if ((!isEmail && !isUsername) || password.length < 8 || password.length > 128) {
+      return json({ error: "User ID, email or password is incorrect." }, 400);
     }
 
     const url = Deno.env.get("SUPABASE_URL")!;
@@ -32,34 +34,35 @@ Deno.serve(async (req) => {
       return json({ error: "Login service is not configured." }, 500);
     }
 
-    const admin = createClient(url, serviceKey, {
-      auth: { persistSession: false, autoRefreshToken: false },
-    });
-    const { data: profile, error: lookupError } = await admin
-      .from("profiles")
-      .select("id")
-      .eq("username", username)
-      .maybeSingle();
+    let email = identifier;
+    if (isUsername) {
+      const admin = createClient(url, serviceKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      });
+      const { data: profile, error: lookupError } = await admin
+        .from("profiles")
+        .select("id")
+        .eq("username", identifier)
+        .maybeSingle();
 
-    if (lookupError || !profile?.id) {
-      return json({ error: "User ID or password is incorrect." }, 401);
-    }
-    const { data: account, error: accountError } = await admin.auth.admin.getUserById(profile.id);
-    const currentEmail = account?.user?.email;
-    if (accountError || !currentEmail) {
-      return json({ error: "User ID or password is incorrect." }, 401);
+      if (lookupError || !profile?.id) {
+        return json({ error: "User ID, email or password is incorrect." }, 401);
+      }
+      const { data: account, error: accountError } = await admin.auth.admin.getUserById(profile.id);
+      const currentEmail = account?.user?.email;
+      if (accountError || !currentEmail) {
+        return json({ error: "User ID, email or password is incorrect." }, 401);
+      }
+      email = currentEmail;
     }
 
     const auth = createClient(url, anonKey, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await auth.auth.signInWithPassword({
-      email: currentEmail,
-      password,
-    });
+    const { data, error } = await auth.auth.signInWithPassword({ email, password });
 
     if (error || !data.session) {
-      return json({ error: "User ID or password is incorrect." }, 401);
+      return json({ error: "User ID, email or password is incorrect." }, 401);
     }
 
     return json({ session: data.session, user: data.user });
