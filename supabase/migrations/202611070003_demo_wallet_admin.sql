@@ -168,3 +168,53 @@ GRANT EXECUTE ON FUNCTION public.add_crown_demo_credit() TO authenticated;
 
 GRANT SELECT ON public.crown_demo_wallets, public.crown_demo_orders, public.crown_demo_transactions TO authenticated;
 GRANT UPDATE ON public.crown_demo_orders TO authenticated;
+
+
+-- Permit a cancelled latest demo order to be placed again without losing its audit row.
+ALTER TABLE public.crown_demo_orders
+  DROP CONSTRAINT IF EXISTS crown_demo_orders_user_id_task_index_key;
+CREATE UNIQUE INDEX IF NOT EXISTS crown_demo_orders_one_confirmed_task
+  ON public.crown_demo_orders(user_id, task_index)
+  WHERE status = 'confirmed';
+
+CREATE OR REPLACE FUNCTION public.admin_cancel_crown_demo_order(p_order_id uuid)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+  v_order public.crown_demo_orders%ROWTYPE;
+  v_balance numeric(14,2);
+BEGIN
+  IF NOT public.is_crown_admin() THEN RAISE EXCEPTION 'Admin access required'; END IF;
+  SELECT * INTO v_order FROM public.crown_demo_orders
+    WHERE id = p_order_id FOR UPDATE;
+  IF NOT FOUND THEN RAISE EXCEPTION 'Order not found'; END IF;
+  IF v_order.status <> 'confirmed' THEN RAISE EXCEPTION 'Only confirmed orders can be cancelled'; END IF;
+  IF EXISTS (
+    SELECT 1 FROM public.crown_demo_orders
+    WHERE user_id = v_order.user_id
+      AND task_index > v_order.task_index
+      AND status = 'confirmed'
+  ) THEN
+    RAISE EXCEPTION 'Only the latest confirmed demo order can be cancelled';
+  END IF;
+
+  UPDATE public.crown_demo_wallets
+    SET balance = balance + v_order.amount,
+        total_spent = GREATEST(0, total_spent - v_order.amount),
+        updated_at = now()
+    WHERE user_id = v_order.user_id
+    RETURNING balance INTO v_balance;
+
+  UPDATE public.crown_demo_orders SET status = 'cancelled' WHERE id = p_order_id;
+  INSERT INTO public.crown_demo_transactions(user_id, order_id, type, amount, note)
+    VALUES (v_order.user_id, p_order_id, 'demo_credit', v_order.amount, 'Demo order cancelled and demo credit returned');
+
+  RETURN jsonb_build_object('order_id', p_order_id, 'balance', v_balance);
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.admin_cancel_crown_demo_order(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.admin_cancel_crown_demo_order(uuid) TO authenticated;
