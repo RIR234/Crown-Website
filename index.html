@@ -979,7 +979,7 @@
    const userStart=adminPages.users*adminPageSize,orderStart=adminPages.orders*adminPageSize,ledgerStart=adminPages.ledger*adminPageSize;
    const [summaryResult,usersResult,ordersResult,ledgerResult]=await Promise.all([
      db.rpc("get_crown_admin_dashboard_summary"),
-     db.from("profiles").select("id,username,full_name,email,role,created_at,is_blocked,referral_code",{count:"exact"}).order("created_at",{ascending:false}).range(userStart,userStart+adminPageSize-1),
+     db.from("profiles").select("id,username,full_name,email,role,created_at,is_blocked,referral_code,approval_status",{count:"exact"}).order("created_at",{ascending:false}).range(userStart,userStart+adminPageSize-1),
      db.from("crown_demo_orders").select("id,user_id,task_title,amount,status,created_at",{count:"exact"}).order("created_at",{ascending:false}).range(orderStart,orderStart+adminPageSize-1),
      db.from("crown_demo_transactions").select("id,user_id,type,amount,note,created_at",{count:"exact"}).order("created_at",{ascending:false}).range(ledgerStart,ledgerStart+adminPageSize-1)
    ]);
@@ -996,7 +996,8 @@
    const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
    const userSelect=$("adminWalletUser"),previousUser=userSelect?.value||"";
    if(userSelect){userSelect.innerHTML='<option value="">Select an account (current page)</option>'+users.map(u=>'<option value="'+esc(u.id)+'">'+esc(u.username||u.full_name||u.email||u.id.slice(0,8))+' · '+esc(u.role||"user")+'</option>').join("");if(users.some(u=>u.id===previousUser))userSelect.value=previousUser;}
-   $("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'<br>Demo balance: '+money(balances[u.id]||0)+'<br>Referral: '+esc(u.referral_code||"—")+'</small></span><span><span class="tag">'+esc(u.role||"user")+'</span><br><small class="muted">'+(u.is_blocked?"Blocked":"Active")+'</small>'+(u.role==="admin"?"":'<br><button class="btn secondary" type="button" data-block-user="'+esc(u.id)+'" data-block-next="'+(!u.is_blocked)+'">'+(u.is_blocked?"Unblock":"Block")+'</button>')+'</span></div>').join(""):'<span class="muted">No users found.</span>';
+   $("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'<br>Demo balance: '+money(balances[u.id]||0)+'<br>Referral: '+esc(u.referral_code||"—")+'</small></span><span><span class="tag">'+esc(u.role||"user")+'</span> <span class="tag">'+esc(u.approval_status||"approved")+'</span><br><small class="muted">'+(u.is_blocked?"Blocked":"Active")+'</small>'+(u.role==="admin"?"":(u.approval_status==="pending"?'<br><button class="btn" type="button" data-approve-user="'+esc(u.id)+'">Approve</button> <button class="btn secondary" type="button" data-reject-user="'+esc(u.id)+'">Reject</button>':'')+'<br><button class="btn secondary" type="button" data-block-user="'+esc(u.id)+'" data-block-next="'+(!u.is_blocked)+'">'+(u.is_blocked?"Unblock":"Block")+'</button>')+'</span></div>').join(""):'<span class="muted">No users found.</span>';
+   $("adminUsersTable").querySelectorAll("[data-approve-user],[data-reject-user]").forEach(btn=>btn.addEventListener("click",async()=>{const approve=!!btn.dataset.approveUser;const targetId=btn.dataset.approveUser||btn.dataset.rejectUser;const target=users.find(u=>u.id===targetId);if(!target||!confirm((approve?"Approve access for ":"Reject access for ")+(target.username||target.email||"this user")+"?"))return;btn.disabled=true;try{const {error}=await db.rpc(approve?"admin_approve_crown_user":"admin_reject_crown_user",{p_user_id:targetId});if(error)throw error;await refreshAdminPanel();}catch(error){alert(error.message||"Could not update approval.");btn.disabled=false;}}));
    $("adminUsersTable").querySelectorAll("[data-block-user]").forEach(btn=>btn.addEventListener("click",async()=>{const block=btn.dataset.blockNext==="true";const target=users.find(u=>u.id===btn.dataset.blockUser);if(!target||!confirm((block?"Block ":"Unblock ")+(target.username||target.email||"this user")+"?"))return;btn.disabled=true;try{const {error}=await db.rpc("admin_set_crown_user_blocked",{p_user_id:target.id,p_blocked:block,p_reason:null});if(error)throw error;await refreshAdminPanel();}catch(error){alert(error.message||"Could not update user status.");btn.disabled=false;}}));
    $("adminOrdersTable").innerHTML=orders.length?orders.map(o=>'<div class="detail-row"><span><strong>'+esc(o.task_title)+'</strong><br><small class="muted">'+esc(names[o.user_id]||o.user_id.slice(0,8))+' · '+new Date(o.created_at).toLocaleString()+'</small></span><span><strong>'+money(o.amount)+'</strong><br><small class="muted">'+esc(o.status)+'</small>'+(o.status==="confirmed"?' <button class="btn secondary" type="button" data-cancel-order="'+o.id+'">Cancel & refund demo</button>':'')+'</span></div>').join(""):'<span class="muted">No demo orders yet.</span>';
    $("adminOrdersTable").querySelectorAll("[data-cancel-order]").forEach(btn=>btn.addEventListener("click",async()=>{if(!confirm("Cancel this demo order, return the buyer's demo credits and reverse any inviter bonus?"))return;btn.disabled=true;const order=orders.find(item=>item.id===btn.dataset.cancelOrder);try{const {data,error}=await db.rpc("admin_cancel_crown_demo_order",{p_order_id:btn.dataset.cancelOrder});if(error)throw error;await refreshAdminPanel();if(order?.user_id===currentUserId)await loadServerDemoWallet();if(Number(data?.referral_bonus_reversed||0)>0)alert("Order refunded. Inviter's "+money(data.referral_bonus_reversed)+" referral bonus was also reversed.");}catch(error){alert(error.message||"Could not cancel and refund this demo order.");btn.disabled=false;}}));
@@ -1050,10 +1051,20 @@
    finally{button.disabled=false;renderLeagueProgress();}
  }
  async function loadReferralSummary(){if(!db||!currentUserId)return;const status=$("referralStatus");try{const {data,error}=await db.rpc("get_crown_referral_summary");if(error)throw error;const code=data.referral_code;$("myReferralLink").value=window.location.origin+window.location.pathname+"?ref="+encodeURIComponent(code)+"#auth";$("myReferralCode").textContent=code;$("myReferralCount").textContent=String(data.referral_count??0);$("myReferralBonus").textContent=money(Number(data.referral_bonus_total||0))+" Demo";if(status)status.textContent="Your personal invite link is ready.";}catch(error){if(status)status.textContent=error.message||"Could not load referral details.";}}
- function showDashboard(user){
-   if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
+ async function showDashboard(user){
+   if(!db||!user?.id)return;
    currentUserId=user.id;
    currentUserRole=null;
+   const {data:approvalProfile,error:approvalError}=await db.from("profiles").select("approval_status,is_blocked,role").eq("id",user.id).maybeSingle();
+   if(approvalError||!approvalProfile||approvalProfile.is_blocked||approvalProfile.approval_status!=="approved"){
+     const pending=approvalProfile?.approval_status==="pending";
+     await db.auth.signOut();
+     showGuest();
+     showAuth();
+     setStatus(pending?"Registration complete. Please verify your email if requested. Your account is waiting for Crown Admin approval.":"This account does not currently have access. Contact Crown Support.");
+     return;
+   }
+   if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
    if(typeof user.user_metadata?.crown_email_alerts==="boolean")localStorage.setItem("crown_notification_prefs_"+user.id,JSON.stringify({...notificationPrefs(),email:user.user_metadata.crown_email_alerts}));
    $("publicHome").classList.add("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
    applyDashboardRoute();
@@ -1125,8 +1136,8 @@
    try{
      const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName,username,referral_code:referralCode},emailRedirectTo:window.location.origin}});
      if(error)throw error;
-     if(data.session&&data.user)showDashboard(data.user);
-     else setStatus("Account created. Check your email to confirm, then log in with your User ID and password.");
+     if(data.session&&data.user)await db.auth.signOut();
+     setStatus("Account created successfully. Verify your email if requested, then wait for Crown Admin approval before logging in.");
    }catch(e){setStatus(e.message||"Account creation failed.");}
    finally{$("passwordSignUp").disabled=false;}
  });
