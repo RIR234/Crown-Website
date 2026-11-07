@@ -795,6 +795,14 @@
    <article class="card"><div class="currency">DEMO ORDER VALUE</div><div class="big" id="adminOrderVolume">—</div></article>
   </div>
   <div class="notice">Admin data is read from Supabase. Demo credits and orders have no cash value. Real deposits, withdrawals and crypto transfers remain disabled.</div>
+  <article class="card" style="margin-top:14px">
+   <h3>Manage Demo Balance</h3><p class="muted">Add or deduct test credits for a selected account. These credits have no cash value.</p>
+   <label for="adminWalletUser">Select user</label><select id="adminWalletUser" class="input" style="width:100%;margin:6px 0 12px"><option value="">Loading users…</option></select>
+   <label for="adminWalletAmount">Amount (৳)</label><input id="adminWalletAmount" class="input" type="number" min="0.01" max="1000000000" step="0.01" placeholder="Enter amount" style="width:100%;margin:6px 0 12px">
+   <label for="adminWalletNote">Note (optional)</label><input id="adminWalletNote" class="input" type="text" maxlength="200" placeholder="Reason for adjustment" style="width:100%;margin:6px 0 12px">
+   <div class="actions"><button class="btn" id="adminAddBalance" type="button">Add balance</button><button class="btn secondary" id="adminDeductBalance" type="button">Deduct balance</button></div>
+   <div id="adminBalanceStatus" class="status" role="status" aria-live="polite"></div>
+  </article>
   <article class="card" style="margin-top:14px"><h3>Users</h3><div id="adminUsersTable" class="detail-list">Loading users…</div></article>
   <article class="card" style="margin-top:14px"><h3>Recent Orders</h3><div id="adminOrdersTable" class="detail-list">Loading orders…</div></article>
   <article class="card" style="margin-top:14px"><h3>Wallet Ledger</h3><div id="adminLedgerTable" class="detail-list">Loading ledger…</div></article>
@@ -934,20 +942,24 @@
    if(!db||currentUserRole!=="admin")return;
    const status=$("adminStatus");
    if(status)status.textContent="Refreshing admin data…";
-   const [usersResult,ordersResult,ledgerResult]=await Promise.all([
+   const [usersResult,ordersResult,ledgerResult,walletsResult]=await Promise.all([
      db.from("profiles").select("id,username,full_name,email,role,created_at").order("created_at",{ascending:false}).limit(100),
      db.from("crown_demo_orders").select("id,user_id,task_title,amount,status,created_at").order("created_at",{ascending:false}).limit(100),
-     db.from("crown_demo_transactions").select("id,user_id,type,amount,note,created_at").order("created_at",{ascending:false}).limit(100)
+     db.from("crown_demo_transactions").select("id,user_id,type,amount,note,created_at").order("created_at",{ascending:false}).limit(100),
+     db.from("crown_demo_wallets").select("user_id,balance")
    ]);
-   const error=usersResult.error||ordersResult.error||ledgerResult.error;
+   const error=usersResult.error||ordersResult.error||ledgerResult.error||walletsResult.error;
    if(error){if(status)status.textContent="Admin data could not load: "+error.message;return;}
-   const users=usersResult.data||[],orders=ordersResult.data||[],ledger=ledgerResult.data||[];
+   const users=usersResult.data||[],orders=ordersResult.data||[],ledger=ledgerResult.data||[],wallets=walletsResult.data||[];
+   const balances={};wallets.forEach(w=>{balances[w.user_id]=Number(w.balance||0);});
    const names={};users.forEach(u=>{names[u.id]=u.username||u.email||u.id.slice(0,8);});
    if($("adminUserCount"))$("adminUserCount").textContent=String(users.length);
    if($("adminOrderCount"))$("adminOrderCount").textContent=String(orders.filter(o=>o.status==="confirmed").length);
    if($("adminOrderVolume"))$("adminOrderVolume").textContent=money(orders.filter(o=>o.status==="confirmed").reduce((n,o)=>n+Number(o.amount||0),0));
    const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-   if($("adminUsersTable"))$("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'</small></span><span class="tag">'+esc(u.role||"user")+'</span></div>').join(""):'<span class="muted">No users found.</span>';
+   const userSelect=$("adminWalletUser"),previousUser=userSelect?.value||"";
+   if(userSelect){userSelect.innerHTML='<option value="">Select an account</option>'+users.map(u=>'<option value="'+esc(u.id)+'">'+esc(u.username||u.full_name||u.email||u.id.slice(0,8))+' · '+esc(u.role||"user")+'</option>').join("");if(users.some(u=>u.id===previousUser))userSelect.value=previousUser;}
+   if($("adminUsersTable"))$("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'<br>Demo balance: '+money(balances[u.id]||0)+'</small></span><span class="tag">'+esc(u.role||"user")+'</span></div>').join(""):'<span class="muted">No users found.</span>';
    if($("adminOrdersTable")){
      $("adminOrdersTable").innerHTML=orders.length?orders.map(o=>'<div class="detail-row"><span><strong>'+esc(o.task_title)+'</strong><br><small class="muted">'+esc(names[o.user_id]||o.user_id.slice(0,8))+' · '+new Date(o.created_at).toLocaleString()+'</small></span><span><strong>'+money(o.amount)+'</strong><br><small class="muted">'+esc(o.status)+'</small>'+(o.status==="confirmed"?' <button class="btn secondary" type="button" data-cancel-order="'+o.id+'">Cancel & refund demo</button>':'')+'</span></div>').join(""):'<span class="muted">No demo orders yet.</span>';
      $("adminOrdersTable").querySelectorAll("[data-cancel-order]").forEach(btn=>btn.addEventListener("click",async()=>{
@@ -958,8 +970,25 @@
        await refreshAdminPanel();
      }));
    }
-   if($("adminLedgerTable"))$("adminLedgerTable").innerHTML=ledger.length?ledger.map(t=>'<div class="detail-row"><span><strong>'+esc(t.type==="demo_credit"?"Demo credit":"Demo order debit")+'</strong><br><small class="muted">'+esc(names[t.user_id]||t.user_id.slice(0,8))+' · '+new Date(t.created_at).toLocaleString()+'</small></span><span>'+money(t.amount)+'</span></div>').join(""):'<span class="muted">No ledger entries yet.</span>';
+   if($("adminLedgerTable"))$("adminLedgerTable").innerHTML=ledger.length?ledger.map(t=>'<div class="detail-row"><span><strong>'+esc(({demo_credit:"Demo credit",demo_order:"Demo order debit",admin_credit:"Admin added balance",admin_debit:"Admin deducted balance"})[t.type]||t.type)+'</strong><br><small class="muted">'+esc(names[t.user_id]||t.user_id.slice(0,8))+' · '+esc(t.note||"")+' · '+new Date(t.created_at).toLocaleString()+'</small></span><span>'+money(t.amount)+'</span></div>').join(""):'<span class="muted">No ledger entries yet.</span>';
    if(status)status.textContent="Admin data updated.";
+ }
+ async function adminAdjustDemoBalance(action){
+   if(!db||currentUserRole!=="admin"){alert("Admin access required.");return;}
+   const userId=$("adminWalletUser")?.value,amount=Number($("adminWalletAmount")?.value),note=$("adminWalletNote")?.value.trim()||"",status=$("adminBalanceStatus");
+   if(!userId){if(status)status.textContent="Select a user first.";return;}
+   if(!Number.isFinite(amount)||amount<=0||amount>1000000000){if(status)status.textContent="Enter a valid amount greater than zero.";return;}
+   if(!confirm((action==="add"?"Add ":"Deduct ")+money(amount)+" Demo Balance "+(action==="add"?"to":"from")+" the selected user?"))return;
+   const add=$("adminAddBalance"),deduct=$("adminDeductBalance");if(add)add.disabled=true;if(deduct)deduct.disabled=true;
+   if(status)status.textContent="Updating demo balance…";
+   try{
+     const {data,error}=await db.rpc("admin_adjust_crown_demo_balance",{p_user_id:userId,p_amount:amount,p_action:action,p_note:note||null});
+     if(error)throw error;
+     $("adminWalletAmount").value="";$("adminWalletNote").value="";
+     if(status)status.textContent="Demo balance updated. New balance: "+money(data.balance);
+     await refreshAdminPanel();if(userId===currentUserId){await loadServerDemoWallet();loadUserTransactionHistory();}
+   }catch(error){if(status)status.textContent=error.message||"Balance update failed.";}
+   finally{if(add)add.disabled=false;if(deduct)deduct.disabled=false;}
  }
  async function completeDemoTask(button){
    const card=button.closest(".task-card");
@@ -1153,6 +1182,8 @@
    finally{button.disabled=false;}
  });
  $("adminRefresh")?.addEventListener("click",refreshAdminPanel);
+ $("adminAddBalance")?.addEventListener("click",()=>adminAdjustDemoBalance("add"));
+ $("adminDeductBalance")?.addEventListener("click",()=>adminAdjustDemoBalance("deduct"));
 
  if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);else showGuest();});}
  else showGuest();
