@@ -993,17 +993,42 @@
    }catch(error){$("passwordUpdateStatus").textContent=error.message||"Could not update password.";}
    finally{$("updateAccountPassword").disabled=false;}
  });
- $("saveUsername").addEventListener("click",async()=>{\n   const username=$("newUsername").value.trim().toLowerCase();\n   const {data:{user}}=await db.auth.getUser();\n   if(!user){$("usernameStatus").textContent="Please sign in again.";return;}\n   if(!/^[a-z0-9_]{3,24}$/.test(username)){$("usernameStatus").textContent="User ID must be 3–24 lowercase letters, numbers or underscore.";return;}\n   $("saveUsername").disabled=true;$("usernameStatus").textContent="Saving User ID…";\n   try{const {error}=await db.from("profiles").update({username}).eq("id",user.id);if(error)throw error;const {error:metaError}=await db.auth.updateUser({data:{username}});if(metaError)throw metaError;$("usernameStatus").textContent="User ID updated successfully."; $("settingsUsername").textContent=username;$("profileUsername").textContent=username;$("userBadge").textContent=username.toUpperCase();$("newUsername").value=username;}catch(e){$("usernameStatus").textContent=e.code==="23505"?"This User ID is already taken. Choose another.":(e.message||"Could not update User ID.");}\n   finally{$("saveUsername").disabled=false;}\n });\n $("changeAccountEmail").addEventListener("click",async()=>{const email=$("newAccountEmail").value.trim().toLowerCase();if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){$("emailChangeStatus").textContent="Enter a valid email address.";return;}$("changeAccountEmail").disabled=true;$("emailChangeStatus").textContent="Sending confirmation…";try{const {error}=await db.auth.updateUser({email});if(error)throw error;$("emailChangeStatus").textContent="Confirmation link sent. Verify the new email address to finish changing it.";$("newAccountEmail").value="";}catch(e){$("emailChangeStatus").textContent=e.message||"Could not update email.";}finally{$("changeAccountEmail").disabled=false;}});\n $("sendPasswordReset").addEventListener("click",async()=>{const {data:{user}}=await db.auth.getUser();if(!user?.email){$("passwordResetStatus").textContent="No email address is linked to this account.";return;}try{$("sendPasswordReset").disabled=true;const {error}=await db.auth.resetPasswordForEmail(user.email,{redirectTo:window.location.origin});if(error)throw error;$("passwordResetStatus").textContent="Password reset link sent to "+user.email;}catch(e){$("passwordResetStatus").textContent=e.message||"Could not send reset link.";}finally{$("sendPasswordReset").disabled=false;}});\n $("forgotPassword").addEventListener("click",()=>{$("resetEmailField").classList.toggle("hidden");$("sendForgotPassword").classList.toggle("hidden");});\n $("sendForgotPassword").addEventListener("click",async()=>{const email=$("resetEmail").value.trim().toLowerCase();if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){$("authStatus").textContent="Enter your registered email address.";return;}try{$("sendForgotPassword").disabled=true;const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin});if(error)throw error;$("authStatus").textContent="If the account exists, a password reset link has been sent to that email.";}catch(e){$("authStatus").textContent=e.message||"Could not send reset email.";}finally{$("sendForgotPassword").disabled=false;}});\n
+ $("saveUsername").addEventListener("click",async()=>{
    const username=$("newUsername").value.trim().toLowerCase();
    const {data:{user}}=await db.auth.getUser();
+   if(!user){$("usernameStatus").textContent="Please sign in again.";return;}
    if(!/^[a-z0-9_]{3,24}$/.test(username)){$("usernameStatus").textContent="User ID must be 3–24 lowercase letters, numbers or underscore.";return;}
    $("saveUsername").disabled=true;$("usernameStatus").textContent="Saving User ID…";
    try{
-     const {error}=await db.from("profiles").update({username}).eq("id",user.id);
-     if(error)throw error;
-     $("usernameStatus").textContent="User ID saved. You can now log in with this User ID and your password.";$("setupUsernameCard").classList.add("hidden");
-   }catch(e){$("usernameStatus").textContent=e.code==="23505"?"This User ID is already taken. Choose another.":(e.message||"Could not save User ID.");}
+     const {error}=await db.from("profiles").update({username}).eq("id",user.id);if(error)throw error;
+     const {error:metaError}=await db.auth.updateUser({data:{username}});if(metaError)throw metaError;
+     $("usernameStatus").textContent="User ID updated successfully.";
+     $("settingsUsername").textContent=username;$("profileUsername").textContent=username;$("userBadge").textContent=username.toUpperCase();$("newUsername").value=username;
+   }catch(e){$("usernameStatus").textContent=e.code==="23505"?"This User ID is already taken. Choose another.":(e.message||"Could not update User ID.");}
    finally{$("saveUsername").disabled=false;}
+ });
+ $("changeAccountEmail").addEventListener("click",async()=>{
+   const email=$("newAccountEmail").value.trim().toLowerCase();
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){$("emailChangeStatus").textContent="Enter a valid email address.";return;}
+   $("changeAccountEmail").disabled=true;$("emailChangeStatus").textContent="Sending confirmation…";
+   try{const {error}=await db.auth.updateUser({email});if(error)throw error;$("emailChangeStatus").textContent="Confirmation link sent. Verify the new email address to finish changing it.";$("newAccountEmail").value="";}
+   catch(e){$("emailChangeStatus").textContent=e.message||"Could not update email.";}
+   finally{$("changeAccountEmail").disabled=false;}
+ });
+ $("sendPasswordReset").addEventListener("click",async()=>{
+   const {data:{user}}=await db.auth.getUser();
+   if(!user?.email){$("passwordResetStatus").textContent="No email address is linked to this account.";return;}
+   try{$("sendPasswordReset").disabled=true;const {error}=await db.auth.resetPasswordForEmail(user.email,{redirectTo:window.location.origin});if(error)throw error;$("passwordResetStatus").textContent="Password reset link sent to "+user.email;}
+   catch(e){$("passwordResetStatus").textContent=e.message||"Could not send reset link.";}
+   finally{$("sendPasswordReset").disabled=false;}
+ });
+ $("forgotPassword").addEventListener("click",()=>{$("resetEmailField").classList.toggle("hidden");$("sendForgotPassword").classList.toggle("hidden");});
+ $("sendForgotPassword").addEventListener("click",async()=>{
+   const email=$("resetEmail").value.trim().toLowerCase();
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){$("authStatus").textContent="Enter your registered email address.";return;}
+   try{$("sendForgotPassword").disabled=true;const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin});if(error)throw error;$("authStatus").textContent="If the account exists, a password reset link has been sent to that email.";}
+   catch(e){$("authStatus").textContent=e.message||"Could not send reset email.";}
+   finally{$("sendForgotPassword").disabled=false;}
  });
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
