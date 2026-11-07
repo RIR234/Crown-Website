@@ -1105,11 +1105,21 @@
  $("toggleEmailAlerts")?.addEventListener("click",async()=>{if(!currentUserId||!db)return;const p=notificationPrefs();const next=!p.email;p.email=next;localStorage.setItem("crown_notification_prefs_"+currentUserId,JSON.stringify(p));updateNotificationControls();const button=$("toggleEmailAlerts");button.disabled=true;try{const {error}=await db.auth.updateUser({data:{crown_email_alerts:next}});if(error)throw error;if($("emailAlertStatus"))$("emailAlertStatus").textContent=next?"Email alerts enabled for this account. You will not need to enable them again.":"Email alerts are off."; }catch(error){console.error("Could not save email preference:",error);if($("emailAlertStatus"))$("emailAlertStatus").textContent="Could not sync preference to your account. It remains saved on this device."; }finally{button.disabled=false;updateNotificationControls();}});
  $("testEmailAlert")?.addEventListener("click",async()=>{if(!currentUserId||!db)return;const p=notificationPrefs();if(!p.email){alert("First enable email alerts.");return;}const button=$("testEmailAlert"),status=$("emailAlertStatus");button.disabled=true;button.textContent="Sending test email...";if(status)status.textContent="Sending a test email to your signed-in account...";try{const {data,error}=await db.functions.invoke("send-notification",{body:{title:"Crown test email",message:"Your Crown email notification setup is working.",eventType:"test"}});if(error)throw error;if(!data?.sent)throw new Error(data?.error||"Email was not confirmed as sent.");if(status)status.textContent="Test email sent. Check your inbox and spam folder.";alert("Test email sent. Check your inbox and spam folder.");}catch(error){console.error("Crown test email failed:",error);let detail=error?.message||"Unknown error";if(error?.context&&typeof error.context.json==="function"){try{const payload=await error.context.json();detail=payload?.error||detail;}catch(_){}}if(status)status.textContent="Test email failed: "+detail;alert("Test email failed: "+detail);}finally{button.disabled=false;button.textContent="Send test email";}});
  $("enableBrowserAlerts")?.addEventListener("click",async()=>{if(!("Notification" in window)){alert("This browser does not support notifications.");return;}try{const permission=await Notification.requestPermission();updateNotificationControls();if(permission==="granted"){new Notification("Crown notifications enabled",{body:"You will receive browser alerts while Crown is open."});}else alert("Browser notification permission was not granted.");}catch(_){alert("Could not request notification permission.");}});
- $("demoTopUp")?.addEventListener("click",()=>{
-   if(!currentUserId)return;
-   const state=readDemoState();state.balance+=100000;addNotification(state,"Demo balance added","৳100,000 demo balance was added to your sample wallet.","transaction");saveDemoState(state);sendNotificationChannels("Demo balance added","৳100,000 demo balance was added to your sample wallet.","transaction");renderDemoWallet();renderNotifications();
-   alert("৳100,000 Demo Balance added. This is not real money.");
+ $("demoTopUp")?.addEventListener("click",async()=>{
+   if(!currentUserId||!db)return;
+   const button=$("demoTopUp");button.disabled=true;
+   try{
+     const {data,error}=await db.rpc("add_crown_demo_credit");
+     if(error)throw error;
+     const state=readDemoState();state.balance=Number(data.balance);
+     addNotification(state,"Demo balance added","৳100,000 demo balance was added to your sample wallet.","transaction");
+     saveDemoState(state);renderDemoWallet();renderNotifications();
+     sendNotificationChannels("Demo balance added","৳100,000 demo balance was added to your sample wallet.","transaction");
+     alert("৳100,000 Demo Balance added. This is not real money.");
+   }catch(error){alert(error.message||"Could not add demo credit.");}
+   finally{button.disabled=false;}
  });
+ $("adminRefresh")?.addEventListener("click",refreshAdminPanel);
 
  if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);else showGuest();});}
  else showGuest();
