@@ -194,6 +194,20 @@ body{height:100vh;height:100dvh}
 .settings-combined-shell .settings-subpanel{display:contents}
 @media(max-width:520px){.settings-combined-shell{padding:10px;gap:9px;border-radius:16px}.settings-combined-shell>.card{padding:12px}.settings-combined-heading h3{font-size:14px}}
 
+
+/* Account, Profile and Privacy: one continuous box, no nested cards */
+.settings-combined-shell{background:linear-gradient(145deg,rgba(26,41,64,.97),rgba(12,21,36,.99));border:1px solid var(--line);border-radius:18px;padding:14px;gap:0;box-shadow:0 10px 26px rgba(0,0,0,.18)}
+.settings-combined-shell>.card,
+.settings-combined-shell>article.card,
+.settings-combined-shell>.card#setupUsernameCard{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:12px 4px!important;margin:0!important}
+.settings-combined-heading{padding:12px 4px 5px;margin-top:5px;border-top:1px solid rgba(255,255,255,.12)}
+.settings-combined-heading:first-child{border-top:0;margin-top:0}
+.settings-combined-heading h3{font-size:15px}
+.settings-combined-shell .detail-list{margin-top:10px}
+.settings-combined-shell .detail-row{padding:8px 0}
+.settings-combined-shell .field{margin:10px 0}
+@media(max-width:520px){.settings-combined-shell{padding:9px;border-radius:15px}.settings-combined-shell>.card,.settings-combined-shell>article.card,.settings-combined-shell>.card#setupUsernameCard{padding:9px 3px!important}.settings-combined-heading{padding:10px 3px 4px}.settings-combined-heading h3{font-size:14px}}
+
 </style>
 </head>
 <body>
