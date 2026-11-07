@@ -200,8 +200,8 @@
 
  <div id="workPanel" class="tab-panel hidden">
   <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0"></p></div><span class="pill"></span></div>
-  <div class="notice"><strong>Demo task board:</strong> Use your Demo Balance to pay a task. The request then appears below for simulated admin approval. Approved tasks are completed and the next task value becomes visible. No real payment, product order, income or payout is involved.</div>
-  <article class="card" id="demoApprovalPanel" style="margin:0 0 14px"><div class="currency">DEMO ADMIN SIMULATOR</div><h3>Pending Task Approvals</h3><p class="muted">This local simulator is for testing only. It is not a secure real admin panel.</p><div id="demoPendingList" class="detail-list"><span class="muted">No pending demo payments.</span></div></article>
+  <div class="notice"><strong>Task review:</strong> Submit a demo task request. Only the Crown Admin account can approve or reject it. Demo balances are local test values only; no real payment, income or payout is involved.</div>
+  <article class="card hidden" id="demoApprovalPanel" style="margin:0 0 14px"><div class="currency">CROWN ADMIN · PRIVATE</div><h3>Pending Task Requests</h3><p class="muted">Only accounts with the Admin role can review requests here.</p><button class="btn secondary" type="button" id="refreshAdminRequests">Refresh requests</button><div id="demoPendingList" class="detail-list"><span class="muted">Loading requests…</span></div></article>
   <div class="grid"><div class="task-league-heading"><strong>BRONZE LEAGUE TASKS</strong><span>5 separate tasks</span></div><article class="card task-card" data-league-index="0" data-task-index="0">
     <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Wireless Earbuds demo task" loading="lazy">
     <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Wireless Earbuds</h3>
@@ -817,6 +817,8 @@
  function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); setAuthMode("login"); $("loginUsername").focus(); }
  function showHome(){ $("publicHome").classList.remove("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.add("hidden"); }
  let currentUserId = null;
+ let currentUserRole = 'user';
+ let taskRequestCache = [];
  const leagueNames = ["Bronze","Silver","Gold","Master","Expert"];
  const leagueTaskCounts = [5,8,10,12,15];
  const demoKey = () => "crown_demo_wallet_v1_"+currentUserId;
@@ -843,17 +845,35 @@
    if($("demoBalance"))$("demoBalance").textContent=money(state.balance);
    if($("demoSpent"))$("demoSpent").textContent=money(state.spent);
    if($("demoPendingCount"))$("demoPendingCount").textContent=String(state.pending.length);
+   const panel=$("demoApprovalPanel");
+   if(panel)panel.classList.toggle("hidden",currentUserRole!=="admin");
    const list=$("demoPendingList");
-   if(list)list.innerHTML=state.pending.length?state.pending.map(item=>'<div class="detail-row"><span>'+item.name+' · '+money(item.amount)+'</span><button class="btn" type="button" data-demo-approve="'+item.task+'">Approve demo</button></div>').join(""):'<span class="muted">No pending demo payments.</span>';
-   document.querySelectorAll("[data-demo-approve]").forEach(btn=>btn.addEventListener("click",()=>{
-     const s=readDemoState(),task=Number(btn.dataset.demoApprove);
-     const item=s.pending.find(x=>x.task===task);
-     if(!item)return;
-     s.pending=s.pending.filter(x=>x.task!==task);
-     if(!s.completed.includes(task))s.completed.push(task);
-     addNotification(s,"Task completed",item.name+" has been approved. Task "+(task+1)+" is complete.","task");
-     saveDemoState(s);sendNotificationChannels("Task completed",item.name+" has been approved. Task "+(task+1)+" is complete.","task");renderLeagueProgress();
-   }));
+   if(list && currentUserRole==="admin"){
+     const pending=taskRequestCache.filter(item=>item.status==="pending");
+     list.innerHTML=pending.length?pending.map(item=>'<div class="detail-row"><span>'+String(item.task_title||"Task request").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))+' · '+new Date(item.created_at).toLocaleString()+'</span><span><button class="btn" type="button" data-admin-approve="'+item.id+'">Approve</button> <button class="btn secondary" type="button" data-admin-reject="'+item.id+'">Reject</button></span></div>').join(""):'<span class="muted">No pending task requests.</span>';
+     list.querySelectorAll("[data-admin-approve]").forEach(btn=>btn.addEventListener("click",()=>reviewTaskRequest(btn.dataset.adminApprove,true)));
+     list.querySelectorAll("[data-admin-reject]").forEach(btn=>btn.addEventListener("click",()=>reviewTaskRequest(btn.dataset.adminReject,false)));
+   }
+ }
+ async function refreshTaskRequests(){
+   if(!db||!currentUserId)return;
+   const {data,error}=await db.from("crown_task_requests").select("id,user_id,task_key,task_title,status,created_at").order("created_at",{ascending:false});
+   if(error){console.warn("Task request load failed:",error.message);return;}
+   taskRequestCache=data||[];
+   const state=readDemoState();
+   const mine=taskRequestCache.filter(item=>item.user_id===currentUserId);
+   state.pending=mine.filter(item=>item.status==="pending").map(item=>({task:Number(item.task_key),name:item.task_title,amount:0}));
+   state.completed=[...new Set([...state.completed,...mine.filter(item=>item.status==="approved").map(item=>Number(item.task_key))])];
+   saveDemoState(state);
+   renderLeagueProgress();
+ }
+ async function reviewTaskRequest(requestId,approve){
+   if(currentUserRole!=="admin")return;
+   const fn=approve?"admin_approve_task":"admin_reject_task";
+   const args=approve?{p_request_id:requestId,p_reward:0,p_note:"Reviewed by Crown Admin"}:{p_request_id:requestId,p_note:"Reviewed by Crown Admin"};
+   const {error}=await db.rpc(fn,args);
+   if(error){alert("Could not review request: "+error.message);return;}
+   await refreshTaskRequests();
  }
  function renderLeagueProgress(){
    if(!currentUserId)return;
@@ -889,17 +909,26 @@
    if($("leagueProgressFill"))$("leagueProgressFill").style.width=(count/leagueTaskCounts[activeLeague]*100)+"%";
    renderDemoWallet();renderNotifications();
  }
- function completeDemoTask(button){
+ async function completeDemoTask(button){
    const card=button.closest(".task-card"),task=Number(card.dataset.taskIndex),price=taskPrice(card),name=card.querySelector("h3")?.textContent||("Task "+(task+1));
    const state=readDemoState();
    if(state.completed.includes(task)||state.pending.some(x=>x.task===task))return;
+   if(!db||!currentUserId){alert("Please sign in again.");return;}
    if(price<=0){alert("Task value not available.");return;}
    if(state.balance<price){alert("Demo balance is not enough. Add Demo Balance from Home first.");return;}
    if(!confirm(name+" demo task-er jonno "+money(price)+" Demo Balance use korbe?"))return;
-   state.balance-=price;state.spent+=price;state.pending.push({task,amount:price,name});
-   addNotification(state,"Demo payment submitted",name+" payment of "+money(price)+" is pending approval.","transaction");
-   saveDemoState(state);sendNotificationChannels("Demo payment submitted",name+" payment of "+money(price)+" is pending approval.","transaction");renderLeagueProgress();
-   alert("Demo payment submitted. Work tab-er Pending Task Approvals theke simulated admin approval dite parbe.");
+   button.disabled=true;
+   try{
+     const {error}=await db.from("crown_task_requests").insert({user_id:currentUserId,task_key:String(task),task_title:name,proof:"Demo task request"});
+     if(error)throw error;
+     state.balance-=price;state.spent+=price;
+     addNotification(state,"Task request submitted",name+" is waiting for Crown Admin review.","transaction");
+     saveDemoState(state);
+     await refreshTaskRequests();
+     sendNotificationChannels("Task request submitted",name+" is waiting for Crown Admin review.","transaction");
+     alert("Task request submitted. Only Crown Admin can approve or reject it.");
+   }catch(error){alert(error.message||"Could not submit task request.");}
+   finally{button.disabled=false;}
  }
  function showDashboard(user){
    currentUserId=user.id;
@@ -909,7 +938,9 @@
    $("userBadge").textContent = (user.user_metadata?.username || "Loading…").toUpperCase();
    renderLeagueProgress();
    $("profileInfo").textContent = "Signed in. Demo Balance is for local testing only; no real funds or payments are involved.";
-   if(db) db.from("profiles").select("username,full_name,created_at").eq("id",user.id).maybeSingle().then(({data})=>{
+   if(db) db.from("profiles").select("username,full_name,created_at,role").eq("id",user.id).maybeSingle().then(({data})=>{
+     currentUserRole=data?.role==="admin"?"admin":"user";
+     refreshTaskRequests();
      const uid=data?.username || user.user_metadata?.username || "Not set";
      const fullName=data?.full_name || user.user_metadata?.full_name || "Not set";
      $("userBadge").textContent = uid.toUpperCase();
@@ -928,7 +959,7 @@
      if(data?.username) $("newUsername").value=data.username;
    });
  }
- function showGuest(){ currentUserId=null; $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
+ function showGuest(){ currentUserId=null;currentUserRole="user";taskRequestCache=[]; $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  document.querySelectorAll(".dash-tab[data-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
  document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-settings-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".settings-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.settingsTab));}));
@@ -1039,6 +1070,7 @@
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
  document.querySelectorAll("[data-demo-order]").forEach(button=>button.addEventListener("click",()=>completeDemoTask(button)));
+ $("refreshAdminRequests")?.addEventListener("click",refreshTaskRequests);
  $("clearNotifications")?.addEventListener("click",()=>{const state=readDemoState();state.notifications=[];saveDemoState(state);renderNotifications();});
  $("toggleEmailAlerts")?.addEventListener("click",async()=>{if(!currentUserId||!db)return;const p=notificationPrefs();const next=!p.email;p.email=next;localStorage.setItem("crown_notification_prefs_"+currentUserId,JSON.stringify(p));updateNotificationControls();const button=$("toggleEmailAlerts");button.disabled=true;try{const {error}=await db.auth.updateUser({data:{crown_email_alerts:next}});if(error)throw error;if($("emailAlertStatus"))$("emailAlertStatus").textContent=next?"Email alerts enabled for this account. You will not need to enable them again.":"Email alerts are off."; }catch(error){console.error("Could not save email preference:",error);if($("emailAlertStatus"))$("emailAlertStatus").textContent="Could not sync preference to your account. It remains saved on this device."; }finally{button.disabled=false;updateNotificationControls();}});
  $("testEmailAlert")?.addEventListener("click",async()=>{if(!currentUserId||!db)return;const p=notificationPrefs();if(!p.email){alert("First enable email alerts.");return;}const button=$("testEmailAlert"),status=$("emailAlertStatus");button.disabled=true;button.textContent="Sending test email...";if(status)status.textContent="Sending a test email to your signed-in account...";try{const {data,error}=await db.functions.invoke("send-notification",{body:{title:"Crown test email",message:"Your Crown email notification setup is working.",eventType:"test"}});if(error)throw error;if(!data?.sent)throw new Error(data?.error||"Email was not confirmed as sent.");if(status)status.textContent="Test email sent. Check your inbox and spam folder.";alert("Test email sent. Check your inbox and spam folder.");}catch(error){console.error("Crown test email failed:",error);let detail=error?.message||"Unknown error";if(error?.context&&typeof error.context.json==="function"){try{const payload=await error.context.json();detail=payload?.error||detail;}catch(_){}}if(status)status.textContent="Test email failed: "+detail;alert("Test email failed: "+detail);}finally{button.disabled=false;button.textContent="Send test email";}});
