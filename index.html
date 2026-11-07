@@ -174,6 +174,17 @@ body{height:100vh;height:100dvh}
  #dashboard .btn{padding:7px 9px}
 }
 @media(prefers-reduced-motion:no-preference){#dashboard>.tab-panel{scroll-behavior:smooth}}
+
+/* Keep every settings option inside one unified container */
+.settings-menu-shell{margin:16px 0;padding:10px;background:linear-gradient(145deg,rgba(26,41,64,.96),rgba(16,27,44,.96));border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.settings-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin:0}
+.settings-menu .dash-tab{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:11px;text-align:left;min-height:58px;padding:10px 12px;background:transparent;border:0;border-radius:12px;color:var(--text);font-size:13px;font-weight:700;box-shadow:none;transition:background .18s,color .18s}
+.settings-menu .dash-tab:active{transform:none;background:rgba(255,255,255,.06)}
+.settings-menu .dash-tab.active{background:linear-gradient(135deg,#f4d28b,#c18a3d);color:#182235}
+.settings-number{display:grid;place-items:center;width:30px;height:30px;min-width:30px;border-radius:9px;background:rgba(232,189,104,.14);border:1px solid rgba(232,189,104,.3);font-size:11px;font-weight:900;color:var(--gold)}
+.settings-menu .dash-tab.active .settings-number{background:rgba(24,34,53,.12);border-color:rgba(24,34,53,.2);color:#182235}
+@media(max-width:520px){.settings-menu-shell{padding:7px;border-radius:16px}.settings-menu{grid-template-columns:1fr}.settings-menu .dash-tab{min-height:49px;padding:8px 10px;font-size:12px}.settings-number{width:27px;height:27px;min-width:27px}}
+
 </style>
 </head>
 <body>
@@ -858,15 +869,17 @@ body{height:100vh;height:100dvh}
 
 <div id="settingsPanel" class="tab-panel hidden">
   <div class="section-head"><div><div class="eyebrow">Account controls</div><h2>Settings</h2><p class="muted" style="margin:4px 0 0">Manage your account, profile, security, privacy and activity settings.</p></div></div>
-  <div class="settings-menu">
-   <button class="dash-tab" data-settings-tab="settingsAccountPanel"><span class="settings-number">01</span> Account Settings</button>
-   <button class="dash-tab" data-settings-tab="settingsProfilePanel"><span class="settings-number">02</span> Profile Settings</button>
-   <button class="dash-tab" data-settings-tab="settingsSecurityPanel"><span class="settings-number">03</span> Account Security</button>
-   <button class="dash-tab" data-settings-tab="settingsHistoryPanel"><span class="settings-number">04</span> Transaction History</button>
-   <button class="dash-tab" data-settings-tab="settingsPrivacyPanel"><span class="settings-number">05</span> Privacy Settings</button>
-   <button class="dash-tab" data-settings-tab="settingsNotificationsPanel"><span class="settings-number">06</span> Notifications</button>
-   <button class="dash-tab" data-settings-tab="settingsCarePanel"><span class="settings-number">07</span> Help & Customer Care</button>
-  </div>
+  <div class="settings-menu-shell">
+    <div class="settings-menu">
+       <button class="dash-tab" data-settings-tab="settingsAccountPanel"><span class="settings-number">01</span> Account Settings</button>
+       <button class="dash-tab" data-settings-tab="settingsProfilePanel"><span class="settings-number">02</span> Profile Settings</button>
+       <button class="dash-tab" data-settings-tab="settingsSecurityPanel"><span class="settings-number">03</span> Account Security</button>
+       <button class="dash-tab" data-settings-tab="settingsHistoryPanel"><span class="settings-number">04</span> Transaction History</button>
+       <button class="dash-tab" data-settings-tab="settingsPrivacyPanel"><span class="settings-number">05</span> Privacy Settings</button>
+       <button class="dash-tab" data-settings-tab="settingsNotificationsPanel"><span class="settings-number">06</span> Notifications</button>
+       <button class="dash-tab" data-settings-tab="settingsCarePanel"><span class="settings-number">07</span> Help & Customer Care</button>
+      </div>
+   </div>
   <section id="settingsAccountPanel" class="settings-subpanel hidden"><article class="card"><h3>Account settings</h3><p class="muted">Manage your Crown account information and sign-in preferences.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account status</span><strong>Active</strong></div><div class="detail-row"><span class="muted">Login method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="accountSettingsEmail">—</strong></div><div class="detail-row"><span class="muted">Member since</span><strong id="accountSettingsJoined">—</strong></div></div></article></section>
   <section id="settingsProfilePanel" class="settings-subpanel hidden"><article class="card"><h3>Profile settings</h3><p class="muted">Update your personal profile information.</p><div class="field"><label for="editFullName">Full name</label><input id="editFullName" autocomplete="name" placeholder="Enter full name"></div><button class="btn full" id="saveProfileDetails" type="button">Save profile</button><div id="profileEditStatus" class="status" role="status" aria-live="polite"></div><div class="detail-list"><div class="detail-row"><span class="muted">Full name</span><strong id="settingsFullName">—</strong></div><div class="detail-row"><span class="muted">User ID</span><strong id="settingsUsername">—</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="settingsEmail">—</strong></div></div></article><div class="card" id="setupUsernameCard" style="margin-top:14px"><h3>Change User ID</h3><p class="muted">Update the User ID used to sign in. It must be unique.</p><div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div><button class="btn full" id="saveUsername">Save User ID</button><div id="usernameStatus" class="status" role="status" aria-live="polite"></div></div><div class="card" style="margin-top:14px"><h3>Change email address</h3><p class="muted">A confirmation link will be sent to your new email address.</p><div class="field"><label for="newAccountEmail">New email address</label><input id="newAccountEmail" type="email" autocomplete="email" placeholder="new@example.com"></div><button class="btn full" id="changeAccountEmail" type="button">Update email</button><div id="emailChangeStatus" class="status" role="status" aria-live="polite"></div></div></section>
   <section id="settingsSecurityPanel" class="settings-subpanel hidden"><article class="card"><h3>Account security</h3><p class="muted">Change your password to help protect your Crown account.</p><div class="field"><label for="newAccountPassword">New password</label><input id="newAccountPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div><div class="field"><label for="confirmAccountPassword">Confirm new password</label><input id="confirmAccountPassword" type="password" autocomplete="new-password" placeholder="Enter password again"></div><button class="btn full" id="updateAccountPassword" type="button">Update password</button><div id="passwordUpdateStatus" class="status" role="status" aria-live="polite"></div><button class="btn secondary full" id="sendPasswordReset" type="button" style="margin-top:10px">Send password reset link to my email</button><div id="passwordResetStatus" class="status" role="status" aria-live="polite"></div><div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Session</span><strong>Managed by Supabase</strong></div></div><span class="tag">Never share your password or verification codes</span></article></section>
