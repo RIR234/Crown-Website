@@ -1121,7 +1121,7 @@
      const {data:sessionData,error:sessionError}=await db.auth.setSession({access_token:data.session.access_token,refresh_token:data.session.refresh_token});
      if(sessionError)throw sessionError;
      if(sessionData.user){await db.auth.updateUser({data:{crown_password_set:true}});showDashboard(sessionData.user);}
-   }catch(e){setStatus("User ID/email or password is incorrect. Check both and try again.");}
+   }catch(e){let message=e?.message||"User ID/email or password is incorrect. Check both and try again.";if(e?.context&&typeof e.context.json==="function"){try{const payload=await e.context.json();message=payload?.error||message;}catch(_){}}setStatus(message);}
    finally{$("passwordSignIn").disabled=false;}
  });
  $("passwordSignUp").addEventListener("click",async()=>{
