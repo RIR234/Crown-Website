@@ -810,6 +810,8 @@
    $("authHint").textContent=signup?"Enter your email, full name, User ID and password.":"Enter your User ID and password.";
    ["emailField","fullNameField","usernameField","passwordSignUp","switchToSignIn"].forEach(id=>$(id).classList.toggle("hidden",!signup));
    ["loginUsernameField","passwordSignIn","switchToSignUp"].forEach(id=>$(id).classList.toggle("hidden",signup));
+   $("forgotPassword").classList.toggle("hidden",signup);
+   $("resetEmailField").classList.add("hidden");$("sendForgotPassword").classList.add("hidden");
    $("password").value="";setStatus("");
  }
  function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); setAuthMode("login"); $("loginUsername").focus(); }
@@ -926,7 +928,7 @@
      if(data?.username) $("newUsername").value=data.username;
    });
  }
- function showGuest(){ $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
+ function showGuest(){ currentUserId=null; $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
  document.querySelectorAll(".dash-tab[data-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
  document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-settings-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".settings-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.settingsTab));}));
@@ -1047,7 +1049,7 @@
    alert("৳100,000 Demo Balance added. This is not real money.");
  });
 
- if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);});}
+ if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);else showGuest();});}
  else showGuest();
 })();
 </script>
