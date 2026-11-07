@@ -208,13 +208,19 @@ body{height:100vh;height:100dvh}
 .settings-combined-shell .field{margin:10px 0}
 @media(max-width:520px){.settings-combined-shell{padding:9px;border-radius:15px}.settings-combined-shell>.card,.settings-combined-shell>article.card,.settings-combined-shell>.card#setupUsernameCard{padding:9px 3px!important}.settings-combined-heading{padding:10px 3px 4px}.settings-combined-heading h3{font-size:14px}}
 
+
+/* Signed-in User ID and quick copy control in the top bar */
+#userBadge{font-weight:800;letter-spacing:.04em;color:var(--gold);max-width:42vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#copyHeaderUserId{padding:7px 10px;font-size:11px;white-space:nowrap}
+@media(max-width:520px){#userBadge{max-width:32vw;font-size:10px;padding:5px 7px}#copyHeaderUserId{padding:6px 7px;font-size:10px}}
+
 </style>
 </head>
 <body>
 <div class="wrap">
 <header class="top">
   <div class="brand"><div class="logo">C</div><span>CROWN</span></div>
-  <div class="top-right"><span class="pill">BDT · USDT</span><span id="userBadge" class="pill hidden"></span><button id="signOut" class="btn secondary hidden">Sign out</button><button id="loginTop" class="btn">Sign in</button></div>
+  <div class="top-right"><span class="pill">BDT · USDT</span><span id="userBadge" class="pill hidden" aria-label="Your Crown User ID"></span><button id="copyHeaderUserId" class="btn secondary hidden" type="button" aria-label="Copy User ID" title="Copy User ID">Copy ID</button><button id="signOut" class="btn secondary hidden">Sign out</button><button id="loginTop" class="btn">Sign in</button></div>
 </header>
 
 <section id="publicHome">
@@ -1197,7 +1203,7 @@ body{height:100vh;height:100dvh}
    $("publicHome").classList.add("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
    applyDashboardRoute();
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
-   $("userBadge").textContent = (user.user_metadata?.username || "Loading…").toUpperCase();
+   $("userBadge").textContent = (user.user_metadata?.username || "Loading…").toUpperCase(); $("userBadge").dataset.userId = user.user_metadata?.username || ""; $("copyHeaderUserId").classList.remove("hidden");
    renderLeagueProgress();
    $("profileInfo").textContent = "Signed in. Demo Balance is for local testing only; no real funds or payments are involved.";
    if(db) db.from("profiles").select("username,full_name,created_at,role,is_blocked").eq("id",user.id).maybeSingle().then(({data})=>{
@@ -1210,7 +1216,7 @@ body{height:100vh;height:100dvh}
      loadUserTransactionHistory();
      const uid=data?.username || user.user_metadata?.username || "Not set";
      const fullName=data?.full_name || user.user_metadata?.full_name || "Not set";
-     $("userBadge").textContent = uid.toUpperCase();
+     $("userBadge").textContent = uid.toUpperCase(); $("userBadge").dataset.userId = uid==="Not set" ? "" : uid;
      $("profileDisplayName").textContent = fullName;
      $("profileFullName").textContent = fullName;
      $("profileUsername").textContent = uid;
@@ -1226,12 +1232,20 @@ body{height:100vh;height:100dvh}
      if(data?.username) $("newUsername").value=data.username;
    });
  }
- function showGuest(){ currentUserId=null;currentUserRole="user";taskRequestCache=[]; $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); if(window.location.hash==="#auth")showAuth();else showHome(); }
+ function showGuest(){ currentUserId=null;currentUserRole="user";taskRequestCache=[]; $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); $("copyHeaderUserId").classList.add("hidden"); $("userBadge").dataset.userId=""; if(window.location.hash==="#auth")showAuth();else showHome(); }
  window.addEventListener("popstate",()=>{if(currentUserId){applyDashboardRoute();}else if(window.location.hash==="#auth"){showAuth();}else{showHome();}});
  window.addEventListener("hashchange",()=>{if(currentUserId)applyDashboardRoute();});
  document.querySelectorAll(".dash-tab[data-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));savePageRoute(tab.dataset.tab);}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
  document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-settings-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".settings-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.settingsTab));}));
+ 
+ $("copyHeaderUserId")?.addEventListener("click",async()=>{
+   const userId=$("userBadge")?.dataset.userId;
+   if(!userId){$("usernameStatus").textContent="Your User ID is not available yet.";return;}
+   try{await navigator.clipboard.writeText(userId);$("copyHeaderUserId").textContent="Copied";setTimeout(()=>{$("copyHeaderUserId").textContent="Copy ID";},1600);}
+   catch(_){const field=document.createElement("textarea");field.value=userId;field.style.position="fixed";field.style.opacity="0";document.body.appendChild(field);field.select();const copied=document.execCommand("copy");field.remove();$("copyHeaderUserId").textContent=copied?"Copied":"Copy failed";setTimeout(()=>{$("copyHeaderUserId").textContent="Copy ID";},1600);}
+ });
+
  $("loginTop").addEventListener("click",showAuth);
  $("getStarted").addEventListener("click",showAuth);
  $("switchToSignUp").addEventListener("click",()=>setAuthMode("signup"));
@@ -1308,7 +1322,7 @@ body{height:100vh;height:100dvh}
      const {error}=await db.from("profiles").update({username}).eq("id",user.id);if(error)throw error;
      const {error:metaError}=await db.auth.updateUser({data:{username}});if(metaError)throw metaError;
      $("usernameStatus").textContent="User ID updated successfully.";
-     $("settingsUsername").textContent=username;$("profileUsername").textContent=username;$("userBadge").textContent=username.toUpperCase();$("newUsername").value=username;
+     $("settingsUsername").textContent=username;$("profileUsername").textContent=username;$("userBadge").textContent=username.toUpperCase();$("userBadge").dataset.userId=username;$("copyHeaderUserId").classList.remove("hidden");$("newUsername").value=username;
    }catch(e){$("usernameStatus").textContent=e.code==="23505"?"This User ID is already taken. Choose another.":(e.message||"Could not update User ID.");}
    finally{$("saveUsername").disabled=false;}
  });
