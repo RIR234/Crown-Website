@@ -827,8 +827,15 @@
    $("resetEmailField").classList.add("hidden");$("sendForgotPassword").classList.add("hidden");
    $("password").value="";setStatus("");
  }
- function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); setAuthMode("login"); $("loginUsername").focus(); }
- function showHome(){ $("publicHome").classList.remove("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.add("hidden"); }
+ function savePageRoute(route){history.replaceState(null,"",route?"#"+route:window.location.pathname+window.location.search);}
+ function applyDashboardRoute(){
+   const route=window.location.hash.slice(1);
+   const tab=document.querySelector('.dash-tab[data-tab="'+route+'"]');
+   if(tab&&!tab.classList.contains("hidden")){document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==route));}
+   else{const home=document.querySelector('.dash-tab[data-tab="homePanel"]');if(home){document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===home));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!=="homePanel"));savePageRoute("homePanel");}}
+ }
+ function showAuth(){ $("publicHome").classList.add("hidden"); $("dashboard").classList.add("hidden"); $("authPanel").classList.remove("hidden"); savePageRoute("auth"); setAuthMode("login"); $("loginUsername").focus(); }
+ function showHome(){ $("publicHome").classList.remove("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.add("hidden"); savePageRoute("home"); }
  let currentUserId = null;
  let currentUserRole = 'user';
  let taskRequestCache = [];
@@ -982,6 +989,7 @@
    currentUserId=user.id;
    if(typeof user.user_metadata?.crown_email_alerts==="boolean")localStorage.setItem("crown_notification_prefs_"+user.id,JSON.stringify({...notificationPrefs(),email:user.user_metadata.crown_email_alerts}));
    $("publicHome").classList.add("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
+   applyDashboardRoute();
    $("loginTop").classList.add("hidden"); $("signOut").classList.remove("hidden"); $("userBadge").classList.remove("hidden");
    $("userBadge").textContent = (user.user_metadata?.username || "Loading…").toUpperCase();
    renderLeagueProgress();
@@ -989,6 +997,7 @@
    if(db) db.from("profiles").select("username,full_name,created_at,role").eq("id",user.id).maybeSingle().then(({data})=>{
      currentUserRole=data?.role==="admin"?"admin":"user";
      $("adminTab").classList.toggle("hidden",currentUserRole!=="admin");
+     applyDashboardRoute();
      if(currentUserRole==="admin")refreshAdminPanel();
      loadServerDemoWallet();
      loadUserTransactionHistory();
@@ -1010,8 +1019,8 @@
      if(data?.username) $("newUsername").value=data.username;
    });
  }
- function showGuest(){ currentUserId=null;currentUserRole="user";taskRequestCache=[]; $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); showHome(); }
- document.querySelectorAll(".dash-tab[data-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));}));
+ function showGuest(){ currentUserId=null;currentUserRole="user";taskRequestCache=[]; $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); if(window.location.hash==="#auth")showAuth();else showHome(); }
+ document.querySelectorAll(".dash-tab[data-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));savePageRoute(tab.dataset.tab);}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
  document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-settings-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".settings-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.settingsTab));}));
  $("loginTop").addEventListener("click",showAuth);
