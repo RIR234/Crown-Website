@@ -92,6 +92,23 @@
 .task-card.task-locked [data-order-status]{color:#c5cfdd}
 .task-card.task-locked [data-demo-order]{background:#26354b;color:#d0d8e5;border:1px solid #52617a}
 
+
+/* Unified compact Home dashboard card */
+.home-dashboard-shell{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:12px;border:1px solid var(--line);border-radius:19px;background:linear-gradient(145deg,rgba(26,41,64,.97),rgba(12,21,36,.99));box-shadow:0 12px 30px #0003;min-width:0}
+.home-dashboard-shell>.section-head{grid-column:1/-1;margin:2px 0 0;align-items:center}
+.home-dashboard-shell>.grid{display:contents}
+.home-dashboard-shell>.grid>.card{background:transparent;border:0;border-radius:0;box-shadow:none;padding:9px 11px;min-width:0}
+.home-dashboard-shell>.notice{margin:0;padding:9px 11px;font-size:11px;align-self:stretch}
+.home-dashboard-shell>.card.overview-single{grid-column:1/-1;background:transparent;border:0;box-shadow:none;padding:3px;gap:8px}
+.home-dashboard-shell .overview-section{padding:9px;background:#ffffff08;border-color:#ffffff16}
+.home-dashboard-shell .overview-section:last-child{padding:9px}
+.home-dashboard-shell .section-head h2{font-size:16px}
+.home-dashboard-shell .card h3{font-size:14px}
+.home-dashboard-shell .card p{font-size:11px;line-height:1.4;margin:5px 0}
+.home-dashboard-shell .big{font-size:21px}
+.home-dashboard-shell .btn{padding:8px 10px;font-size:11px}
+.home-dashboard-shell .detail-row{padding:6px 0;font-size:11px}
+@media(max-width:520px){.home-dashboard-shell{gap:6px;padding:8px;border-radius:14px}.home-dashboard-shell>.grid>.card{padding:6px 7px}.home-dashboard-shell>.notice{padding:7px;font-size:10px}.home-dashboard-shell>.card.overview-single{padding:0;gap:6px}.home-dashboard-shell .overview-section,.home-dashboard-shell .overview-section:last-child{padding:7px}.home-dashboard-shell .overview-section h3{font-size:12px}.home-dashboard-shell .overview-section .big{font-size:17px}.home-dashboard-shell .detail-row{font-size:10px}.home-dashboard-shell .section-head h2{font-size:14px}}
 </style>
 </head>
 <body>
@@ -150,6 +167,7 @@
  </nav>
 
  <div id="homePanel" class="tab-panel">
+  <div class="home-dashboard-shell">
   <div class="section-head"><h2>Demo Wallet</h2><span class="muted">Test mode only</span></div>
   <div class="grid">
    <article class="card">
@@ -202,6 +220,7 @@
    </section>
   </article>
   
+  </div>
  </div>
 
  <div id="workPanel" class="tab-panel hidden">
