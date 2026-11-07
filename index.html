@@ -154,11 +154,11 @@
    </article>
    <article class="card">
     <div class="currency">DEMO WALLET</div><h3>Demo Activity</h3>
-    <div class="detail-list"><div class="detail-row"><span class="muted">Task payments</span><strong id="demoSpent">৳0</strong></div><div class="detail-row"><span class="muted">Pending approvals</span><strong id="demoPendingCount">0</strong></div></div>
+    <div class="detail-list"><div class="detail-row"><span class="muted">Task payments</span><strong id="demoSpent">৳0</strong></div><div class="detail-row"><span class="muted">Confirmed demo orders</span><strong id="demoPendingCount">0</strong></div></div>
     <span class="tag">Local device demo only</span>
    </article>
   </div>
-  <div class="notice"><strong>Demo only:</strong> Balance and approvals are saved in this browser on this device. No real money is accepted, transferred, or withdrawable.</div>
+  <div class="notice"><strong>Demo only:</strong> Balance and confirmed demo orders are saved in this browser on this device. No real money is accepted, transferred, or withdrawable.</div>
   <div class="section-head"><h2>Wallet Actions</h2><span class="muted">Home</span></div>
   <div class="grid">
    <article class="card">
@@ -200,8 +200,7 @@
 
  <div id="workPanel" class="tab-panel hidden">
   <div class="section-head"><div><div class="eyebrow">Task workspace</div><h2>Available Tasks</h2><p class="muted" style="margin:4px 0 0"></p></div><span class="pill"></span></div>
-  <div class="notice"><strong>Task review:</strong> Submit a demo task request. Only the Crown Admin account can approve or reject it. Demo balances are local test values only; no real payment, income or payout is involved.</div>
-  <article class="card hidden" id="demoApprovalPanel" style="margin:0 0 14px"><div class="currency">CROWN ADMIN · PRIVATE</div><h3>Pending Task Requests</h3><p class="muted">Only accounts with the Admin role can review requests here.</p><button class="btn secondary" type="button" id="refreshAdminRequests">Refresh requests</button><div id="demoPendingList" class="detail-list"><span class="muted">Loading requests…</span></div></article>
+  <div class="notice"><strong>Instant demo order:</strong> If your Demo Balance covers the task price, the order is confirmed immediately. If the balance is too low, the order is not placed. This is only a local demo and is not a real purchase.</div>
   <div class="grid"><div class="task-league-heading"><strong>BRONZE LEAGUE TASKS</strong><span>5 separate tasks</span></div><article class="card task-card" data-league-index="0" data-task-index="0">
     <img class="product-image" src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=85" alt="Wireless Earbuds demo task" loading="lazy">
     <div class="currency">BRONZE LEAGUE · DEMO</div><h3>Wireless Earbuds</h3>
@@ -855,27 +854,7 @@
      list.querySelectorAll("[data-admin-reject]").forEach(btn=>btn.addEventListener("click",()=>reviewTaskRequest(btn.dataset.adminReject,false)));
    }
  }
- async function refreshTaskRequests(){
-   if(!db||!currentUserId)return;
-   const {data,error}=await db.from("crown_task_requests").select("id,user_id,task_key,task_title,status,created_at").order("created_at",{ascending:false});
-   if(error){console.warn("Task request load failed:",error.message);return;}
-   taskRequestCache=data||[];
-   const state=readDemoState();
-   const mine=taskRequestCache.filter(item=>item.user_id===currentUserId);
-   state.pending=mine.filter(item=>item.status==="pending").map(item=>({task:Number(item.task_key),name:item.task_title,amount:0}));
-   state.completed=[...new Set([...state.completed,...mine.filter(item=>item.status==="approved").map(item=>Number(item.task_key))])];
-   saveDemoState(state);
-   renderLeagueProgress();
- }
- async function reviewTaskRequest(requestId,approve){
-   if(currentUserRole!=="admin")return;
-   const fn=approve?"admin_approve_task":"admin_reject_task";
-   const args=approve?{p_request_id:requestId,p_reward:0,p_note:"Reviewed by Crown Admin"}:{p_request_id:requestId,p_note:"Reviewed by Crown Admin"};
-   const {error}=await db.rpc(fn,args);
-   if(error){alert("Could not review request: "+error.message);return;}
-   await refreshTaskRequests();
- }
- function renderLeagueProgress(){
+  function renderLeagueProgress(){
    if(!currentUserId)return;
    const state=readDemoState(),done=state.completed;
    const cards=[...document.querySelectorAll(".task-card[data-task-index]")];
@@ -887,14 +866,14 @@
      const index=Number(card.dataset.taskIndex),league=Number(card.dataset.leagueIndex);
      const status=card.querySelector("[data-order-status]"),button=card.querySelector("[data-demo-order]");
      if(!status||!button)return;
-     const completed=done.includes(index),pending=state.pending.some(x=>x.task===index);
-     const locked=index!==nextTask&&!completed&&!pending;
-     status.textContent=completed?"Demo payment approved":pending?"Demo payment pending approval":locked?"Locked · Complete previous task":"Ready · Demo balance";
-     button.textContent=completed?"Approved":pending?"Pending approval":locked?"Complete previous task":"Pay with Demo Balance";
-     button.disabled=completed||pending||locked;
-     button.classList.toggle("secondary",completed||pending||locked);
+     const completed=done.includes(index);
+     const locked=index!==nextTask&&!completed;
+     status.textContent=completed?"Order confirmed":locked?"Locked · Complete previous task":"Ready · Demo balance";
+     button.textContent=completed?"Confirmed":locked?"Complete previous task":"Confirm order";
+     button.disabled=completed||locked;
+     button.classList.toggle("secondary",completed||locked);
      card.classList.toggle("task-locked",locked);
-     card.querySelectorAll("[data-task-value], [data-task-margin]").forEach(row=>row.classList.toggle("hidden",completed||locked||pending));
+     card.querySelectorAll("[data-task-value], [data-task-margin]").forEach(row=>row.classList.toggle("hidden",completed||locked));
    });
    document.querySelectorAll(".league-card[data-league-index]").forEach(card=>{
      const i=Number(card.dataset.leagueIndex),status=card.querySelector(".league-status"),icon=card.querySelector(".league-lock");
@@ -905,30 +884,30 @@
    });
    const count=completedByLeague[activeLeague]||0;
    if($("leagueCurrentTitle"))$("leagueCurrentTitle").textContent=leagueNames[activeLeague]+" League";
-   if($("leagueProgressText"))$("leagueProgressText").textContent=count+" of "+leagueTaskCounts[activeLeague]+" demo tasks completed · Approve each demo payment to continue";
+   if($("leagueProgressText"))$("leagueProgressText").textContent=count+" of "+leagueTaskCounts[activeLeague]+" demo tasks completed · demo orders confirmed";
    if($("leagueProgressFill"))$("leagueProgressFill").style.width=(count/leagueTaskCounts[activeLeague]*100)+"%";
    renderDemoWallet();renderNotifications();
  }
  async function completeDemoTask(button){
-   const card=button.closest(".task-card"),task=Number(card.dataset.taskIndex),price=taskPrice(card),name=card.querySelector("h3")?.textContent||("Task "+(task+1));
+   const card=button.closest(".task-card");
+   if(!card||!currentUserId){alert("Please sign in again.");return;}
+   const task=Number(card.dataset.taskIndex),price=taskPrice(card);
+   const name=card.querySelector("h3")?.textContent||("Task "+(task+1));
    const state=readDemoState();
-   if(state.completed.includes(task)||state.pending.some(x=>x.task===task))return;
-   if(!db||!currentUserId){alert("Please sign in again.");return;}
+   if(state.completed.includes(task))return;
    if(price<=0){alert("Task value not available.");return;}
-   if(state.balance<price){alert("Demo balance is not enough. Add Demo Balance from Home first.");return;}
-   if(!confirm(name+" demo task-er jonno "+money(price)+" Demo Balance use korbe?"))return;
+   if(state.balance<price){alert("Insufficient Demo Balance. Your order was not placed.");return;}
+   if(!confirm("Confirm "+name+" order for "+money(price)+" Demo Balance?"))return;
    button.disabled=true;
-   try{
-     const {error}=await db.from("crown_task_requests").insert({user_id:currentUserId,task_key:String(task),task_title:name,proof:"Demo task request"});
-     if(error)throw error;
-     state.balance-=price;state.spent+=price;
-     addNotification(state,"Task request submitted",name+" is waiting for Crown Admin review.","transaction");
-     saveDemoState(state);
-     await refreshTaskRequests();
-     sendNotificationChannels("Task request submitted",name+" is waiting for Crown Admin review.","transaction");
-     alert("Task request submitted. Only Crown Admin can approve or reject it.");
-   }catch(error){alert(error.message||"Could not submit task request.");}
-   finally{button.disabled=false;}
+   state.balance-=price;
+   state.spent+=price;
+   state.completed=[...new Set([...state.completed,task])];
+   addNotification(state,"Demo order confirmed",name+" order was confirmed immediately. Demo balance was deducted.","transaction");
+   saveDemoState(state);
+   renderLeagueProgress();
+   sendNotificationChannels("Demo order confirmed",name+" order was confirmed immediately.","transaction");
+   alert("Order confirmed! "+money(price)+" Demo Balance deducted. This is a demo only.");
+   button.disabled=false;
  }
  function showDashboard(user){
    currentUserId=user.id;
@@ -940,7 +919,6 @@
    $("profileInfo").textContent = "Signed in. Demo Balance is for local testing only; no real funds or payments are involved.";
    if(db) db.from("profiles").select("username,full_name,created_at,role").eq("id",user.id).maybeSingle().then(({data})=>{
      currentUserRole=data?.role==="admin"?"admin":"user";
-     refreshTaskRequests();
      const uid=data?.username || user.user_metadata?.username || "Not set";
      const fullName=data?.full_name || user.user_metadata?.full_name || "Not set";
      $("userBadge").textContent = uid.toUpperCase();
@@ -1070,7 +1048,6 @@
  $("signOut").addEventListener("click",async()=>{if(db){const {error}=await db.auth.signOut();if(error){$("profileInfo").textContent=error.message;return;}}showGuest();});
  document.querySelectorAll("[data-demo]").forEach(button=>button.addEventListener("click",()=>alert("Not active yet. Crown must first connect an approved payment provider and secure server-side processing. No money has been moved.")));
  document.querySelectorAll("[data-demo-order]").forEach(button=>button.addEventListener("click",()=>completeDemoTask(button)));
- $("refreshAdminRequests")?.addEventListener("click",refreshTaskRequests);
  $("clearNotifications")?.addEventListener("click",()=>{const state=readDemoState();state.notifications=[];saveDemoState(state);renderNotifications();});
  $("toggleEmailAlerts")?.addEventListener("click",async()=>{if(!currentUserId||!db)return;const p=notificationPrefs();const next=!p.email;p.email=next;localStorage.setItem("crown_notification_prefs_"+currentUserId,JSON.stringify(p));updateNotificationControls();const button=$("toggleEmailAlerts");button.disabled=true;try{const {error}=await db.auth.updateUser({data:{crown_email_alerts:next}});if(error)throw error;if($("emailAlertStatus"))$("emailAlertStatus").textContent=next?"Email alerts enabled for this account. You will not need to enable them again.":"Email alerts are off."; }catch(error){console.error("Could not save email preference:",error);if($("emailAlertStatus"))$("emailAlertStatus").textContent="Could not sync preference to your account. It remains saved on this device."; }finally{button.disabled=false;updateNotificationControls();}});
  $("testEmailAlert")?.addEventListener("click",async()=>{if(!currentUserId||!db)return;const p=notificationPrefs();if(!p.email){alert("First enable email alerts.");return;}const button=$("testEmailAlert"),status=$("emailAlertStatus");button.disabled=true;button.textContent="Sending test email...";if(status)status.textContent="Sending a test email to your signed-in account...";try{const {data,error}=await db.functions.invoke("send-notification",{body:{title:"Crown test email",message:"Your Crown email notification setup is working.",eventType:"test"}});if(error)throw error;if(!data?.sent)throw new Error(data?.error||"Email was not confirmed as sent.");if(status)status.textContent="Test email sent. Check your inbox and spam folder.";alert("Test email sent. Check your inbox and spam folder.");}catch(error){console.error("Crown test email failed:",error);let detail=error?.message||"Unknown error";if(error?.context&&typeof error.context.json==="function"){try{const payload=await error.context.json();detail=payload?.error||detail;}catch(_){}}if(status)status.textContent="Test email failed: "+detail;alert("Test email failed: "+detail);}finally{button.disabled=false;button.textContent="Send test email";}});
