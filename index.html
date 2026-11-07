@@ -959,7 +959,7 @@
    if(!box)return;
    const {data,error}=await db.from("crown_demo_transactions").select("type,amount,note,created_at").eq("user_id",currentUserId).order("created_at",{ascending:false}).limit(50);
    if(error){box.textContent="Could not load transaction history.";return;}
-   box.innerHTML=data?.length?data.map(t=>'<div class="detail-row"><span><strong>'+escapeHTML(({demo_credit:"Demo credit added",demo_order:"Demo order payment",admin_credit:"Admin added balance",admin_debit:"Admin deducted balance"})[t.type]||t.type)+'</strong><br><small class="muted">'+escapeHTML(t.note||"")+' · '+new Date(t.created_at).toLocaleString()+'</small></span><strong>'+money(t.amount)+'</strong></div>').join(""):'<span class="muted">No demo transactions yet.</span>';
+   box.innerHTML=data?.length?data.map(t=>'<div class="detail-row"><span><strong>'+escapeHTML(({demo_credit:"Demo credit added",demo_order:"Demo order payment",admin_credit:"Admin added balance",admin_debit:"Admin deducted balance",referral_bonus:"Referral bonus received",referral_bonus_reversal:"Referral bonus reversed"})[t.type]||t.type)+'</strong><br><small class="muted">'+escapeHTML(t.note||"")+' · '+new Date(t.created_at).toLocaleString()+'</small></span><strong>'+money(t.amount)+'</strong></div>').join(""):'<span class="muted">No demo transactions yet.</span>';
  }
  const adminPageSize=25;
  const adminPages={users:0,orders:0,ledger:0};
