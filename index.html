@@ -1039,7 +1039,7 @@
  $("enableBrowserAlerts")?.addEventListener("click",async()=>{if(!("Notification" in window)){alert("This browser does not support notifications.");return;}try{const permission=await Notification.requestPermission();updateNotificationControls();if(permission==="granted"){new Notification("Crown notifications enabled",{body:"You will receive browser alerts while Crown is open."});}else alert("Browser notification permission was not granted.");}catch(_){alert("Could not request notification permission.");}});
  $("demoTopUp")?.addEventListener("click",()=>{
    if(!currentUserId)return;
-   const state=readDemoState();state.balance+=100000;addNotification(state,"Demo balance added","৳100,000 demo balance was added to your sample wallet.","transaction");saveDemoState(state);renderDemoWallet();
+   const state=readDemoState();state.balance+=100000;addNotification(state,"Demo balance added","৳100,000 demo balance was added to your sample wallet.","transaction");saveDemoState(state);sendNotificationChannels("Demo balance added","৳100,000 demo balance was added to your sample wallet.","transaction");renderDemoWallet();
    alert("৳100,000 Demo Balance added. This is not real money.");
  });
 
