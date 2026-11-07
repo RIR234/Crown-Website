@@ -900,26 +900,64 @@
    if($("leagueProgressFill"))$("leagueProgressFill").style.width=(count/leagueTaskCounts[activeLeague]*100)+"%";
    renderDemoWallet();renderNotifications();
  }
+ async function loadServerDemoWallet(){
+   if(!db||!currentUserId)return;
+   const {data,error}=await db.rpc("get_crown_demo_wallet");
+   if(error){console.warn("Demo wallet sync failed:",error.message);return;}
+   const state=readDemoState();
+   state.balance=Number(data?.balance||0);
+   state.spent=Number(data?.spent||0);
+   state.completed=Array.isArray(data?.completed)?data.completed.map(Number):[];
+   state.pending=[];
+   saveDemoState(state);
+   renderLeagueProgress();
+ }
+ async function refreshAdminPanel(){
+   if(!db||currentUserRole!=="admin")return;
+   const status=$("adminStatus");
+   if(status)status.textContent="Refreshing admin data…";
+   const [usersResult,ordersResult,ledgerResult]=await Promise.all([
+     db.from("profiles").select("id,username,full_name,email,role,created_at").order("created_at",{ascending:false}).limit(100),
+     db.from("crown_demo_orders").select("id,user_id,task_title,amount,status,created_at").order("created_at",{ascending:false}).limit(100),
+     db.from("crown_demo_transactions").select("id,user_id,type,amount,note,created_at").order("created_at",{ascending:false}).limit(100)
+   ]);
+   const error=usersResult.error||ordersResult.error||ledgerResult.error;
+   if(error){if(status)status.textContent="Admin data could not load: "+error.message;return;}
+   const users=usersResult.data||[],orders=ordersResult.data||[],ledger=ledgerResult.data||[];
+   const names={};users.forEach(u=>{names[u.id]=u.username||u.email||u.id.slice(0,8);});
+   if($("adminUserCount"))$("adminUserCount").textContent=String(users.length);
+   if($("adminOrderCount"))$("adminOrderCount").textContent=String(orders.filter(o=>o.status==="confirmed").length);
+   if($("adminOrderVolume"))$("adminOrderVolume").textContent=money(orders.filter(o=>o.status==="confirmed").reduce((n,o)=>n+Number(o.amount||0),0));
+   const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+   if($("adminUsersTable"))$("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'</small></span><span class="tag">'+esc(u.role||"user")+'</span></div>').join(""):'<span class="muted">No users found.</span>';
+   if($("adminOrdersTable"))$("adminOrdersTable").innerHTML=orders.length?orders.map(o=>'<div class="detail-row"><span><strong>'+esc(o.task_title)+'</strong><br><small class="muted">'+esc(names[o.user_id]||o.user_id.slice(0,8))+' · '+new Date(o.created_at).toLocaleString()+'</small></span><span><strong>'+money(o.amount)+'</strong><br><small class="muted">'+esc(o.status)+'</small></span></div>').join(""):'<span class="muted">No demo orders yet.</span>';
+   if($("adminLedgerTable"))$("adminLedgerTable").innerHTML=ledger.length?ledger.map(t=>'<div class="detail-row"><span><strong>'+esc(t.type==="demo_credit"?"Demo credit":"Demo order debit")+'</strong><br><small class="muted">'+esc(names[t.user_id]||t.user_id.slice(0,8))+' · '+new Date(t.created_at).toLocaleString()+'</small></span><span>'+money(t.amount)+'</span></div>').join(""):'<span class="muted">No ledger entries yet.</span>';
+   if(status)status.textContent="Admin data updated.";
+ }
  async function completeDemoTask(button){
    const card=button.closest(".task-card");
-   if(!card||!currentUserId){alert("Please sign in again.");return;}
+   if(!card||!currentUserId||!db){alert("Please sign in again.");return;}
    const task=Number(card.dataset.taskIndex),price=taskPrice(card);
    const name=card.querySelector("h3")?.textContent||("Task "+(task+1));
    const state=readDemoState();
    if(state.completed.includes(task))return;
    if(price<=0){alert("Task value not available.");return;}
-   if(state.balance<price){alert("Insufficient Demo Balance. Your order was not placed.");return;}
    if(!confirm("Confirm "+name+" order for "+money(price)+" Demo Balance?"))return;
    button.disabled=true;
-   state.balance-=price;
-   state.spent+=price;
-   state.completed=[...new Set([...state.completed,task])];
-   addNotification(state,"Demo order confirmed",name+" order was confirmed immediately. Demo balance was deducted.","transaction");
-   saveDemoState(state);
-   renderLeagueProgress();
-   sendNotificationChannels("Demo order confirmed",name+" order was confirmed immediately.","transaction");
-   alert("Order confirmed! "+money(price)+" Demo Balance deducted. This is a demo only.");
-   button.disabled=false;
+   try{
+     const {data,error}=await db.rpc("place_crown_demo_order",{p_task_index:task,p_task_title:name,p_amount:price});
+     if(error)throw error;
+     state.balance=Number(data.balance);
+     state.spent=Number(data.spent||state.spent+price);
+     state.completed=[...new Set([...state.completed,task])];
+     addNotification(state,"Demo order confirmed",name+" order was confirmed immediately. Demo balance was deducted.","transaction");
+     saveDemoState(state);
+     renderLeagueProgress();
+     sendNotificationChannels("Demo order confirmed",name+" order was confirmed immediately.","transaction");
+     if(currentUserRole==="admin")refreshAdminPanel();
+     alert("Order confirmed! "+money(price)+" Demo Balance deducted. This is a demo only.");
+   }catch(error){alert(error.message||"Order could not be confirmed.");}
+   finally{button.disabled=false;renderLeagueProgress();}
  }
  function showDashboard(user){
    currentUserId=user.id;
@@ -931,6 +969,9 @@
    $("profileInfo").textContent = "Signed in. Demo Balance is for local testing only; no real funds or payments are involved.";
    if(db) db.from("profiles").select("username,full_name,created_at,role").eq("id",user.id).maybeSingle().then(({data})=>{
      currentUserRole=data?.role==="admin"?"admin":"user";
+     $("adminTab").classList.toggle("hidden",currentUserRole!=="admin");
+     if(currentUserRole==="admin")refreshAdminPanel();
+     loadServerDemoWallet();
      const uid=data?.username || user.user_metadata?.username || "Not set";
      const fullName=data?.full_name || user.user_metadata?.full_name || "Not set";
      $("userBadge").textContent = uid.toUpperCase();
