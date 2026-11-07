@@ -830,6 +830,8 @@
  function savePageRoute(route){history.replaceState(null,"",route?"#"+route:window.location.pathname+window.location.search);}
  function applyDashboardRoute(){
    const route=window.location.hash.slice(1);
+   // Keep an Admin deep link intact until the signed-in profile role has loaded.
+   if(route==="adminPanel" && currentUserRole===null)return;
    const tab=document.querySelector('.dash-tab[data-tab="'+route+'"]');
    if(tab&&!tab.classList.contains("hidden")){document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==route));}
    else{const home=document.querySelector('.dash-tab[data-tab="homePanel"]');if(home){document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===home));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!=="homePanel"));savePageRoute("homePanel");}}
@@ -987,6 +989,7 @@
  }
  function showDashboard(user){
    currentUserId=user.id;
+   currentUserRole=null;
    if(typeof user.user_metadata?.crown_email_alerts==="boolean")localStorage.setItem("crown_notification_prefs_"+user.id,JSON.stringify({...notificationPrefs(),email:user.user_metadata.crown_email_alerts}));
    $("publicHome").classList.add("hidden"); $("authPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
    applyDashboardRoute();
