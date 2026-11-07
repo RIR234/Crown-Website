@@ -870,7 +870,8 @@
  function notificationPrefs(){try{return JSON.parse(localStorage.getItem("crown_notification_prefs_"+currentUserId)||"{}");}catch(_){return {};}}
  function updateNotificationControls(){const p=notificationPrefs();if($("toggleEmailAlerts"))$("toggleEmailAlerts").textContent=p.email?"Disable email alerts":"Enable email alerts";if($("emailAlertStatus"))$("emailAlertStatus").textContent=p.email?"Email alerts enabled. Send a test email to verify delivery.":"Email alerts are off.";if($("browserAlertStatus"))$("browserAlertStatus").textContent=("Notification" in window)?("Browser permission: "+Notification.permission):"This browser does not support notifications.";}
  async function sendNotificationChannels(title,message,type){if(!currentUserId)return;try{if("Notification" in window&&Notification.permission==="granted")new Notification(title,{body:message,icon:"/favicon.ico"});}catch(_){}const prefs=notificationPrefs();if(prefs.email&&db){try{const {error}=await db.functions.invoke("send-notification",{body:{title,message,eventType:type}});if(error)console.warn("Email notification:",error.message);}catch(error){console.warn("Email notification unavailable",error);}}}
- function renderNotifications(){if(!currentUserId)return;updateNotificationControls();const list=$("notificationList");if(!list)return;const items=readDemoState().notifications||[];list.innerHTML=items.length?items.map(n=>`<div class="overview-section" style="padding:12px;margin-bottom:9px"><div class="detail-row"><strong>${n.title}</strong><span class="tag">${n.type==="transaction"?"TRANSACTION":n.type==="task"?"TASK":"ACTIVITY"}</span></div><p class="muted" style="margin:6px 0">${n.message}</p><small class="muted">${n.at}</small></div>`).join(""):'<span class="muted">No notifications yet.</span>';}
+ function escapeHTML(value){return String(value??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+ function renderNotifications(){if(!currentUserId)return;updateNotificationControls();const list=$("notificationList");if(!list)return;const items=readDemoState().notifications||[];list.innerHTML=items.length?items.map(n=>`<div class="overview-section" style="padding:12px;margin-bottom:9px"><div class="detail-row"><strong>${escapeHTML(n.title)}</strong><span class="tag">${n.type==="transaction"?"TRANSACTION":n.type==="task"?"TASK":"ACTIVITY"}</span></div><p class="muted" style="margin:6px 0">${escapeHTML(n.message)}</p><small class="muted">${escapeHTML(n.at)}</small></div>`).join(""):'<span class="muted">No notifications yet.</span>';}
  function money(value){return "৳"+Number(value||0).toLocaleString("en-BD");}
  function taskPrice(card){
    const value=card.querySelector("[data-task-value] strong")?.textContent||"";
@@ -936,7 +937,7 @@
    if(!box)return;
    const {data,error}=await db.from("crown_demo_transactions").select("type,amount,note,created_at").eq("user_id",currentUserId).order("created_at",{ascending:false}).limit(50);
    if(error){box.textContent="Could not load transaction history.";return;}
-   box.innerHTML=data?.length?data.map(t=>'<div class="detail-row"><span><strong>'+ (t.type==="demo_credit"?"Demo credit added":"Demo order payment")+'</strong><br><small class="muted">'+String(t.note||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))+' · '+new Date(t.created_at).toLocaleString()+'</small></span><strong>'+money(t.amount)+'</strong></div>').join(""):'<span class="muted">No demo transactions yet.</span>';
+   box.innerHTML=data?.length?data.map(t=>'<div class="detail-row"><span><strong>'+escapeHTML(({demo_credit:"Demo credit added",demo_order:"Demo order payment",admin_credit:"Admin added balance",admin_debit:"Admin deducted balance"})[t.type]||t.type)+'</strong><br><small class="muted">'+escapeHTML(t.note||"")+' · '+new Date(t.created_at).toLocaleString()+'</small></span><strong>'+money(t.amount)+'</strong></div>').join(""):'<span class="muted">No demo transactions yet.</span>';
  }
  async function refreshAdminPanel(){
    if(!db||currentUserRole!=="admin")return;
@@ -965,9 +966,12 @@
      $("adminOrdersTable").querySelectorAll("[data-cancel-order]").forEach(btn=>btn.addEventListener("click",async()=>{
        if(!confirm("Cancel this demo order and return demo credits to the user's test wallet?"))return;
        btn.disabled=true;
-       const {error}=await db.rpc("admin_cancel_crown_demo_order",{p_order_id:btn.dataset.cancelOrder});
-       if(error){alert(error.message);btn.disabled=false;return;}
+       const order=orders.find(item=>item.id===btn.dataset.cancelOrder);
+       try{const {error}=await db.rpc("admin_cancel_crown_demo_order",{p_order_id:btn.dataset.cancelOrder});
+       if(error)throw error;
        await refreshAdminPanel();
+       if(order?.user_id===currentUserId)await loadServerDemoWallet();
+       }catch(error){alert(error.message||"Could not cancel and refund this demo order.");btn.disabled=false;}
      }));
    }
    if($("adminLedgerTable"))$("adminLedgerTable").innerHTML=ledger.length?ledger.map(t=>'<div class="detail-row"><span><strong>'+esc(({demo_credit:"Demo credit",demo_order:"Demo order debit",admin_credit:"Admin added balance",admin_debit:"Admin deducted balance"})[t.type]||t.type)+'</strong><br><small class="muted">'+esc(names[t.user_id]||t.user_id.slice(0,8))+' · '+esc(t.note||"")+' · '+new Date(t.created_at).toLocaleString()+'</small></span><span>'+money(t.amount)+'</span></div>').join(""):'<span class="muted">No ledger entries yet.</span>';
