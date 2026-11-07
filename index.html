@@ -1048,7 +1048,7 @@
    $("userBadge").textContent = (user.user_metadata?.username || "Loading…").toUpperCase();
    renderLeagueProgress();
    $("profileInfo").textContent = "Signed in. Demo Balance is for local testing only; no real funds or payments are involved.";
-   if(db) db.from("profiles").select("username,full_name,created_at,role").eq("id",user.id).maybeSingle().then(({data})=>{
+   if(db) db.from("profiles").select("username,full_name,created_at,role,is_blocked").eq("id",user.id).maybeSingle().then(({data})=>{
      currentUserRole=data?.role==="admin"?"admin":"user";
      $("adminTab").classList.toggle("hidden",currentUserRole!=="admin");
      applyDashboardRoute();
