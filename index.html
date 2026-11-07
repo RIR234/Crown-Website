@@ -1021,7 +1021,7 @@
  $("passwordSignIn").addEventListener("click",async()=>{
    if(!db){setStatus("Authentication is not configured.");return;}
    const {password,loginUsername}=authInputs();
-   if(!(/^[a-z0-9_]{3,24}$/.test(loginUsername)||/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(loginUsername))){setStatus("Enter a valid User ID or registered email address.");return;}
+   if(!(/^[a-z0-9_]{3,24}$/.test(loginUsername)||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginUsername))){setStatus("Enter a valid User ID or registered email address.");return;}
    if(password.length<8){setStatus("Enter your password (at least 8 characters).");return;}
    $("passwordSignIn").disabled=true;setStatus("Logging in…");
    try{
