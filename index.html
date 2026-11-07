@@ -1194,7 +1194,7 @@ body{height:100vh;height:100dvh}
    finally{button.disabled=false;renderLeagueProgress();}
  }
  async function loadReferralSummary(){if(!db||!currentUserId)return;const status=$("referralStatus");try{const {data,error}=await db.rpc("get_crown_referral_summary");if(error)throw error;const code=data.referral_code;$("myReferralLink").value=window.location.origin+window.location.pathname+"?ref="+encodeURIComponent(code)+"#auth";$("myReferralCode").textContent=code;$("myReferralCount").textContent=String(data.referral_count??0);$("myReferralBonus").textContent=money(Number(data.referral_bonus_total||0))+" Demo";if(status)status.textContent="Your personal invite link is ready.";}catch(error){if(status)status.textContent=error.message||"Could not load referral details.";}}
- async function showDashboard(user){
+ async async function showDashboard(user){
    if(!db||!user?.id)return;
    currentUserId=user.id;
    currentUserRole=null;
