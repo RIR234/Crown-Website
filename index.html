@@ -824,7 +824,14 @@
  function readDemoState(){
    try{
      const saved=JSON.parse(localStorage.getItem(demoKey())||"null");
-     if(saved && typeof saved.balance==="number"){if(!Array.isArray(saved.notifications))saved.notifications=[];return saved;} return {balance:100000,spent:0,completed:[],pending:[],notifications:[]};
+     if(saved && typeof saved.balance==="number"){
+       if(!Array.isArray(saved.notifications))saved.notifications=[];
+       if(!Array.isArray(saved.completed))saved.completed=[];
+       if(!Array.isArray(saved.pending))saved.pending=[];
+       if(typeof saved.spent!=="number")saved.spent=0;
+       return saved;
+     }
+     return {balance:100000,spent:0,completed:[],pending:[],notifications:[]};
    }catch(_){return {balance:100000,spent:0,completed:[],pending:[],notifications:[]};}
  }
  function saveDemoState(state){localStorage.setItem(demoKey(),JSON.stringify(state));}
@@ -843,16 +850,7 @@
    const state=readDemoState();
    if($("demoBalance"))$("demoBalance").textContent=money(state.balance);
    if($("demoSpent"))$("demoSpent").textContent=money(state.spent);
-   if($("demoPendingCount"))$("demoPendingCount").textContent=String(state.pending.length);
-   const panel=$("demoApprovalPanel");
-   if(panel)panel.classList.toggle("hidden",currentUserRole!=="admin");
-   const list=$("demoPendingList");
-   if(list && currentUserRole==="admin"){
-     const pending=taskRequestCache.filter(item=>item.status==="pending");
-     list.innerHTML=pending.length?pending.map(item=>'<div class="detail-row"><span>'+String(item.task_title||"Task request").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))+' · '+new Date(item.created_at).toLocaleString()+'</span><span><button class="btn" type="button" data-admin-approve="'+item.id+'">Approve</button> <button class="btn secondary" type="button" data-admin-reject="'+item.id+'">Reject</button></span></div>').join(""):'<span class="muted">No pending task requests.</span>';
-     list.querySelectorAll("[data-admin-approve]").forEach(btn=>btn.addEventListener("click",()=>reviewTaskRequest(btn.dataset.adminApprove,true)));
-     list.querySelectorAll("[data-admin-reject]").forEach(btn=>btn.addEventListener("click",()=>reviewTaskRequest(btn.dataset.adminReject,false)));
-   }
+   if($("demoPendingCount"))$("demoPendingCount").textContent=String(state.completed.length);
  }
   function renderLeagueProgress(){
    if(!currentUserId)return;
