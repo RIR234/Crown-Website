@@ -122,6 +122,7 @@
   <div class="field hidden" id="emailField"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
   <div class="field hidden" id="fullNameField"><label for="fullName">Full name</label><input id="fullName" autocomplete="name" placeholder="Your full name"></div>
   <div class="field hidden" id="usernameField"><label for="username">User ID</label><input id="username" autocomplete="username" placeholder="Choose User ID (3–24 letters, numbers, _)"></div>
+  <div class="field hidden" id="referralCodeField"><label for="signupReferralCode">Invite / Referral code (optional)</label><input id="signupReferralCode" autocomplete="off" maxlength="16" placeholder="Enter referral code"></div>
   <div class="field" id="loginUsernameField"><label for="loginUsername">User ID or email</label><input id="loginUsername" autocomplete="username" placeholder="Enter your User ID or registered email"></div>
   <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Enter password" required></div>
   <button class="btn full" id="passwordSignIn">Log in</button>
@@ -777,6 +778,7 @@
    <button class="dash-tab" data-settings-tab="settingsPrivacyPanel"><span class="settings-number">05</span> Privacy Settings</button>
    <button class="dash-tab" data-settings-tab="settingsNotificationsPanel"><span class="settings-number">06</span> Notifications</button>
    <button class="dash-tab" data-settings-tab="settingsCarePanel"><span class="settings-number">07</span> Help & Customer Care</button>
+   <button class="dash-tab" data-settings-tab="settingsReferralPanel"><span class="settings-number">08</span> Invite & Refer</button>
   </div>
   <section id="settingsAccountPanel" class="settings-subpanel hidden"><article class="card"><h3>Account settings</h3><p class="muted">Manage your Crown account information and sign-in preferences.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account status</span><strong>Active</strong></div><div class="detail-row"><span class="muted">Login method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="accountSettingsEmail">—</strong></div><div class="detail-row"><span class="muted">Member since</span><strong id="accountSettingsJoined">—</strong></div></div></article></section>
   <section id="settingsProfilePanel" class="settings-subpanel hidden"><article class="card"><h3>Profile settings</h3><p class="muted">Update your personal profile information.</p><div class="field"><label for="editFullName">Full name</label><input id="editFullName" autocomplete="name" placeholder="Enter full name"></div><button class="btn full" id="saveProfileDetails" type="button">Save profile</button><div id="profileEditStatus" class="status" role="status" aria-live="polite"></div><div class="detail-list"><div class="detail-row"><span class="muted">Full name</span><strong id="settingsFullName">—</strong></div><div class="detail-row"><span class="muted">User ID</span><strong id="settingsUsername">—</strong></div><div class="detail-row"><span class="muted">Email address</span><strong id="settingsEmail">—</strong></div></div></article><div class="card" id="setupUsernameCard" style="margin-top:14px"><h3>Change User ID</h3><p class="muted">Update the User ID used to sign in. It must be unique.</p><div class="field"><label for="newUsername">User ID (3–24 lowercase letters, numbers or _)</label><input id="newUsername" autocomplete="username" placeholder="your_user_id"></div><button class="btn full" id="saveUsername">Save User ID</button><div id="usernameStatus" class="status" role="status" aria-live="polite"></div></div><div class="card" style="margin-top:14px"><h3>Change email address</h3><p class="muted">A confirmation link will be sent to your new email address.</p><div class="field"><label for="newAccountEmail">New email address</label><input id="newAccountEmail" type="email" autocomplete="email" placeholder="new@example.com"></div><button class="btn full" id="changeAccountEmail" type="button">Update email</button><div id="emailChangeStatus" class="status" role="status" aria-live="polite"></div></div></section>
@@ -784,6 +786,7 @@
   <section id="settingsHistoryPanel" class="settings-subpanel hidden"><article class="card"><h3>Demo wallet history</h3><p class="muted">Server-saved test credits and demo order payments. These are not real-money transactions.</p><div id="userTransactionHistory" class="detail-list">Loading history…</div></article></section>
   <section id="settingsPrivacyPanel" class="settings-subpanel hidden"><article class="card"><h3>Privacy settings</h3><p class="muted">Crown only displays the account details needed for this demo. Do not share private account information with anyone.</p><div class="detail-list"><div class="detail-row"><span class="muted">Profile visibility</span><strong>Private</strong></div><div class="detail-row"><span class="muted">Data controls</span><strong>Contact support</strong></div></div></article></section>
   <section id="settingsNotificationsPanel" class="settings-subpanel hidden"><article class="card"><div class="section-head"><div><h3>Notifications</h3><p class="muted">Task completion, demo payment and account activity updates.</p></div><button class="btn" type="button" id="clearNotifications">Clear all</button></div><div class="overview-section" style="margin:12px 0"><h4>Email alerts</h4><p class="muted">Receive task and account updates by email.</p><button class="btn full" type="button" id="toggleEmailAlerts">Enable email alerts</button><button class="btn full" type="button" id="testEmailAlert" style="margin-top:8px">Send test email</button><small class="muted" id="emailAlertStatus">Email alerts are off.</small></div><div class="overview-section" style="margin:12px 0"><h4>Browser alerts</h4><p class="muted">Allow Crown to show notifications while this website is open.</p><button class="btn full" type="button" id="enableBrowserAlerts">Enable browser notifications</button><small class="muted" id="browserAlertStatus">Permission not requested.</small></div><div id="notificationList" class="detail-list"><span class="muted">No notifications yet.</span></div><p class="muted" style="font-size:11px;margin-top:12px">Browser alerts work while Crown is open. Background push notifications need extra push-server setup.</p></article></section>
+  <section id="settingsReferralPanel" class="settings-subpanel hidden"><article class="card"><h3>Invite friends & refer</h3><p class="muted">Share your personal invite link. New accounts created with your referral code will be counted here. No cash or bonus rewards are currently offered.</p><div class="field"><label for="myReferralLink">Your invite link</label><input id="myReferralLink" readonly value="Loading referral link…"></div><button class="btn full" id="copyReferralLink" type="button">Copy invite link</button><div class="detail-list"><div class="detail-row"><span class="muted">Successful sign-ups</span><strong id="myReferralCount">—</strong></div><div class="detail-row"><span class="muted">Referral code</span><strong id="myReferralCode">—</strong></div></div><div id="referralStatus" class="status" role="status" aria-live="polite"></div></article></section>
   <section id="settingsCarePanel" class="settings-subpanel hidden"><article class="card"><h3>Help & Customer Care</h3><p class="muted">Need help with your Crown account? Customer support contact details are not configured yet.</p><div class="detail-list"><div class="detail-row"><span class="muted">Account help</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Technical support</span><strong>Coming soon</strong></div><div class="detail-row"><span class="muted">Response status</span><strong>Not available yet</strong></div></div><span class="tag">Support channel pending setup</span></article></section>
   <div class="notice" id="profileInfo">Signed in. Payment functions remain disabled until approved providers and backend controls are configured.</div>
  </div>
@@ -823,13 +826,13 @@
    auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true }
  }) : null;
  function authInputs(){
-   return {email: $("email").value.replace(/\s+/g,"").toLowerCase(),password:$("password").value,fullName:$("fullName").value.trim(),username:$("username").value.trim().toLowerCase(),loginUsername:$("loginUsername").value.trim().toLowerCase()};
+   return {email: $("email").value.replace(/\s+/g,"").toLowerCase(),password:$("password").value,fullName:$("fullName").value.trim(),username:$("username").value.trim().toLowerCase(),loginUsername:$("loginUsername").value.trim().toLowerCase(),referralCode:$("signupReferralCode")?.value.trim().toUpperCase()||""};
  }
  function setAuthMode(mode){
    const signup=mode==="signup";
    $("authTitle").textContent=signup?"Create your Crown account":"Log in to Crown";
    $("authHint").textContent=signup?"Enter your email, full name, User ID and password.":"Enter your User ID and password.";
-   ["emailField","fullNameField","usernameField","passwordSignUp","switchToSignIn"].forEach(id=>$(id).classList.toggle("hidden",!signup));
+   ["emailField","fullNameField","usernameField","referralCodeField","passwordSignUp","switchToSignIn"].forEach(id=>$(id).classList.toggle("hidden",!signup));
    ["loginUsernameField","passwordSignIn","switchToSignUp"].forEach(id=>$(id).classList.toggle("hidden",signup));
    $("forgotPassword").classList.toggle("hidden",signup);
    $("resetEmailField").classList.add("hidden");$("sendForgotPassword").classList.add("hidden");
@@ -957,7 +960,7 @@
    const status=$("adminStatus");
    if(status)status.textContent="Refreshing admin data…";
    const [usersResult,ordersResult,ledgerResult,walletsResult]=await Promise.all([
-     db.from("profiles").select("id,username,full_name,email,role,created_at").order("created_at",{ascending:false}).limit(100),
+     db.from("profiles").select("id,username,full_name,email,role,created_at,is_blocked,referral_code").order("created_at",{ascending:false}).limit(100),
      db.from("crown_demo_orders").select("id,user_id,task_title,amount,status,created_at").order("created_at",{ascending:false}).limit(100),
      db.from("crown_demo_transactions").select("id,user_id,type,amount,note,created_at").order("created_at",{ascending:false}).limit(100),
      db.from("crown_demo_wallets").select("user_id,balance")
@@ -973,7 +976,8 @@
    const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
    const userSelect=$("adminWalletUser"),previousUser=userSelect?.value||"";
    if(userSelect){userSelect.innerHTML='<option value="">Select an account</option>'+users.map(u=>'<option value="'+esc(u.id)+'">'+esc(u.username||u.full_name||u.email||u.id.slice(0,8))+' · '+esc(u.role||"user")+'</option>').join("");if(users.some(u=>u.id===previousUser))userSelect.value=previousUser;}
-   if($("adminUsersTable"))$("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'<br>Demo balance: '+money(balances[u.id]||0)+'</small></span><span class="tag">'+esc(u.role||"user")+'</span></div>').join(""):'<span class="muted">No users found.</span>';
+   if($("adminUsersTable"))$("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'<br>Demo balance: '+money(balances[u.id]||0)+'<br>Referral: '+esc(u.referral_code||"—")+'</small></span><span><span class="tag">'+esc(u.role||"user")+'</span><br><small class="muted">'+(u.is_blocked?"Blocked":"Active")+'</small>'+(u.role==="admin"?"":'<br><button class="btn secondary" type="button" data-block-user="'+esc(u.id)+'" data-block-next="'+(!u.is_blocked)+'">'+(u.is_blocked?"Unblock":"Block")+'</button>')+'</span></div>').join(""):'<span class="muted">No users found.</span>';
+   $("adminUsersTable")?.querySelectorAll("[data-block-user]").forEach(btn=>btn.addEventListener("click",async()=>{const block=btn.dataset.blockNext==="true";const target=users.find(u=>u.id===btn.dataset.blockUser);if(!target||!confirm((block?"Block ":"Unblock ")+(target.username||target.email||"this user")+"?"))return;btn.disabled=true;try{const {error}=await db.rpc("admin_set_crown_user_blocked",{p_user_id:target.id,p_blocked:block,p_reason:null});if(error)throw error;await refreshAdminPanel();}catch(error){alert(error.message||"Could not update user status.");btn.disabled=false;}}));
    if($("adminOrdersTable")){
      $("adminOrdersTable").innerHTML=orders.length?orders.map(o=>'<div class="detail-row"><span><strong>'+esc(o.task_title)+'</strong><br><small class="muted">'+esc(names[o.user_id]||o.user_id.slice(0,8))+' · '+new Date(o.created_at).toLocaleString()+'</small></span><span><strong>'+money(o.amount)+'</strong><br><small class="muted">'+esc(o.status)+'</small>'+(o.status==="confirmed"?' <button class="btn secondary" type="button" data-cancel-order="'+o.id+'">Cancel & refund demo</button>':'')+'</span></div>').join(""):'<span class="muted">No demo orders yet.</span>';
      $("adminOrdersTable").querySelectorAll("[data-cancel-order]").forEach(btn=>btn.addEventListener("click",async()=>{
@@ -1033,6 +1037,7 @@
    }catch(error){alert(error.message||"Order could not be confirmed.");}
    finally{button.disabled=false;renderLeagueProgress();}
  }
+ async function loadReferralSummary(){if(!db||!currentUserId)return;const status=$("referralStatus");try{const {data,error}=await db.rpc("get_crown_referral_summary");if(error)throw error;const code=data.referral_code;$("myReferralLink").value=window.location.origin+window.location.pathname+"?ref="+encodeURIComponent(code)+"#auth";$("myReferralCode").textContent=code;$("myReferralCount").textContent=String(data.referral_count??0);if(status)status.textContent="Your personal invite link is ready.";}catch(error){if(status)status.textContent=error.message||"Could not load referral details.";}}
  function showDashboard(user){
    currentUserId=user.id;
    currentUserRole=null;
@@ -1047,7 +1052,8 @@
      currentUserRole=data?.role==="admin"?"admin":"user";
      $("adminTab").classList.toggle("hidden",currentUserRole!=="admin");
      applyDashboardRoute();
-     if(currentUserRole==="admin")refreshAdminPanel();
+     if(data?.is_blocked){$("profileInfo").textContent="This Crown account is blocked. Please contact support.";db.auth.signOut().then(()=>showGuest());return;}
+     if(currentUserRole==="admin")refreshAdminPanel();else loadReferralSummary();
      loadServerDemoWallet();
      loadUserTransactionHistory();
      const uid=data?.username || user.user_metadata?.username || "Not set";
@@ -1094,7 +1100,7 @@
  });
  $("passwordSignUp").addEventListener("click",async()=>{
    if(!db){setStatus("Authentication is not configured.");return;}
-   const {email,password,fullName,username}=authInputs();
+   const {email,password,fullName,username,referralCode}=authInputs();
    const cleanEmail=email.replace(/\s+/g,"");
    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)){setStatus("Enter a valid email address.");return;}
    if(!fullName){setStatus("Enter your full name.");return;}
@@ -1102,7 +1108,7 @@
    if(password.length<8){setStatus("Use a password with at least 8 characters.");return;}
    $("passwordSignUp").disabled=true;setStatus("Creating account…");
    try{
-     const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName,username},emailRedirectTo:window.location.origin}});
+     const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name:fullName,username,referral_code:referralCode},emailRedirectTo:window.location.origin}});
      if(error)throw error;
      if(data.session&&data.user)showDashboard(data.user);
      else setStatus("Account created. Check your email to confirm, then log in with your User ID and password.");
@@ -1201,6 +1207,8 @@
  $("adminRefresh")?.addEventListener("click",refreshAdminPanel);
  $("adminAddBalance")?.addEventListener("click",()=>adminAdjustDemoBalance("add"));
  $("adminDeductBalance")?.addEventListener("click",()=>adminAdjustDemoBalance("deduct"));
+ $("copyReferralLink")?.addEventListener("click",async()=>{const link=$("myReferralLink")?.value;if(!link||link==="Loading referral link…")return;try{await navigator.clipboard.writeText(link);$("referralStatus").textContent="Invite link copied. Share it with your friends.";}catch(_){$("myReferralLink").focus();$("myReferralLink").select();$("referralStatus").textContent="Select and copy your invite link.";}});
+ const inviteCode=new URLSearchParams(window.location.search).get("ref");if(inviteCode&&/^[A-F0-9]{6,16}$/i.test(inviteCode)&&$("signupReferralCode"))$("signupReferralCode").value=inviteCode.toUpperCase();
 
  if(db){db.auth.getSession().then(({data,error})=>{if(error){showGuest();return;}if(data.session?.user)showDashboard(data.session.user);else showGuest();});db.auth.onAuthStateChange((_event,session)=>{if(session?.user)showDashboard(session.user);else showGuest();});}
  else showGuest();
