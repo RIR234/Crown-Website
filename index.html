@@ -163,10 +163,10 @@
    <article class="card">
     <div class="currency">DEMO WALLET</div><h3>Demo Activity</h3>
     <div class="detail-list"><div class="detail-row"><span class="muted">Task payments</span><strong id="demoSpent">৳0</strong></div><div class="detail-row"><span class="muted">Confirmed demo orders</span><strong id="demoPendingCount">0</strong></div></div>
-    <span class="tag">Local device demo only</span>
+    <span class="tag">Server-synced demo account</span>
    </article>
   </div>
-  <div class="notice"><strong>Demo only:</strong> Balance and confirmed demo orders are saved in this browser on this device. No real money is accepted, transferred, or withdrawable.</div>
+  <div class="notice"><strong>Demo only:</strong> Demo balance, confirmed orders and League progress are saved to your Crown account. No real money is accepted, transferred, or withdrawable.</div>
   <div class="section-head"><h2>Wallet Actions</h2><span class="muted">Home</span></div>
   <div class="grid">
    <article class="card">
@@ -763,7 +763,7 @@
 
  <div id="levelPanel" class="tab-panel hidden">
   <div class="section-head"><div><div class="eyebrow">Membership ranks</div><h2>League</h2><p class="muted" style="margin:4px 0 0">Leagues unlock one by one. Complete every task in your current League to unlock the next.</p></div><span class="pill">5 Leagues · 50 Tasks</span></div>
-  <div class="notice"><strong>Demo progression:</strong> Each League has its own task count: Bronze 5, Silver 8, Gold 10, Master 12 and Expert 15. Complete all tasks in one League to unlock the next. Progress is saved only on this device and is not verified purchase activity. Product values and sample margins are illustrations only.</div>
+  <div class="notice"><strong>Demo progression:</strong> Each League has its own task count: Bronze 5, Silver 8, Gold 10, Master 12 and Expert 15. Complete all tasks in one League to unlock the next. Demo progress is synced to your Crown account from confirmed demo orders. It is not real purchase activity. Product values and sample margins are illustrations only.</div>
   <article class="card league-progress-summary"><div class="currency">YOUR PROGRESS</div><h3 id="leagueCurrentTitle">Bronze League</h3><p class="muted" id="leagueProgressText">0 of 5 demo tasks completed</p><div class="league-progress-track"><span id="leagueProgressFill"></span></div></article>
   <div class="league-grid">
    <article class="league-card league-bronze" data-league-index="0"><div class="league-top"><span class="league-icon">♜</span><span class="league-number">LEAGUE 01</span></div><h3>Bronze</h3><p>5 separate Bronze tasks · Starting League.</p><div class="league-bottom"><span class="league-status">CURRENT LEAGUE</span><span class="league-lock">✓</span></div></article>
@@ -790,7 +790,7 @@
   <section id="settingsSecurityPanel" class="settings-subpanel hidden"><article class="card"><h3>Account security</h3><p class="muted">Change your password to help protect your Crown account.</p><div class="field"><label for="newAccountPassword">New password</label><input id="newAccountPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div><div class="field"><label for="confirmAccountPassword">Confirm new password</label><input id="confirmAccountPassword" type="password" autocomplete="new-password" placeholder="Enter password again"></div><button class="btn full" id="updateAccountPassword" type="button">Update password</button><div id="passwordUpdateStatus" class="status" role="status" aria-live="polite"></div><button class="btn secondary full" id="sendPasswordReset" type="button" style="margin-top:10px">Send password reset link to my email</button><div id="passwordResetStatus" class="status" role="status" aria-live="polite"></div><div class="detail-list"><div class="detail-row"><span class="muted">Sign-in method</span><strong>User ID + Password</strong></div><div class="detail-row"><span class="muted">Session</span><strong>Managed by Supabase</strong></div></div><span class="tag">Never share your password or verification codes</span></article></section>
   <section id="settingsHistoryPanel" class="settings-subpanel hidden"><article class="card"><h3>Demo wallet history</h3><p class="muted">Server-saved test credits and demo order payments. These are not real-money transactions.</p><div id="userTransactionHistory" class="detail-list">Loading history…</div></article></section>
   <section id="settingsPrivacyPanel" class="settings-subpanel hidden"><article class="card"><h3>Privacy settings</h3><p class="muted">Crown only displays the account details needed for this demo. Do not share private account information with anyone.</p><div class="detail-list"><div class="detail-row"><span class="muted">Profile visibility</span><strong>Private</strong></div><div class="detail-row"><span class="muted">Data controls</span><strong>Contact support</strong></div></div></article></section>
-  <section id="settingsNotificationsPanel" class="settings-subpanel hidden"><article class="card"><div class="section-head"><div><h3>Notifications</h3><p class="muted">Task completion, demo payment and account activity updates.</p></div><button class="btn" type="button" id="clearNotifications">Clear all</button></div><div class="overview-section" style="margin:12px 0"><h4>Email alerts</h4><p class="muted">Receive task and account updates by email.</p><button class="btn full" type="button" id="toggleEmailAlerts">Enable email alerts</button><button class="btn full" type="button" id="testEmailAlert" style="margin-top:8px">Send test email</button><small class="muted" id="emailAlertStatus">Email alerts are off.</small></div><div class="overview-section" style="margin:12px 0"><h4>Browser alerts</h4><p class="muted">Allow Crown to show notifications while this website is open.</p><button class="btn full" type="button" id="enableBrowserAlerts">Enable browser notifications</button><small class="muted" id="browserAlertStatus">Permission not requested.</small></div><div class="overview-section" style="margin:12px 0"><h4>Background push notifications</h4><p class="muted">Receive Crown alerts even when the website is closed. On iPhone/iPad, add Crown to your Home Screen first, then enable notifications here.</p><button class="btn full" type="button" id="enablePushAlerts">Enable background push</button><button class="btn secondary full" type="button" id="testPushAlert" style="margin-top:8px">Send test push</button><small class="muted" id="pushAlertStatus">Not enabled on this device.</small></div><div id="notificationList" class="detail-list"><span class="muted">No notifications yet.</span></div><p class="muted" style="font-size:11px;margin-top:12px">Browser alerts work while Crown is open. Background push notifications need extra push-server setup.</p></article></section>
+  <section id="settingsNotificationsPanel" class="settings-subpanel hidden"><article class="card"><div class="section-head"><div><h3>Notifications</h3><p class="muted">Task completion, demo payment and account activity updates.</p></div><button class="btn" type="button" id="clearNotifications">Clear all</button></div><div class="overview-section" style="margin:12px 0"><h4>Email alerts</h4><p class="muted">Receive task and account updates by email.</p><button class="btn full" type="button" id="toggleEmailAlerts">Enable email alerts</button><button class="btn full" type="button" id="testEmailAlert" style="margin-top:8px">Send test email</button><small class="muted" id="emailAlertStatus">Email alerts are off.</small></div><div class="overview-section" style="margin:12px 0"><h4>Browser alerts</h4><p class="muted">Allow Crown to show notifications while this website is open.</p><button class="btn full" type="button" id="enableBrowserAlerts">Enable browser notifications</button><small class="muted" id="browserAlertStatus">Permission not requested.</small></div><div class="overview-section" style="margin:12px 0"><h4>Background push notifications</h4><p class="muted">Receive Crown alerts even when the website is closed. On iPhone/iPad, add Crown to your Home Screen first, then enable notifications here.</p><button class="btn full" type="button" id="enablePushAlerts">Enable background push</button><button class="btn secondary full" type="button" id="testPushAlert" style="margin-top:8px">Send test push</button><small class="muted" id="pushAlertStatus">Not enabled on this device.</small></div><div id="notificationList" class="detail-list"><span class="muted">No notifications yet.</span></div><p class="muted" style="font-size:11px;margin-top:12px">Background push notifications require an installed Home Screen app on supported devices and notification permission.</p></article></section>
 
   <section id="settingsCarePanel" class="settings-subpanel hidden"><article class="card"><h3>Crown Customer Support</h3><p class="muted">Contact the Crown support team directly for account, login, referral and technical help. Include your Crown User ID and a short description of the issue. Never send your password or verification codes.</p><div class="detail-list"><div class="detail-row"><span class="muted">Support email</span><strong>crown.official.world@gmail.com</strong></div><div class="detail-row"><span class="muted">Channel</span><strong>Email support</strong></div><div class="detail-row"><span class="muted">Availability</span><strong>Replies by email</strong></div></div><a class="btn full" style="display:block;text-align:center;text-decoration:none;margin-top:14px" href="mailto:crown.official.world@gmail.com?subject=Crown%20Customer%20Support">Contact Crown Support</a><p class="muted" style="font-size:12px;margin-top:10px">Your email app will open with the Crown support address and subject filled in.</p></article></section>
   <div class="notice" id="profileInfo">Signed in. Payment functions remain disabled until approved providers and backend controls are configured.</div>
@@ -812,9 +812,9 @@
    <div class="actions"><button class="btn" id="adminAddBalance" type="button">Add balance</button><button class="btn secondary" id="adminDeductBalance" type="button">Deduct balance</button></div>
    <div id="adminBalanceStatus" class="status" role="status" aria-live="polite"></div>
   </article>
-  <article class="card" style="margin-top:14px"><h3>Users</h3><div id="adminUsersTable" class="detail-list">Loading users…</div></article>
-  <article class="card" style="margin-top:14px"><h3>Recent Orders</h3><div id="adminOrdersTable" class="detail-list">Loading orders…</div></article>
-  <article class="card" style="margin-top:14px"><h3>Wallet Ledger</h3><div id="adminLedgerTable" class="detail-list">Loading ledger…</div></article>
+  <article class="card" style="margin-top:14px"><h3>Users</h3><div id="adminUsersTable" class="detail-list">Loading users…</div><div id="adminUsersPager" class="actions" aria-label="Users pagination"></div></article>
+  <article class="card" style="margin-top:14px"><h3>Orders</h3><div id="adminOrdersTable" class="detail-list">Loading orders…</div><div id="adminOrdersPager" class="actions" aria-label="Orders pagination"></div></article>
+  <article class="card" style="margin-top:14px"><h3>Wallet Ledger</h3><div id="adminLedgerTable" class="detail-list">Loading ledger…</div><div id="adminLedgerPager" class="actions" aria-label="Ledger pagination"></div></article>
   <div id="adminStatus" class="status" role="status" aria-live="polite"></div>
  </div>
 </section>
@@ -844,7 +844,7 @@
    $("resetEmailField").classList.add("hidden");$("sendForgotPassword").classList.add("hidden");
    $("password").value="";setStatus("");
  }
- function savePageRoute(route){history.replaceState(null,"",route?"#"+route:window.location.pathname+window.location.search);}
+ function savePageRoute(route){const target=route?"#"+route:window.location.pathname+window.location.search;if(window.location.hash!==(route?"#"+route:""))history.pushState({crownRoute:route||"home"},"",target);}
  function applyDashboardRoute(){
    const tabs=[...document.querySelectorAll(".dash-tab[data-tab]")];
    const panels=[...document.querySelectorAll(".tab-panel")];
@@ -961,44 +961,50 @@
    if(error){box.textContent="Could not load transaction history.";return;}
    box.innerHTML=data?.length?data.map(t=>'<div class="detail-row"><span><strong>'+escapeHTML(({demo_credit:"Demo credit added",demo_order:"Demo order payment",admin_credit:"Admin added balance",admin_debit:"Admin deducted balance"})[t.type]||t.type)+'</strong><br><small class="muted">'+escapeHTML(t.note||"")+' · '+new Date(t.created_at).toLocaleString()+'</small></span><strong>'+money(t.amount)+'</strong></div>').join(""):'<span class="muted">No demo transactions yet.</span>';
  }
+ const adminPageSize=25;
+ const adminPages={users:0,orders:0,ledger:0};
+ function renderAdminPager(id,key,total){
+   const box=$(id);if(!box)return;
+   const pages=Math.max(1,Math.ceil(total/adminPageSize));
+   if(adminPages[key]>=pages)adminPages[key]=pages-1;
+   const page=adminPages[key];
+   box.innerHTML='<span class="muted" style="align-self:center">Page '+(page+1)+' of '+pages+' · '+total+' total</span><button class="btn secondary" type="button" data-page-prev '+(page===0?'disabled':'')+'>Previous</button><button class="btn secondary" type="button" data-page-next '+(page+1>=pages?'disabled':'')+'>Next</button>';
+   box.querySelector("[data-page-prev]")?.addEventListener("click",()=>{if(adminPages[key]>0){adminPages[key]--;refreshAdminPanel();}});
+   box.querySelector("[data-page-next]")?.addEventListener("click",()=>{if((adminPages[key]+1)*adminPageSize<total){adminPages[key]++;refreshAdminPanel();}});
+ }
  async function refreshAdminPanel(){
    if(!db||currentUserRole!=="admin")return;
    const status=$("adminStatus");
    if(status)status.textContent="Refreshing admin data…";
-   const [usersResult,ordersResult,ledgerResult,walletsResult]=await Promise.all([
-     db.from("profiles").select("id,username,full_name,email,role,created_at,is_blocked,referral_code").order("created_at",{ascending:false}).limit(100),
-     db.from("crown_demo_orders").select("id,user_id,task_title,amount,status,created_at").order("created_at",{ascending:false}).limit(100),
-     db.from("crown_demo_transactions").select("id,user_id,type,amount,note,created_at").order("created_at",{ascending:false}).limit(100),
-     db.from("crown_demo_wallets").select("user_id,balance")
+   const userStart=adminPages.users*adminPageSize,orderStart=adminPages.orders*adminPageSize,ledgerStart=adminPages.ledger*adminPageSize;
+   const [summaryResult,usersResult,ordersResult,ledgerResult]=await Promise.all([
+     db.rpc("get_crown_admin_dashboard_summary"),
+     db.from("profiles").select("id,username,full_name,email,role,created_at,is_blocked,referral_code",{count:"exact"}).order("created_at",{ascending:false}).range(userStart,userStart+adminPageSize-1),
+     db.from("crown_demo_orders").select("id,user_id,task_title,amount,status,created_at",{count:"exact"}).order("created_at",{ascending:false}).range(orderStart,orderStart+adminPageSize-1),
+     db.from("crown_demo_transactions").select("id,user_id,type,amount,note,created_at",{count:"exact"}).order("created_at",{ascending:false}).range(ledgerStart,ledgerStart+adminPageSize-1)
    ]);
-   const error=usersResult.error||ordersResult.error||ledgerResult.error||walletsResult.error;
+   const error=summaryResult.error||usersResult.error||ordersResult.error||ledgerResult.error;
    if(error){if(status)status.textContent="Admin data could not load: "+error.message;return;}
-   const users=usersResult.data||[],orders=ordersResult.data||[],ledger=ledgerResult.data||[],wallets=walletsResult.data||[];
-   const balances={};wallets.forEach(w=>{balances[w.user_id]=Number(w.balance||0);});
+   const summary=summaryResult.data||{},users=usersResult.data||[],orders=ordersResult.data||[],ledger=ledgerResult.data||[];
+   const walletsResult=users.length?await db.from("crown_demo_wallets").select("user_id,balance").in("user_id",users.map(u=>u.id)):{data:[],error:null};
+   if(walletsResult.error){if(status)status.textContent="Wallet balances could not load: "+walletsResult.error.message;return;}
+   const balances={};(walletsResult.data||[]).forEach(w=>{balances[w.user_id]=Number(w.balance||0);});
    const names={};users.forEach(u=>{names[u.id]=u.username||u.email||u.id.slice(0,8);});
-   if($("adminUserCount"))$("adminUserCount").textContent=String(users.length);
-   if($("adminOrderCount"))$("adminOrderCount").textContent=String(orders.filter(o=>o.status==="confirmed").length);
-   if($("adminOrderVolume"))$("adminOrderVolume").textContent=money(orders.filter(o=>o.status==="confirmed").reduce((n,o)=>n+Number(o.amount||0),0));
+   if($("adminUserCount"))$("adminUserCount").textContent=String(summary.total_users??usersResult.count??0);
+   if($("adminOrderCount"))$("adminOrderCount").textContent=String(summary.total_confirmed_orders??0);
+   if($("adminOrderVolume"))$("adminOrderVolume").textContent=money(summary.confirmed_order_volume||0);
    const esc=v=>String(v??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
    const userSelect=$("adminWalletUser"),previousUser=userSelect?.value||"";
-   if(userSelect){userSelect.innerHTML='<option value="">Select an account</option>'+users.map(u=>'<option value="'+esc(u.id)+'">'+esc(u.username||u.full_name||u.email||u.id.slice(0,8))+' · '+esc(u.role||"user")+'</option>').join("");if(users.some(u=>u.id===previousUser))userSelect.value=previousUser;}
-   if($("adminUsersTable"))$("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'<br>Demo balance: '+money(balances[u.id]||0)+'<br>Referral: '+esc(u.referral_code||"—")+'</small></span><span><span class="tag">'+esc(u.role||"user")+'</span><br><small class="muted">'+(u.is_blocked?"Blocked":"Active")+'</small>'+(u.role==="admin"?"":'<br><button class="btn secondary" type="button" data-block-user="'+esc(u.id)+'" data-block-next="'+(!u.is_blocked)+'">'+(u.is_blocked?"Unblock":"Block")+'</button>')+'</span></div>').join(""):'<span class="muted">No users found.</span>';
-   $("adminUsersTable")?.querySelectorAll("[data-block-user]").forEach(btn=>btn.addEventListener("click",async()=>{const block=btn.dataset.blockNext==="true";const target=users.find(u=>u.id===btn.dataset.blockUser);if(!target||!confirm((block?"Block ":"Unblock ")+(target.username||target.email||"this user")+"?"))return;btn.disabled=true;try{const {error}=await db.rpc("admin_set_crown_user_blocked",{p_user_id:target.id,p_blocked:block,p_reason:null});if(error)throw error;await refreshAdminPanel();}catch(error){alert(error.message||"Could not update user status.");btn.disabled=false;}}));
-   if($("adminOrdersTable")){
-     $("adminOrdersTable").innerHTML=orders.length?orders.map(o=>'<div class="detail-row"><span><strong>'+esc(o.task_title)+'</strong><br><small class="muted">'+esc(names[o.user_id]||o.user_id.slice(0,8))+' · '+new Date(o.created_at).toLocaleString()+'</small></span><span><strong>'+money(o.amount)+'</strong><br><small class="muted">'+esc(o.status)+'</small>'+(o.status==="confirmed"?' <button class="btn secondary" type="button" data-cancel-order="'+o.id+'">Cancel & refund demo</button>':'')+'</span></div>').join(""):'<span class="muted">No demo orders yet.</span>';
-     $("adminOrdersTable").querySelectorAll("[data-cancel-order]").forEach(btn=>btn.addEventListener("click",async()=>{
-       if(!confirm("Cancel this demo order and return demo credits to the user's test wallet?"))return;
-       btn.disabled=true;
-       const order=orders.find(item=>item.id===btn.dataset.cancelOrder);
-       try{const {error}=await db.rpc("admin_cancel_crown_demo_order",{p_order_id:btn.dataset.cancelOrder});
-       if(error)throw error;
-       await refreshAdminPanel();
-       if(order?.user_id===currentUserId)await loadServerDemoWallet();
-       }catch(error){alert(error.message||"Could not cancel and refund this demo order.");btn.disabled=false;}
-     }));
-   }
-   if($("adminLedgerTable"))$("adminLedgerTable").innerHTML=ledger.length?ledger.map(t=>'<div class="detail-row"><span><strong>'+esc(({demo_credit:"Demo credit",demo_order:"Demo order debit",admin_credit:"Admin added balance",admin_debit:"Admin deducted balance"})[t.type]||t.type)+'</strong><br><small class="muted">'+esc(names[t.user_id]||t.user_id.slice(0,8))+' · '+esc(t.note||"")+' · '+new Date(t.created_at).toLocaleString()+'</small></span><span>'+money(t.amount)+'</span></div>').join(""):'<span class="muted">No ledger entries yet.</span>';
-   if(status)status.textContent="Admin data updated.";
+   if(userSelect){userSelect.innerHTML='<option value="">Select an account (current page)</option>'+users.map(u=>'<option value="'+esc(u.id)+'">'+esc(u.username||u.full_name||u.email||u.id.slice(0,8))+' · '+esc(u.role||"user")+'</option>').join("");if(users.some(u=>u.id===previousUser))userSelect.value=previousUser;}
+   $("adminUsersTable").innerHTML=users.length?users.map(u=>'<div class="detail-row"><span><strong>'+esc(u.username||"No User ID")+'</strong><br><small class="muted">'+esc(u.full_name||"")+' · '+esc(u.email||"")+'<br>Demo balance: '+money(balances[u.id]||0)+'<br>Referral: '+esc(u.referral_code||"—")+'</small></span><span><span class="tag">'+esc(u.role||"user")+'</span><br><small class="muted">'+(u.is_blocked?"Blocked":"Active")+'</small>'+(u.role==="admin"?"":'<br><button class="btn secondary" type="button" data-block-user="'+esc(u.id)+'" data-block-next="'+(!u.is_blocked)+'">'+(u.is_blocked?"Unblock":"Block")+'</button>')+'</span></div>').join(""):'<span class="muted">No users found.</span>';
+   $("adminUsersTable").querySelectorAll("[data-block-user]").forEach(btn=>btn.addEventListener("click",async()=>{const block=btn.dataset.blockNext==="true";const target=users.find(u=>u.id===btn.dataset.blockUser);if(!target||!confirm((block?"Block ":"Unblock ")+(target.username||target.email||"this user")+"?"))return;btn.disabled=true;try{const {error}=await db.rpc("admin_set_crown_user_blocked",{p_user_id:target.id,p_blocked:block,p_reason:null});if(error)throw error;await refreshAdminPanel();}catch(error){alert(error.message||"Could not update user status.");btn.disabled=false;}}));
+   $("adminOrdersTable").innerHTML=orders.length?orders.map(o=>'<div class="detail-row"><span><strong>'+esc(o.task_title)+'</strong><br><small class="muted">'+esc(names[o.user_id]||o.user_id.slice(0,8))+' · '+new Date(o.created_at).toLocaleString()+'</small></span><span><strong>'+money(o.amount)+'</strong><br><small class="muted">'+esc(o.status)+'</small>'+(o.status==="confirmed"?' <button class="btn secondary" type="button" data-cancel-order="'+o.id+'">Cancel & refund demo</button>':'')+'</span></div>').join(""):'<span class="muted">No demo orders yet.</span>';
+   $("adminOrdersTable").querySelectorAll("[data-cancel-order]").forEach(btn=>btn.addEventListener("click",async()=>{if(!confirm("Cancel this demo order, return the buyer's demo credits and reverse any inviter bonus?"))return;btn.disabled=true;const order=orders.find(item=>item.id===btn.dataset.cancelOrder);try{const {data,error}=await db.rpc("admin_cancel_crown_demo_order",{p_order_id:btn.dataset.cancelOrder});if(error)throw error;await refreshAdminPanel();if(order?.user_id===currentUserId)await loadServerDemoWallet();if(Number(data?.referral_bonus_reversed||0)>0)alert("Order refunded. Inviter's "+money(data.referral_bonus_reversed)+" referral bonus was also reversed.");}catch(error){alert(error.message||"Could not cancel and refund this demo order.");btn.disabled=false;}}));
+   $("adminLedgerTable").innerHTML=ledger.length?ledger.map(t=>'<div class="detail-row"><span><strong>'+esc(({demo_credit:"Demo credit",demo_order:"Demo order debit",admin_credit:"Admin added balance",admin_debit:"Admin deducted balance",referral_bonus:"Referral bonus",referral_bonus_reversal:"Referral bonus reversed"})[t.type]||t.type)+'</strong><br><small class="muted">'+esc(names[t.user_id]||t.user_id.slice(0,8))+' · '+esc(t.note||"")+' · '+new Date(t.created_at).toLocaleString()+'</small></span><span>'+money(t.amount)+'</span></div>').join(""):'<span class="muted">No ledger entries yet.</span>';
+   renderAdminPager("adminUsersPager","users",usersResult.count||0);
+   renderAdminPager("adminOrdersPager","orders",ordersResult.count||0);
+   renderAdminPager("adminLedgerPager","ledger",ledgerResult.count||0);
+   if(status)status.textContent="Admin data updated. Exact totals loaded; lists are paginated.";
  }
  async function adminAdjustDemoBalance(action){
    if(!db||currentUserRole!=="admin"){alert("Admin access required.");return;}
@@ -1082,6 +1088,8 @@
    });
  }
  function showGuest(){ currentUserId=null;currentUserRole="user";taskRequestCache=[]; $("loginTop").classList.remove("hidden"); $("signOut").classList.add("hidden"); $("userBadge").classList.add("hidden"); if(window.location.hash==="#auth")showAuth();else showHome(); }
+ window.addEventListener("popstate",()=>{if(currentUserId){applyDashboardRoute();}else if(window.location.hash==="#auth"){showAuth();}else{showHome();}});
+ window.addEventListener("hashchange",()=>{if(currentUserId)applyDashboardRoute();});
  document.querySelectorAll(".dash-tab[data-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll(".dash-tab[data-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.tab));savePageRoute(tab.dataset.tab);}));
  document.querySelectorAll("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>{const tab=document.querySelector('.dash-tab[data-tab="'+button.dataset.openTab+'"]');if(tab)tab.click();}));
  document.querySelectorAll("[data-settings-tab]").forEach(tab=>tab.addEventListener("click",()=>{document.querySelectorAll("[data-settings-tab]").forEach(item=>item.classList.toggle("active",item===tab));document.querySelectorAll(".settings-subpanel").forEach(panel=>panel.classList.toggle("hidden",panel.id!==tab.dataset.settingsTab));}));
